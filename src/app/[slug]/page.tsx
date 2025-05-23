@@ -18,6 +18,7 @@ export default function Page({ params }: any) {
 
   const [wishMessage, setWishMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [wishSending, setWishSending] = useState(false);
   const [data, setData] = useState<{ name: string; slug: string } | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_error, setError] = useState<string | null>(null);
@@ -43,6 +44,7 @@ export default function Page({ params }: any) {
   }, [slug]);
 
   const submit = () => {
+    setWishSending(true);
     fetch(`/api/sheets/${slug}`, {
       method: "PUT",
       headers: {
@@ -69,6 +71,9 @@ export default function Page({ params }: any) {
             ? error.message
             : "An error occurred submitting the data"
         );
+      })
+      .finally(() => {
+        setWishSending(false);
       });
   };
 
@@ -156,6 +161,7 @@ export default function Page({ params }: any) {
                   <textarea
                     id="wishMessage"
                     placeholder={t("WishesDesc")}
+                    disabled={wishSending}
                     value={wishMessage}
                     onChange={(e) => setWishMessage(e.target.value)}
                     className="w-full min-h-[100px] p-3 rounded-lg border border-pink-300 focus:border-pink-500 focus:ring-pink-500 outline-none"
@@ -169,10 +175,11 @@ export default function Page({ params }: any) {
 
               <div className="flex justify-center">
                 <Button
+                  disabled={!wishMessage || wishSending}
                   type="submit"
                   className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-2 rounded-full"
                 >
-                  {t("SendYourWishes")}
+                  {wishSending ? t("YourWishIsSending") : t("SendYourWishes")}
                 </Button>
               </div>
             </form>

@@ -92,9 +92,9 @@ export async function PUT(
 
     // Parse request body to get the new value for column E
     const body = await request.json();
-    const { wish, attend } = body;
+    const { wish } = body;
 
-    if (!wish || !attend) {
+    if (!wish) {
       return NextResponse.json(
         { error: "Both wish and attend are required in the request body" },
         { status: 400 }
@@ -158,13 +158,13 @@ export async function PUT(
       range: updateRange,
       valueInputOption: "RAW",
       requestBody: {
-        values: [[wish, attend]],
+        values: [[wish]],
       },
     });
 
     return NextResponse.json(
       {
-        message: `Successfully updated columns E and F for row with slug: ${slug}`,
+        message: `Successfully updated column E for row with slug: ${slug}`,
       },
       { status: 200 }
     );
