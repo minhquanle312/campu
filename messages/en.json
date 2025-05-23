@@ -1,0 +1,21 @@
+{
+  "GraduationCeremony": "Graduation Ceremony",
+  "InvitationTitle": "An Invitation for {name}",
+  "InvitationSubTitle": "to my special ceremony",
+  "InvitationDescription": "Join us for a wonderful celebration",
+  "Date": "Saturday, May 31, 2025",
+  "University": "{name} University",
+  "District": "district",
+  "Quote": "Every moment with you is memorable.",
+  "HopeToSeeYou": "Hope to see you",
+  "WillYouAttend": "Will you attend?",
+  "IsAttend": "Yes, I'll be there",
+  "IsNotAttend": "Sorry, I can't make it",
+  "YourWishesForMe": "Your Wishes for me",
+  "WishesDesc": "Write your heartfelt wishes here",
+  "SendYourWishes": "Send Your Wishes",
+  "ThankYou": "Thank You",
+  "WishesSent": "Your beautiful wishes have been sent to me.",
+  "ExcitedToSeeYou": "I'm excited to see you at the ceremony!",
+  "WillMissYou": "I'll miss you, but thank you for letting me know."
+}
