@@ -6,8 +6,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Calendar, Check, Clock, Heart, MapPin, X } from "lucide-react";
+import { Heart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -18,9 +17,7 @@ export default function Page({ params }: any) {
   const t = useTranslations("");
 
   const [wishMessage, setWishMessage] = useState("");
-  const [attending, setAttending] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-
   const [data, setData] = useState<{ name: string; slug: string } | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_error, setError] = useState<string | null>(null);
@@ -32,7 +29,6 @@ export default function Page({ params }: any) {
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
         }
-
         const result = await response.json();
         setData(result.data || []);
       } catch (err) {
@@ -43,7 +39,6 @@ export default function Page({ params }: any) {
         );
       }
     };
-
     fetchData();
   }, [slug]);
 
@@ -55,7 +50,6 @@ export default function Page({ params }: any) {
       },
       body: JSON.stringify({
         wish: wishMessage,
-        attend: attending,
       }),
     })
       .then((response) => {
@@ -80,9 +74,7 @@ export default function Page({ params }: any) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (attending) {
-      submit();
-    }
+    submit();
   };
 
   return (
@@ -134,34 +126,6 @@ export default function Page({ params }: any) {
               </h2>
               <p className="text-gray-600">{t("InvitationDescription")}</p>
             </div>
-
-            <div className="bg-pink-50 rounded-lg p-4 space-y-3">
-              <div className="flex items-center">
-                <Calendar className="text-pink-600 mr-3 h-5 w-5" />
-                <div>
-                  <p className="text-gray-700 font-medium">{t("Date")}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center">
-                <Clock className="text-pink-600 mr-3 h-5 w-5" />
-                <div>
-                  <p className="text-gray-700 font-medium">10:30 AM</p>
-                </div>
-              </div>
-
-              <div className="flex items-center">
-                <MapPin className="text-pink-600 mr-3 h-5 w-5" />
-                <div>
-                  <p className="text-gray-700 font-medium">
-                    Block C, {t("University", { name: "Tôn Đức Thắng" })}
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    19 Nguyễn Hữu Thọ, Tân Hưng, {t("District")} 7
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="text-center mb-6">
@@ -178,37 +142,8 @@ export default function Page({ params }: any) {
               className="bg-pink-50 rounded-lg p-4 mb-6"
             >
               <h3 className="text-center text-pink-700 font-bold mb-4">
-                {t("HopeToSeeYou")}
+                {t("YourWishesForMe")}
               </h3>
-
-              <div className="mb-4">
-                <Label className="text-pink-700 mb-2 block">
-                  {t("WillYouAttend")}
-                </Label>
-                <RadioGroup
-                  value={attending || ""}
-                  onValueChange={setAttending}
-                  className="flex space-x-4"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="yes" id="attending-yes" />
-                    <Label
-                      htmlFor="attending-yes"
-                      className="flex items-center"
-                    >
-                      <Check className="text-green-500 mr-1 h-4 w-4" />
-                      {t("IsAttend")}
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="no" id="attending-no" />
-                    <Label htmlFor="attending-no" className="flex items-center">
-                      <X className="text-red-500 mr-1 h-4 w-4" />
-                      {t("IsNotAttend")}
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
 
               <div className="mb-4">
                 <Label
@@ -253,9 +188,6 @@ export default function Page({ params }: any) {
                   fill="currentColor"
                 />
               </div>
-              <p className="text-gray-600">
-                {attending === "yes" ? t("ExcitedToSeeYou") : t("WillMissYou")}
-              </p>
             </div>
           )}
         </div>
