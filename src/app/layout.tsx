@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Cẩm pu",
+  title: "Cẩm Pu",
   description:
     "A little corner of the world for Cẩm Pu - lovingly crafted by Minh Quân Lê",
 };
