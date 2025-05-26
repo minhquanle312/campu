@@ -1,8 +1,8 @@
 {
   "GraduationCeremony": "Graduation Ceremony",
-  "InvitationTitle": "An Invitation for {name}",
-  "InvitationSubTitle": "to my special ceremony",
-  "InvitationDescription": "Join us for a wonderful celebration",
+  "InvitationTitle": "A Letter for {name}",
+  "InvitationSubTitle": "sharing my special ceremony with you",
+  "InvitationDescription": "I'm writing to let you know about my graduation ceremony.",
   "Date": "Saturday, May 31, 2025",
   "University": "{name} University",
   "District": "district",

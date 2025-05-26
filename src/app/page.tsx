@@ -196,9 +196,7 @@ export default function Home() {
       )}
 
       <footer className="container mx-auto py-5 text-center">
-        <p className="text-pink-500 mb-1">
-          May the world be gentle with you - MQL
-        </p>
+        <p className="text-pink-500 mb-1">May the world be gentle with you</p>
         <p className="text-gray-600">Made with all of ❤️</p>
       </footer>
     </div>

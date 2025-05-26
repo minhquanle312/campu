@@ -1,8 +1,8 @@
 {
   "GraduationCeremony": "Lễ tốt nghiệp",
-  "InvitationTitle": "Thân mời {name}",
-  "InvitationSubTitle": "đến buổi lễ đặc biệt của tôi",
-  "InvitationDescription": "Tham gia với chúng tôi để có một lễ kỷ niệm tuyệt vời",
+  "InvitationTitle": "Một bức thư gửi {name}",
+  "InvitationSubTitle": "Chia sẻ với bạn về buổi lễ đặc biệt của tôi",
+  "InvitationDescription": "Mình viết thư này để báo cho bạn biết về lễ tốt nghiệp của mình.",
   "Date": "Thứ Bảy, ngày 31 tháng 5 năm 2025",
   "University": "Đại học {name}",
   "District": "quận",
