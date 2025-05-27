@@ -9,49 +9,51 @@ import { Label } from "@/components/ui/label";
 import { Heart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SwitchLanguage } from "@/components/switch-language";
 
-export default function Page({ params }: any) {
-  const { slug }: any = React.use(params);
+export default function Page(/* { params }: any */) {
+  // const { slug }: any = React.use(params);
   const t = useTranslations("");
 
   const [wishMessage, setWishMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [wishName, setWishName] = useState("");
   const [wishSending, setWishSending] = useState(false);
-  const [data, setData] = useState<{ name: string; slug: string } | null>(null);
+  // const [data, setData] = useState<{ name: string; slug: string } | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/sheets/${slug}`);
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-        const result = await response.json();
-        setData(result.data || []);
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "An error occurred fetching the data"
-        );
-      }
-    };
-    fetchData();
-  }, [slug]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(`/api/sheets/${slug}`);
+  //       if (!response.ok) {
+  //         throw new Error(`Error: ${response.status}`);
+  //       }
+  //       const result = await response.json();
+  //       setData(result.data || []);
+  //     } catch (err) {
+  //       setError(
+  //         err instanceof Error
+  //           ? err.message
+  //           : "An error occurred fetching the data"
+  //       );
+  //     }
+  //   };
+  //   fetchData();
+  // }, [slug]);
 
   const submit = () => {
     setWishSending(true);
-    fetch(`/api/sheets/${slug}`, {
-      method: "PUT",
+    fetch(`/api/sheets/wishes`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         wish: wishMessage,
+        name: wishName,
       }),
     })
       .then((response) => {
@@ -104,7 +106,7 @@ export default function Page({ params }: any) {
               <Heart className="text-pink-500 h-10 w-10 animate-pulse" />
             </div>
             <h1 className="text-2xl font-bold text-pink-700 mb-1">
-              {t("InvitationTitle", { name: data?.name || "" })}
+              {t("InvitationTitle")}
             </h1>
             <p className="text-pink-600 font-medium">
               {t("InvitationSubTitle")}
@@ -151,6 +153,23 @@ export default function Page({ params }: any) {
               </h3>
 
               <div className="mb-4">
+                <Label htmlFor="wishName" className="text-pink-700 mb-1 block">
+                  {t("YourNameLabel") ||
+                    "Your lovely name (so Pu knows who you are!)"}
+                </Label>
+                <input
+                  id="wishName"
+                  type="text"
+                  placeholder={t("YourNamePlaceholder") || "Enter your name"}
+                  disabled={wishSending}
+                  value={wishName}
+                  onChange={(e) => setWishName(e.target.value)}
+                  className="w-full p-3 rounded-lg border border-pink-300 focus:border-pink-500 focus:ring-pink-500 outline-none mb-2"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
                 <Label
                   htmlFor="wishMessage"
                   className="text-pink-700 mb-1 block"
@@ -186,7 +205,7 @@ export default function Page({ params }: any) {
           ) : (
             <div className="bg-pink-50 rounded-lg p-4 mb-6 text-center">
               <h3 className="text-pink-700 font-bold mb-2">
-                {t("ThankYou")}, {data?.name}!
+                {t("ThankYou")}, {wishName}!
               </h3>
               <p className="text-gray-600">{t("WishesSent")}</p>
               <div className="flex justify-center mt-2">

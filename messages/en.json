@@ -1,6 +1,6 @@
 {
   "GraduationCeremony": "Graduation Ceremony",
-  "InvitationTitle": "A Letter for {name}",
+  "InvitationTitle": "A Letter for Pu",
   "InvitationSubTitle": "sharing my special ceremony with you",
   "InvitationDescription": "I'm writing to let you know about my graduation ceremony.",
   "Date": "Saturday, May 31, 2025",
@@ -18,5 +18,7 @@
   "WishesSent": "Your beautiful wishes have been sent to me.",
   "ExcitedToSeeYou": "I'm excited to see you at the ceremony!",
   "WillMissYou": "I'll miss you, but thank you for letting me know.",
-  "YourWishIsSending": "Your wish is sending..."
+  "YourWishIsSending": "Your wish is sending...",
+  "YourNameLabel": "Your lovely name",
+  "YourNamePlaceholder": "Enter your name"
 }

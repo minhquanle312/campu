@@ -1,6 +1,6 @@
 {
   "GraduationCeremony": "Lễ tốt nghiệp",
-  "InvitationTitle": "Một bức thư gửi {name}",
+  "InvitationTitle": "Một bức thư gửi Pu",
   "InvitationSubTitle": "Chia sẻ với bạn về buổi lễ đặc biệt của tôi",
   "InvitationDescription": "Mình viết thư này để báo cho bạn biết về lễ tốt nghiệp của mình.",
   "Date": "Thứ Bảy, ngày 31 tháng 5 năm 2025",
@@ -18,5 +18,7 @@
   "WishesSent": "Những lời chúc tốt đẹp của bạn đã được gửi đến tôi.",
   "ExcitedToSeeYou": "Tôi rất mong được gặp bạn tại buổi lễ!",
   "WillMissYou": "Tôi sẽ nhớ bạn, nhưng cảm ơn bạn đã cho tôi biết.",
-  "YourWishIsSending": "Lời chúc của bạn đang được gửi đi..."
+  "YourWishIsSending": "Lời chúc của bạn đang được gửi đi...",
+  "YourNameLabel": "Tên của bạn",
+  "YourNamePlaceholder": "Nhập tên của bạn"
 }
