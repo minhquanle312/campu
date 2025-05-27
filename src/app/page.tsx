@@ -55,6 +55,20 @@ const galleryItems = [
     caption: "Always in my heart",
     aspectRatio: "portrait", // taller than wide
   },
+  {
+    id: 7,
+    type: "video",
+    src: "/for-pu/campu-travel.mp4",
+    caption: "Always in my heart",
+    aspectRatio: "landscape", // taller than wide
+  },
+  {
+    id: 8,
+    type: "video",
+    src: "/for-pu/pu-on-the-bike.mp4",
+    caption: "Pu on the bike",
+    aspectRatio: "portrait", // taller than wide
+  },
 ];
 
 export default function Home() {
@@ -114,7 +128,17 @@ export default function Home() {
                       : "aspect-square"
                   )}
                 >
-                  <Image
+                  <video
+                    src={item.src}
+                    controls
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                  {/* <Image
                     src={item.src || "/placeholder.svg"}
                     alt={item.caption || ""}
                     fill
@@ -124,7 +148,7 @@ export default function Home() {
                     <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center">
                       <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-rose-600 border-b-8 border-b-transparent ml-1"></div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               )}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
@@ -181,7 +205,8 @@ export default function Home() {
         </div>
       )}
 
-      <footer className="container mx-auto py-8 text-center border-t border-rose-100">
+      <footer className="container mx-auto py-8 text-center ">
+        <p className="text-pink-500 mb-1">May the world be gentle with you</p>
         <p className="text-gray-600">Made with all of ❤️</p>
       </footer>
     </div>
