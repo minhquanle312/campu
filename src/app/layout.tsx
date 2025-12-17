@@ -37,8 +37,8 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
             <MainNav />
-            {children}
-            <footer className="container mx-auto py-8 text-center bg-transparent">
+            <main className="container mx-auto px-6 my-7">{children}</main>
+            <footer className="container mx-auto pb-6 text-center bg-transparent">
               <p className="text-pink-500 mb-1">
                 May the world be gentle with you
               </p>

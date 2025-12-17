@@ -78,7 +78,7 @@ export default function Home() {
 
   return (
     <>
-      <header className="container mx-auto text-center">
+      <header className="container mx-auto text-center mb-5">
         <h1 className="text-3xl md:text-4xl font-bold text-rose-600">
           Our Special Moments
         </h1>
@@ -86,68 +86,64 @@ export default function Home() {
           A collection of our favorite memories together
         </p>
       </header>
-
-      <main className="container mx-auto px-4 py-8">
-        {/* Masonry Layout */}
-        <div className="masonry-gallery">
-          {galleryItems.map((item) => (
-            <div
-              key={item.id}
-              className={cn(
-                "masonry-item mb-4 break-inside-avoid",
-                "relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
-              )}
-              onClick={() => setSelectedItem(item)}
-            >
-              {item.type === "image" ? (
-                <div
-                  className={cn(
-                    "relative",
-                    item.aspectRatio === "portrait"
-                      ? "aspect-[3/4]"
-                      : item.aspectRatio === "landscape"
-                      ? "aspect-[4/3]"
-                      : "aspect-square"
-                  )}
-                >
-                  <Image
-                    src={item.src || "/placeholder.svg"}
-                    alt={item.alt || ""}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-              ) : (
-                <div
-                  className={cn(
-                    "relative",
-                    item.aspectRatio === "portrait"
-                      ? "aspect-[3/4]"
-                      : item.aspectRatio === "landscape"
-                      ? "aspect-[4/3]"
-                      : "aspect-square"
-                  )}
-                >
-                  <video
-                    src={item.src}
-                    controls
-                    className="w-full h-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              )}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <p className="text-white text-sm">{item.caption}</p>
+      {/* Masonry Layout */}
+      <div className="masonry-gallery">
+        {galleryItems.map((item) => (
+          <div
+            key={item.id}
+            className={cn(
+              "masonry-item mb-4 break-inside-avoid",
+              "relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+            )}
+            onClick={() => setSelectedItem(item)}
+          >
+            {item.type === "image" ? (
+              <div
+                className={cn(
+                  "relative",
+                  item.aspectRatio === "portrait"
+                    ? "aspect-[3/4]"
+                    : item.aspectRatio === "landscape"
+                    ? "aspect-[4/3]"
+                    : "aspect-square"
+                )}
+              >
+                <Image
+                  src={item.src || "/placeholder.svg"}
+                  alt={item.alt || ""}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
+            ) : (
+              <div
+                className={cn(
+                  "relative",
+                  item.aspectRatio === "portrait"
+                    ? "aspect-[3/4]"
+                    : item.aspectRatio === "landscape"
+                    ? "aspect-[4/3]"
+                    : "aspect-square"
+                )}
+              >
+                <video
+                  src={item.src}
+                  controls
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            )}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+              <p className="text-white text-sm">{item.caption}</p>
             </div>
-          ))}
-        </div>
-      </main>
-
+          </div>
+        ))}
+      </div>
       <MediaViewerModal
         item={selectedItem}
         onClose={() => setSelectedItem(null)}
