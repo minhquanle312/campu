@@ -51,7 +51,6 @@ const galleryItems = [
     id: 6,
     type: "video",
     src: "/for-pu/pu-party.mp4", // Replace with your video URL
-    // poster: "/placeholder.svg?height=600&width=400",
     caption: "Always in my heart",
     aspectRatio: "portrait", // taller than wide
   },

@@ -42,7 +42,7 @@ export default function JourneyPage() {
   }, [selectedProvince]);
 
   return (
-    <main className="container mx-auto py-8 min-h-screen flex flex-col gap-8">
+    <main className="container py-8 min-h-screen flex flex-col gap-8">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">My Journey Map</h1>
         <p className="text-muted-foreground">
@@ -51,11 +51,13 @@ export default function JourneyPage() {
         </p>
       </div>
 
-      <div className="flex-1 w-full max-w-5xl mx-auto h-[600px] lg:h-[800px]">
-        <VietnamMap
-          onProvinceClick={handleProvinceClick}
-          highlightedProvinces={provincesWithTrips}
-        />
+      <div className="relative flex-1 w-full">
+        <div className="absolute inset-0 rounded-xl border border-border">
+          <VietnamMap
+            onProvinceClick={handleProvinceClick}
+            highlightedProvinces={provincesWithTrips}
+          />
+        </div>
       </div>
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
