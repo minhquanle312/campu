@@ -7,7 +7,6 @@ import {
   MediaViewerModal,
   type MediaItem,
 } from "@/components/media-viewer-modal";
-import { MainNav } from "@/components/main-nav";
 
 // Sample gallery items - replace with your own content
 const galleryItems: MediaItem[] = [
@@ -78,10 +77,8 @@ export default function Home() {
   const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
-      <MainNav />
-
-      <header className="container mx-auto py-8 text-center">
+    <>
+      <header className="container mx-auto text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-rose-600">
           Our Special Moments
         </h1>
@@ -155,11 +152,6 @@ export default function Home() {
         item={selectedItem}
         onClose={() => setSelectedItem(null)}
       />
-
-      <footer className="container mx-auto py-8 text-center ">
-        <p className="text-pink-500 mb-1">May the world be gentle with you</p>
-        <p className="text-gray-600">Made with all of ❤️</p>
-      </footer>
-    </div>
+    </>
   );
 }

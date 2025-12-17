@@ -10,39 +10,16 @@ import { Heart } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
-import { SwitchLanguage } from "@/components/switch-language";
 
-export default function Page(/* { params }: any */) {
-  // const { slug }: any = React.use(params);
+export default function Page() {
   const t = useTranslations("");
 
   const [wishMessage, setWishMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [wishName, setWishName] = useState("");
   const [wishSending, setWishSending] = useState(false);
-  // const [data, setData] = useState<{ name: string; slug: string } | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_error, setError] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(`/api/sheets/${slug}`);
-  //       if (!response.ok) {
-  //         throw new Error(`Error: ${response.status}`);
-  //       }
-  //       const result = await response.json();
-  //       setData(result.data || []);
-  //     } catch (err) {
-  //       setError(
-  //         err instanceof Error
-  //           ? err.message
-  //           : "An error occurred fetching the data"
-  //       );
-  //     }
-  //   };
-  //   fetchData();
-  // }, [slug]);
 
   const submit = () => {
     setWishSending(true);
@@ -85,8 +62,7 @@ export default function Page(/* { params }: any */) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-pink-50 p-4 relative">
-      <SwitchLanguage className="top-4 right-4 absolute z-50" />
+    <div className="flex items-center justify-center mt-5 relative">
       <Card className="w-full max-w-md mx-auto overflow-hidden relative bg-white shadow-lg">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-20 h-20">

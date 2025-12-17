@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Heart, Map, Home } from "lucide-react";
+import { SwitchLanguage } from "./switch-language";
 
 const navItems = [
   {
@@ -28,6 +29,7 @@ export function MainNav() {
 
   return (
     <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md shadow-sm">
+      <SwitchLanguage className="top-4 right-4 absolute z-50" />
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-center h-16 gap-2">
           {navItems.map((item) => {
