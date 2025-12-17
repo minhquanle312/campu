@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Heart, Map, Home } from "lucide-react";
 import { SwitchLanguage } from "./switch-language";
+import { signIn, useSession } from "@/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const navItems = [
   {
@@ -26,10 +28,30 @@ const navItems = [
 
 export function MainNav() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  const handleLogin = async () => {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md shadow-sm">
-      <SwitchLanguage className="top-4 right-4 absolute z-50" />
+    <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md shadow-sm flex justify-between items-center px-6">
+      {session ? (
+        <Avatar>
+          <AvatarImage
+            src={session?.user?.image || ""}
+            alt={session?.user?.name || "User avatar"}
+          />
+          <AvatarFallback>{session?.user?.name?.[0] || "😜"}</AvatarFallback>
+        </Avatar>
+      ) : (
+        <button onClick={handleLogin} title="Login" type="button">
+          🍀
+        </button>
+      )}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-center h-16 gap-2">
           {navItems.map((item) => {
@@ -55,6 +77,7 @@ export function MainNav() {
           })}
         </div>
       </div>
+      <SwitchLanguage />
     </nav>
   );
 }

@@ -4,6 +4,7 @@ import { getLocale } from "next-intl/server";
 import localFont from "next/font/local";
 import "./globals.css";
 import { MainNav } from "@/components/main-nav";
+import { Footer } from "@/components/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,12 +39,7 @@ export default async function RootLayout({
           <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
             <MainNav />
             <main className="container mx-auto px-6 my-7">{children}</main>
-            <footer className="container mx-auto pb-6 text-center bg-transparent">
-              <p className="text-pink-500 mb-1">
-                May the world be gentle with you
-              </p>
-              <p className="text-gray-600">Made with all of ❤️</p>
-            </footer>
+            <Footer />
           </div>
         </NextIntlClientProvider>
       </body>
