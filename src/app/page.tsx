@@ -9,7 +9,7 @@ import {
 } from "@/components/media-viewer-modal";
 
 // Sample gallery items - replace with your own content
-const galleryItems = [
+const galleryItems: MediaItem[] = [
   {
     id: 1,
     type: "image",

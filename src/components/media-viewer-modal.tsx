@@ -16,6 +16,7 @@ export interface MediaItem {
   src: string;
   alt?: string;
   caption?: string;
+  aspectRatio?: "landscape" | "portrait" | "square";
 }
 
 interface MediaViewerModalProps {

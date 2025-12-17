@@ -12,13 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  MapPin,
-  Calendar,
-  Users,
-  PlayCircle,
-  Image as ImageIcon,
-} from "lucide-react";
+import { MapPin, Calendar, Users, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { PROVINCES_GEO_MAPPING } from "@/config/province";
 import { trips } from "@/config/trips";
