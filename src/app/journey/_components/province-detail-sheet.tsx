@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -22,6 +22,10 @@ import {
 import Image from "next/image";
 import { PROVINCES_GEO_MAPPING } from "@/config/province";
 import { trips } from "@/config/trips";
+import {
+  MediaViewerModal,
+  type MediaItem,
+} from "@/components/media-viewer-modal";
 
 interface ProvinceDetailSheetProps {
   provinceId: number | null;
@@ -34,6 +38,8 @@ export function ProvinceDetailSheet({
   isOpen,
   onOpenChange,
 }: ProvinceDetailSheetProps) {
+  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+
   const selectedTrips = React.useMemo(() => {
     return trips.filter((t) => t.provinceId === provinceId);
   }, [provinceId]);
@@ -99,12 +105,20 @@ export function ProvinceDetailSheet({
                   </div>
                 </div>
 
-                {/* Images & Video */}
+                {/* Images & Videos */}
                 <div className="grid grid-cols-2 gap-2 mt-4">
                   {trip.images.map((img, idx) => (
                     <div
-                      key={idx}
+                      key={`img-${idx}`}
                       className="relative aspect-video rounded-md overflow-hidden bg-muted group cursor-pointer"
+                      onClick={() =>
+                        setSelectedMedia({
+                          type: "image",
+                          src: img,
+                          alt: trip.title,
+                          caption: trip.title,
+                        })
+                      }
                     >
                       <Image
                         src={img}
@@ -114,18 +128,25 @@ export function ProvinceDetailSheet({
                       />
                     </div>
                   ))}
-                  {trip.video && (
-                    <a
-                      href={trip.video}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative aspect-video rounded-md overflow-hidden bg-black/5 flex items-center justify-center group"
+                  {trip.videos.map((video, idx) => (
+                    <div
+                      key={`video-${idx}`}
+                      className="relative aspect-video rounded-md overflow-hidden bg-muted group cursor-pointer"
+                      onClick={() =>
+                        setSelectedMedia({
+                          type: "video",
+                          src: video,
+                          caption: trip.title,
+                        })
+                      }
                     >
-                      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
-                      <PlayCircle className="h-10 w-10 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
-                      <span className="sr-only">Watch Video</span>
-                    </a>
-                  )}
+                      <video
+                        src={video}
+                        controls
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
                 </div>
 
                 <Separator className="mt-6" />
@@ -143,6 +164,10 @@ export function ProvinceDetailSheet({
           </div>
         </ScrollArea>
       </SheetContent>
+      <MediaViewerModal
+        item={selectedMedia}
+        onClose={() => setSelectedMedia(null)}
+      />
     </Sheet>
   );
 }

@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Heart, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  MediaViewerModal,
+  type MediaItem,
+} from "@/components/media-viewer-modal";
 
 // Sample gallery items - replace with your own content
 const galleryItems = [
@@ -71,9 +74,7 @@ const galleryItems = [
 ];
 
 export default function Home() {
-  const [selectedItem, setSelectedItem] = useState<
-    (typeof galleryItems)[0] | null
-  >(null);
+  const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
@@ -147,51 +148,10 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Modal for viewing selected item */}
-      {selectedItem && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <button
-            className="absolute top-4 right-4 text-white hover:text-rose-400 transition-colors"
-            onClick={() => setSelectedItem(null)}
-          >
-            <X className="w-8 h-8" />
-          </button>
-
-          <div className="max-w-4xl w-full">
-            {selectedItem.type === "image" ? (
-              <div className="relative w-full" style={{ maxHeight: "80vh" }}>
-                <Image
-                  src={selectedItem.src || "/placeholder.svg"}
-                  alt={selectedItem.alt || ""}
-                  width={1200}
-                  height={800}
-                  className="mx-auto object-contain max-h-[80vh]"
-                />
-              </div>
-            ) : (
-              <div className="relative w-full aspect-video">
-                <video
-                  src={selectedItem.src}
-                  // poster={selectedItem.poster}
-                  controls
-                  className="w-full h-full"
-                  autoPlay
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            )}
-
-            <div className="mt-4 text-center">
-              <p className="text-white text-lg">{selectedItem.caption}</p>
-              <button className="mt-2 flex items-center mx-auto gap-2 text-rose-400 hover:text-rose-300 transition-colors">
-                <Heart className="w-5 h-5" />
-                <span>Favorite</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <MediaViewerModal
+        item={selectedItem}
+        onClose={() => setSelectedItem(null)}
+      />
 
       <footer className="container mx-auto py-8 text-center ">
         <p className="text-pink-500 mb-1">May the world be gentle with you</p>

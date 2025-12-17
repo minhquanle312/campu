@@ -10,7 +10,7 @@ export interface Trip {
   summary: string;
   participants: Participant[];
   images: string[];
-  video?: string; // Youtube link
+  videos: string[]; // Youtube links or video URLs
   provinceId: number; // Key to match map data
 }
 
@@ -31,33 +31,33 @@ export const trips: Trip[] = [
       { name: "Viên", avatar: "/placeholder-user.jpg" },
     ],
     images: [
-      "/journey/bentre-2025-11-23/bentre-1.jpg",
-      "/journey/bentre-2025-11-23/bentre-team-1.jpg",
+      "/journey/ben-tre-2025-11-23/bentre-1.jpg",
+      "/journey/ben-tre-2025-11-23/bentre-team-1.jpg",
     ],
-    video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    videos: ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"],
   },
-  // {
-  //   id: "trip-2",
-  //   title: "Ha Giang Loop Adventure",
-  //   date: "2023-11-20",
-  //   summary:
-  //     "Biking through the majestic Ma Pi Leng Pass. The weather was foggy but the experience was unforgettable.",
-  //   provinceId: "Hà Giang",
-  //   participants: [
-  //     { name: "Pu", avatar: "/placeholder-user.jpg" },
-  //     { name: "Quan", avatar: "/placeholder-user.jpg" },
-  //     { name: "Friends", avatar: "/placeholder-user.jpg" },
-  //   ],
-  //   images: ["/placeholder.jpg", "/placeholder.jpg", "/placeholder.jpg"],
-  // },
-  // {
-  //   id: "trip-3",
-  //   title: "Coffee Time in Buon Ma Thuot",
-  //   date: "2024-01-10",
-  //   summary:
-  //     "Visiting the coffee capital of Vietnam. We learned how coffee is processed and tasted the best Robusta.",
-  //   provinceId: "Đắk Lắk",
-  //   participants: [{ name: "Pu", avatar: "/placeholder-user.jpg" }],
-  //   images: ["/placeholder.jpg"],
-  // },
+  {
+    id: "trip-2",
+    title: "Nam Cát Tiên adventure",
+    date: "2025-12-13",
+    summary:
+      "A beautiful wedding ceremony held on the river islet in Đà Nẵng. The atmosphere was filled with joy and traditional music.",
+    provinceId: 2,
+    participants: [
+      { name: "Pu", avatar: "/placeholder-user.jpg" },
+      { name: "MQL", avatar: "/placeholder-user.jpg" },
+      { name: "Sơn", avatar: "/placeholder-user.jpg" },
+      { name: "Thuỳ", avatar: "/placeholder-user.jpg" },
+      { name: "Bin", avatar: "/placeholder-user.jpg" },
+    ],
+    images: [
+      "/journey/nam-cat-tien-2025-12-13/namcattien-spider-1.jpg",
+      "/journey/nam-cat-tien-2025-12-13/namcattien-wc.jpg",
+    ],
+    // videos: [],
+    videos: [
+      "/journey/nam-cat-tien-2025-12-13/namcattien-sonthuy-1.mp4",
+      "/journey/nam-cat-tien-2025-12-13/namcattien-zoo.mp4",
+    ],
+  },
 ];
