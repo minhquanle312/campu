@@ -137,17 +137,6 @@ export default function Home() {
                   >
                     Your browser does not support the video tag.
                   </video>
-                  {/* <Image
-                    src={item.src || "/placeholder.svg"}
-                    alt={item.caption || ""}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center">
-                      <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-rose-600 border-b-8 border-b-transparent ml-1"></div>
-                    </div>
-                  </div> */}
                 </div>
               )}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">

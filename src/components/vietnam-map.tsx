@@ -10,13 +10,14 @@ import {
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import clsx from "clsx";
+import { PROVINCES_GEO_MAPPING } from "@/config/province";
 
 // Using local GeoJSON file
 const VIETNAM_GEO_URL = "/vietnam.geojson";
 
 interface VietnamMapProps {
-  onProvinceClick: (provinceName: string) => void;
-  highlightedProvinces?: string[];
+  onProvinceClick: (provinceName: number) => void;
+  highlightedProvinces?: number[];
 }
 
 const VietnamMap: React.FC<VietnamMapProps> = ({
@@ -37,17 +38,20 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
           <Geographies geography={VIETNAM_GEO_URL}>
             {({ geographies }) =>
               geographies.map((geo) => {
-                const provinceName = geo.properties.Name || geo.properties.name;
-                const isHighlighted =
-                  highlightedProvinces.includes(provinceName);
+                const provinceId = geo.properties.id_1;
+                const isHighlighted = highlightedProvinces.includes(provinceId);
 
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     data-tooltip-id="my-tooltip"
-                    data-tooltip-content={provinceName}
-                    onClick={() => onProvinceClick(provinceName)}
+                    data-tooltip-content={
+                      PROVINCES_GEO_MAPPING[
+                        provinceId as keyof typeof PROVINCES_GEO_MAPPING
+                      ]
+                    }
+                    onClick={() => onProvinceClick(provinceId)}
                     className={clsx(
                       "transition-all duration-300 outline-none cursor-pointer stroke-white stroke-[0.5px]",
                       isHighlighted
