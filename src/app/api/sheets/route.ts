@@ -1,26 +1,34 @@
+import { SHEET_ID } from "@/config/sheet.config";
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const apiKey = process.env.GOOGLE_API_KEY;
+    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
-    if (!apiKey) {
+    if (!clientEmail || !privateKey) {
       return NextResponse.json(
-        { error: "Google API key not configured" },
+        { error: "Google Service Account credentials not configured" },
         { status: 500 }
       );
     }
 
-    const sheets = google.sheets({ version: "v4", auth: apiKey });
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: clientEmail,
+        private_key: privateKey,
+      },
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    });
 
-    const spreadsheetId = "1992U9SCDHPACkpkRXtDrJ4tjGNlFt4GqH92UxqyO1r4";
+    const sheets = google.sheets({ version: "v4", auth });
 
     // The range of cells you want to retrieve (A1 notation)
     const range = "Sheet1!A1:H100";
 
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId,
+      spreadsheetId: SHEET_ID,
       range,
     });
 

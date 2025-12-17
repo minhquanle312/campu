@@ -1,3 +1,4 @@
+import { SHEET_ID } from "@/config/sheet.config";
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
 
@@ -27,13 +28,11 @@ export async function GET(
 
     const sheets = google.sheets({ version: "v4", auth: apiKey });
 
-    const spreadsheetId = "1992U9SCDHPACkpkRXtDrJ4tjGNlFt4GqH92UxqyO1r4";
-
     // The range of cells you want to retrieve (A1 notation)
     const range = "Sheet1!A1:H100";
 
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId,
+      spreadsheetId: SHEET_ID,
       range,
     });
 
@@ -115,11 +114,10 @@ export async function PUT(
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = "1992U9SCDHPACkpkRXtDrJ4tjGNlFt4GqH92UxqyO1r4";
     const range = "Sheet1!A1:H100";
 
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId,
+      spreadsheetId: SHEET_ID,
       range,
     });
 
@@ -144,7 +142,7 @@ export async function PUT(
     const updateRange = `Sheet1!E${rowIndex + 1}`;
 
     await sheets.spreadsheets.values.update({
-      spreadsheetId,
+      spreadsheetId: SHEET_ID,
       range: updateRange,
       valueInputOption: "RAW",
       requestBody: {

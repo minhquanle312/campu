@@ -7,6 +7,7 @@ import {
   MediaViewerModal,
   type MediaItem,
 } from "@/components/media-viewer-modal";
+import { MainNav } from "@/components/main-nav";
 
 // Sample gallery items - replace with your own content
 const galleryItems: MediaItem[] = [
@@ -78,6 +79,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
+      <MainNav />
+
       <header className="container mx-auto py-8 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-rose-600">
           Our Special Moments
