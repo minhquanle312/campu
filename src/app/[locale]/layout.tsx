@@ -6,6 +6,7 @@ import { MainNav } from '@/components/main-nav'
 import { Footer } from '@/components/footer'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
+import { setRequestLocale } from 'next-intl/server'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
     'A little corner of the world for Cẩm Pu - lovingly crafted by Minh Quân Lê',
 }
 
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }))
+}
+
 type Props = {
   children: React.ReactNode
   params: Promise<{ locale: string }>
@@ -34,6 +39,8 @@ export default async function RootLayout({ children, params }: Props) {
   if (!hasLocale(routing.locales, locale)) {
     notFound()
   }
+
+  setRequestLocale(locale)
 
   return (
     <html lang={locale}>
