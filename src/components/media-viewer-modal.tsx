@@ -1,47 +1,47 @@
-"use client";
+'use client'
 
-import { Heart } from "lucide-react";
-import Image from "next/image";
+import { Heart } from 'lucide-react'
+import Image from 'next/image'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+} from '@/components/ui/dialog'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 export interface MediaItem {
-  id?: string | number;
-  type: "image" | "video";
-  src: string;
-  alt?: string;
-  caption?: string;
-  aspectRatio?: "landscape" | "portrait" | "square";
+  id?: string | number
+  type: 'image' | 'video'
+  src: string
+  alt?: string
+  caption?: string
+  aspectRatio?: 'landscape' | 'portrait' | 'square'
 }
 
 interface MediaViewerModalProps {
-  item: MediaItem | null;
-  onClose: () => void;
+  item: MediaItem | null
+  onClose: () => void
 }
 
 export function MediaViewerModal({ item, onClose }: MediaViewerModalProps) {
   return (
-    <Dialog open={!!item} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={!!item} onOpenChange={open => !open && onClose()}>
       <DialogContent className="max-w-4xl bg-black/95 border-none text-white p-6">
         <VisuallyHidden>
-          <DialogTitle>{item?.caption || "Media viewer"}</DialogTitle>
+          <DialogTitle>{item?.caption || 'Media viewer'}</DialogTitle>
           <DialogDescription>
-            {item?.type === "image" ? "Image viewer" : "Video viewer"}
+            {item?.type === 'image' ? 'Image viewer' : 'Video viewer'}
           </DialogDescription>
         </VisuallyHidden>
 
         {item && (
           <div className="w-full">
-            {item.type === "image" ? (
-              <div className="relative w-full" style={{ maxHeight: "80vh" }}>
+            {item.type === 'image' ? (
+              <div className="relative w-full" style={{ maxHeight: '80vh' }}>
                 <Image
-                  src={item.src || "/placeholder.svg"}
-                  alt={item.alt || ""}
+                  src={item.src || '/placeholder.svg'}
+                  alt={item.alt || ''}
                   width={1200}
                   height={800}
                   className="mx-auto object-contain max-h-[80vh]"
@@ -73,5 +73,5 @@ export function MediaViewerModal({ item, onClose }: MediaViewerModalProps) {
         )}
       </DialogContent>
     </Dialog>
-  );
+  )
 }

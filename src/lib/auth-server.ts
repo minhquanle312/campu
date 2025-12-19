@@ -1,5 +1,5 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { auth } from '@/lib/auth'
+import { headers } from 'next/headers'
 
 /**
  * Get the current session from server component
@@ -8,9 +8,9 @@ import { headers } from "next/headers";
 export async function getSession() {
   const session = await auth.api.getSession({
     headers: await headers(),
-  });
+  })
 
-  return session;
+  return session
 }
 
 /**
@@ -18,8 +18,8 @@ export async function getSession() {
  * @returns User data or null if not authenticated
  */
 export async function getCurrentUser() {
-  const session = await getSession();
-  return session?.user ?? null;
+  const session = await getSession()
+  return session?.user ?? null
 }
 
 /**
@@ -27,11 +27,11 @@ export async function getCurrentUser() {
  * Use this to protect server actions or pages
  */
 export async function requireAuth() {
-  const session = await getSession();
+  const session = await getSession()
 
   if (!session) {
-    throw new Error("Unauthorized");
+    throw new Error('Unauthorized')
   }
 
-  return session;
+  return session
 }

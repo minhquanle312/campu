@@ -1,30 +1,30 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { MapPin, Calendar, Users, Image as ImageIcon } from "lucide-react";
-import Image from "next/image";
-import { PROVINCES_GEO_MAPPING } from "@/config/province";
-import { trips } from "@/config/trips";
+} from '@/components/ui/sheet'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import { MapPin, Calendar, Users, Image as ImageIcon } from 'lucide-react'
+import Image from 'next/image'
+import { PROVINCES_GEO_MAPPING } from '@/config/province'
+import { trips } from '@/config/trips'
 import {
   MediaViewerModal,
   type MediaItem,
-} from "@/components/media-viewer-modal";
+} from '@/components/media-viewer-modal'
 
 interface ProvinceDetailSheetProps {
-  provinceId: number | null;
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
+  provinceId: number | null
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 export function ProvinceDetailSheet({
@@ -32,16 +32,16 @@ export function ProvinceDetailSheet({
   isOpen,
   onOpenChange,
 }: ProvinceDetailSheetProps) {
-  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null)
 
   const selectedTrips = React.useMemo(() => {
-    return trips.filter((t) => t.provinceId === provinceId);
-  }, [provinceId]);
+    return trips.filter(t => t.provinceId === provinceId)
+  }, [provinceId])
 
   const provinceName =
     provinceId !== null
       ? PROVINCES_GEO_MAPPING[provinceId as keyof typeof PROVINCES_GEO_MAPPING]
-      : "";
+      : ''
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
@@ -54,9 +54,9 @@ export function ProvinceDetailSheet({
           <SheetDescription>
             {selectedTrips.length > 0
               ? `Found ${selectedTrips.length} trip${
-                  selectedTrips.length > 1 ? "s" : ""
+                  selectedTrips.length > 1 ? 's' : ''
                 } in this province.`
-              : "No trips recorded for this province yet."}
+              : 'No trips recorded for this province yet.'}
           </SheetDescription>
         </SheetHeader>
 
@@ -64,7 +64,7 @@ export function ProvinceDetailSheet({
 
         <ScrollArea className="flex-1 h-full p-6 pt-4">
           <div className="space-y-8 pb-8">
-            {selectedTrips.map((trip) => (
+            {selectedTrips.map(trip => (
               <div key={trip.id} className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
@@ -107,7 +107,7 @@ export function ProvinceDetailSheet({
                       className="relative aspect-video rounded-md overflow-hidden bg-muted group cursor-pointer"
                       onClick={() =>
                         setSelectedMedia({
-                          type: "image",
+                          type: 'image',
                           src: img,
                           alt: trip.title,
                           caption: trip.title,
@@ -128,7 +128,7 @@ export function ProvinceDetailSheet({
                       className="relative aspect-video rounded-md overflow-hidden bg-muted group cursor-pointer"
                       onClick={() =>
                         setSelectedMedia({
-                          type: "video",
+                          type: 'video',
                           src: video,
                           caption: trip.title,
                         })
@@ -163,5 +163,5 @@ export function ProvinceDetailSheet({
         onClose={() => setSelectedMedia(null)}
       />
     </Sheet>
-  );
+  )
 }

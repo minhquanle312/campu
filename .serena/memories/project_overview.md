@@ -1,9 +1,11 @@
 # Project Overview: Campu
 
 ## Purpose
+
 A personal web application titled "Cẩm Pu", described as "A little corner of the world for Cẩm Pu". It appears to be a personal gift or memory site, featuring journeys, wishes, and a map of Vietnam.
 
 ## Tech Stack
+
 - **Framework:** Next.js 15.1.11 (React 19)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS, `clsx`, `tailwind-merge`, `tailwindcss-animate`
@@ -15,6 +17,7 @@ A personal web application titled "Cẩm Pu", described as "A little corner of t
 - **Package Manager:** Yarn (v4.6.0)
 
 ## Directory Structure
+
 - `src/app`: Next.js App Router pages and layouts.
   - `journey/`: Journey related pages.
   - `wish-for-pu/`: Wishes related pages.

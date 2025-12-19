@@ -1,23 +1,23 @@
-"use client";
+'use client'
 
-import React from "react";
+import React from 'react'
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
-} from "react-simple-maps";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
-import clsx from "clsx";
-import { PROVINCES_GEO_MAPPING } from "@/config/province";
+} from 'react-simple-maps'
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
+import clsx from 'clsx'
+import { PROVINCES_GEO_MAPPING } from '@/config/province'
 
 // Using local GeoJSON file
-const VIETNAM_GEO_URL = "/vietnam.geojson";
+const VIETNAM_GEO_URL = '/vietnam.geojson'
 
 interface VietnamMapProps {
-  onProvinceClick: (provinceName: number) => void;
-  highlightedProvinces?: number[];
+  onProvinceClick: (provinceName: number) => void
+  highlightedProvinces?: number[]
 }
 
 const VietnamMap: React.FC<VietnamMapProps> = ({
@@ -37,9 +37,9 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
         <ZoomableGroup zoom={1}>
           <Geographies geography={VIETNAM_GEO_URL}>
             {({ geographies }) =>
-              geographies.map((geo) => {
-                const provinceId = geo.properties.id_1;
-                const isHighlighted = highlightedProvinces.includes(provinceId);
+              geographies.map(geo => {
+                const provinceId = geo.properties.id_1
+                const isHighlighted = highlightedProvinces.includes(provinceId)
 
                 return (
                   <Geography
@@ -53,18 +53,18 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
                     }
                     onClick={() => onProvinceClick(provinceId)}
                     className={clsx(
-                      "transition-all duration-300 outline-none cursor-pointer stroke-white stroke-[0.5px]",
+                      'transition-all duration-300 outline-none cursor-pointer stroke-white stroke-[0.5px]',
                       isHighlighted
-                        ? "fill-primary hover:fill-primary/80"
-                        : "fill-muted-foreground/20 hover:fill-primary/60"
+                        ? 'fill-primary hover:fill-primary/80'
+                        : 'fill-muted-foreground/20 hover:fill-primary/60',
                     )}
                     style={{
-                      default: { outline: "none" },
-                      hover: { outline: "none" },
-                      pressed: { outline: "none" },
+                      default: { outline: 'none' },
+                      hover: { outline: 'none' },
+                      pressed: { outline: 'none' },
                     }}
                   />
-                );
+                )
               })
             }
           </Geographies>
@@ -72,7 +72,7 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
       </ComposableMap>
       <Tooltip id="my-tooltip" />
     </>
-  );
-};
+  )
+}
 
-export default VietnamMap;
+export default VietnamMap

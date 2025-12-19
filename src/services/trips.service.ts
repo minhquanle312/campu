@@ -1,5 +1,5 @@
-import { getSheetValues } from "@/lib/google-sheets";
+import { getSheetValues } from '@/lib/google-sheets'
 
 export const getTrips = async () => {
-  return await getSheetValues("Trips");
-};
+  return await getSheetValues('Trips')
+}
