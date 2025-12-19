@@ -54,7 +54,6 @@ export const trips: Trip[] = [
       "/journey/nam-cat-tien-2025-12-13/namcattien-spider-1.jpg",
       "/journey/nam-cat-tien-2025-12-13/namcattien-wc.jpg",
     ],
-    // videos: [],
     videos: [
       "/journey/nam-cat-tien-2025-12-13/namcattien-sonthuy-1.mp4",
       "/journey/nam-cat-tien-2025-12-13/namcattien-zoo.mp4",

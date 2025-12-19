@@ -4,10 +4,14 @@ import React, { useState, useMemo } from "react";
 import VietnamMap from "@/components/vietnam-map";
 import { trips } from "@/config/trips";
 import { ProvinceDetailSheet } from "./_components/province-detail-sheet";
+// import { getTrips } from "@/services/trips.service";
 
 export default function JourneyPage() {
   const [selectedProvince, setSelectedProvince] = useState<number | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  // const trips = await getTrips();
+  // console.log("🚀 ~ page.tsx ~ JourneyPage ~ trips:", trips);
 
   // Get list of provinces that have trips
   const provincesWithTrips = useMemo(() => {
