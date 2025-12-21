@@ -15,28 +15,29 @@ import { Separator } from '@/components/ui/separator'
 import { MapPin, Calendar, Users, Image as ImageIcon } from 'lucide-react'
 import Image from 'next/image'
 import { PROVINCES_GEO_MAPPING } from '@/config/province'
-import { trips } from '@/config/trips'
+// import { trips } from '@/config/trips'
 import {
   MediaViewerModal,
   type MediaItem,
 } from '@/components/media-viewer-modal'
+import { Trip } from '@/models/trips.model'
 
 interface ProvinceDetailSheetProps {
   provinceId: number | null
   isOpen: boolean
   onOpenChange: (open: boolean) => void
+  trips: Trip[]
 }
 
 export function ProvinceDetailSheet({
   provinceId,
   isOpen,
   onOpenChange,
+  trips,
 }: ProvinceDetailSheetProps) {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null)
 
-  const selectedTrips = React.useMemo(() => {
-    return trips.filter(t => t.provinceId === provinceId)
-  }, [provinceId])
+  const selectedTrips = trips.filter(t => t.provinceId === provinceId)
 
   const provinceName =
     provinceId !== null
@@ -92,7 +93,7 @@ export function ProvinceDetailSheet({
                         key={i}
                         className="border-2 border-background w-8 h-8"
                       >
-                        <AvatarImage src={p.avatar} alt={p.name} />
+                        <AvatarImage src={p.avatarUrl} alt={p.name} />
                         <AvatarFallback>{p.name[0]}</AvatarFallback>
                       </Avatar>
                     ))}

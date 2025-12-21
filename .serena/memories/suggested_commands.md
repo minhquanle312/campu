@@ -2,7 +2,7 @@
 
 ## Development
 
-- `yarn dev`: Start the development server (usually on http://localhost:3000).
+- `yarn dev`: Start the development server (usually on http://localhost:3282).
 - `yarn build`: Build the application for production.
 - `yarn start`: Start the production server.
 

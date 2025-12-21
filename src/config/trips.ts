@@ -1,6 +1,6 @@
 export interface Participant {
   name: string
-  avatar: string // URL or path to image
+  avatarUrl: string // URL or path to image
 }
 
 export interface Trip {
@@ -23,12 +23,12 @@ export const trips: Trip[] = [
       'A beautiful wedding ceremony held on the river islet in Đà Nẵng. The atmosphere was filled with joy and traditional music.',
     provinceId: 17,
     participants: [
-      { name: 'Pu', avatar: '/placeholder-user.jpg' },
-      { name: 'MQL', avatar: '/placeholder-user.jpg' },
-      { name: 'Sơn', avatar: '/placeholder-user.jpg' },
-      { name: 'Thuỳ', avatar: '/placeholder-user.jpg' },
-      { name: 'Huy', avatar: '/placeholder-user.jpg' },
-      { name: 'Viên', avatar: '/placeholder-user.jpg' },
+      { name: 'Pu', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'MQL', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'Sơn', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'Thuỳ', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'Huy', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'Viên', avatarUrl: '/placeholder-user.jpg' },
     ],
     images: [
       '/journey/ben-tre-2025-11-23/bentre-1.jpg',
@@ -44,11 +44,11 @@ export const trips: Trip[] = [
       'A beautiful wedding ceremony held on the river islet in Đà Nẵng. The atmosphere was filled with joy and traditional music.',
     provinceId: 2,
     participants: [
-      { name: 'Pu', avatar: '/placeholder-user.jpg' },
-      { name: 'MQL', avatar: '/placeholder-user.jpg' },
-      { name: 'Sơn', avatar: '/placeholder-user.jpg' },
-      { name: 'Thuỳ', avatar: '/placeholder-user.jpg' },
-      { name: 'Bin', avatar: '/placeholder-user.jpg' },
+      { name: 'Pu', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'MQL', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'Sơn', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'Thuỳ', avatarUrl: '/placeholder-user.jpg' },
+      { name: 'Bin', avatarUrl: '/placeholder-user.jpg' },
     ],
     images: [
       '/journey/nam-cat-tien-2025-12-13/namcattien-spider-1.jpg',

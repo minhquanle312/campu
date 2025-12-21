@@ -1,4 +1,4 @@
-import { SHEET_ID, SheetRangeKey } from '@/config/sheet.config'
+import { SHEET_ID, SHEET_RANGE, SheetRangeKey } from '@/config/sheet.config'
 import { google } from 'googleapis'
 
 export const getAuthClient = () => {
@@ -24,7 +24,7 @@ export const getSheetValues = async (range: SheetRangeKey) => {
 
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range,
+    range: SHEET_RANGE[range],
   })
 
   return response.data.values || []
