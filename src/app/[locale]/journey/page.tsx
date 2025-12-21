@@ -1,6 +1,8 @@
 import { getTrips } from '@/services/trips.service'
 import JourneyClient from './journey-client'
 
+export const dynamic = 'force-dynamic'
+
 export default async function JourneyPage() {
   const trips = await getTrips()
 
