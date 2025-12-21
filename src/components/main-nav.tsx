@@ -1,12 +1,11 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
-import { Heart, Map, Home } from 'lucide-react'
-import { SwitchLanguage } from './switch-language'
+import { Link, usePathname } from '@/i18n/navigation'
 import { signIn, useSession } from '@/lib/auth-client'
+import { cn } from '@/lib/utils'
+import { Heart, Home, Map } from 'lucide-react'
+import { SwitchLanguage } from './switch-language'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Link } from '@/i18n/navigation'
 
 const navItems = [
   {
