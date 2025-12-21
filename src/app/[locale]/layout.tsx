@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import localFont from 'next/font/local'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import './globals.css'
 import { MainNav } from '@/components/main-nav'
 import { Footer } from '@/components/footer'
@@ -44,6 +45,7 @@ export default async function RootLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
+      <GoogleAnalytics gaId="G-4G1HZ52BL0" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
       >

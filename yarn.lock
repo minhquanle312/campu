@@ -856,6 +856,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/third-parties@npm:^16.1.0":
+  version: 16.1.0
+  resolution: "@next/third-parties@npm:16.1.0"
+  dependencies:
+    third-party-capital: "npm:1.0.20"
+  peerDependencies:
+    next: ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0-beta.0
+    react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
+  checksum: 10c0/ba026370568301f829f3df44862ebc09593b11831bdea95e720acaa8828bbeaf68e4ea8ce4b2f642c59262c86428dae038466aa84ec7189999779c9f8751f3cd
+  languageName: node
+  linkType: hard
+
 "@noble/ciphers@npm:^2.0.0":
   version: 2.1.1
   resolution: "@noble/ciphers@npm:2.1.1"
@@ -2847,6 +2859,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "campu@workspace:."
   dependencies:
+    "@next/third-parties": "npm:^16.1.0"
     "@radix-ui/react-accordion": "npm:^1.2.12"
     "@radix-ui/react-alert-dialog": "npm:^1.1.15"
     "@radix-ui/react-aspect-ratio": "npm:^1.1.8"
@@ -6625,6 +6638,13 @@ __metadata:
   dependencies:
     any-promise: "npm:^1.0.0"
   checksum: 10c0/f375aeb2b05c100a456a30bc3ed07ef03a39cbdefe02e0403fb714b8c7e57eeaad1a2f5c4ecfb9ce554ce3db9c2b024eba144843cd9e344566d9fcee73b04767
+  languageName: node
+  linkType: hard
+
+"third-party-capital@npm:1.0.20":
+  version: 1.0.20
+  resolution: "third-party-capital@npm:1.0.20"
+  checksum: 10c0/7f45ff156ec9d7e2957a5b39061be22b780ffbd2d93c127252d908e2bff6cdd09f827a95909d457c8096e036f155006a38e355a06ee11cb6d63c7f4b150bbfb0
   languageName: node
   linkType: hard
 
