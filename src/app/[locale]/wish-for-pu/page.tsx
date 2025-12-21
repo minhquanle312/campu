@@ -31,7 +31,7 @@ export default async function Page({ params }: Props) {
         </div>
 
         {/* Top decorative border */}
-        <div className="h-3 bg-gradient-to-r from-pink-300 via-pink-400 to-pink-300"></div>
+        <div className="h-3 bg-linear-to-r from-pink-300 via-pink-400 to-pink-300"></div>
 
         {/* Card content */}
         <div className="p-6 relative z-10">

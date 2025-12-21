@@ -50,7 +50,7 @@ export default async function RootLayout({ children, params }: Props) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
       >
         <NextIntlClientProvider>
-          <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white">
+          <div className="min-h-screen bg-linear-to-b from-rose-50 to-white">
             <MainNav />
             <main className="container mx-auto px-6 my-7">{children}</main>
             <Footer />

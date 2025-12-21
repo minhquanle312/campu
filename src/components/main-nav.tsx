@@ -38,7 +38,7 @@ export function MainNav() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md shadow-sm flex justify-between items-center px-6">
+    <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md shadow-xs flex justify-between items-center px-6">
       {session ? (
         <Avatar>
           <AvatarImage
@@ -66,7 +66,7 @@ export function MainNav() {
                   'flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300',
                   'hover:bg-rose-50 hover:scale-105',
                   isActive
-                    ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-200'
+                    ? 'bg-linear-to-r from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-200'
                     : 'text-gray-600 hover:text-rose-600',
                 )}
               >

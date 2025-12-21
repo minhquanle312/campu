@@ -53,7 +53,7 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
                     }
                     onClick={() => onProvinceClick(provinceId)}
                     className={clsx(
-                      'transition-all duration-300 outline-none cursor-pointer stroke-white stroke-[0.5px]',
+                      'transition-all duration-300 outline-hidden cursor-pointer stroke-white stroke-[0.5px]',
                       isHighlighted
                         ? 'fill-primary hover:fill-primary/80'
                         : 'fill-muted-foreground/20 hover:fill-primary/60',

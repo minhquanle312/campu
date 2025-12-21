@@ -75,7 +75,7 @@ export default function WishesForm() {
           disabled={wishSending}
           value={wishName}
           onChange={e => setWishName(e.target.value)}
-          className="w-full p-3 rounded-lg border border-pink-300 focus:border-pink-500 focus:ring-pink-500 outline-none mb-2"
+          className="w-full p-3 rounded-lg border border-pink-300 focus:border-pink-500 focus:ring-pink-500 outline-hidden mb-2"
           required
         />
       </div>
@@ -91,7 +91,7 @@ export default function WishesForm() {
             disabled={wishSending}
             value={wishMessage}
             onChange={e => setWishMessage(e.target.value)}
-            className="w-full min-h-[100px] p-3 rounded-lg border border-pink-300 focus:border-pink-500 focus:ring-pink-500 outline-none"
+            className="w-full min-h-[100px] p-3 rounded-lg border border-pink-300 focus:border-pink-500 focus:ring-pink-500 outline-hidden"
             required
           />
           <div className="absolute -bottom-1 -right-1 text-pink-400 opacity-20">
