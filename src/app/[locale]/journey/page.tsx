@@ -3,7 +3,7 @@ import JourneyClient from './journey-client'
 
 export const dynamic = 'force-dynamic'
 
-export default async function JourneyPage() {
+export default async function Page() {
   const trips = await getTrips()
 
   return (
@@ -12,7 +12,7 @@ export default async function JourneyPage() {
         <h1 className="text-3xl font-bold tracking-tight text-pink-700">
           My Journey Map
         </h1>
-        <p className="text-muted-foreground text-pink-700">
+        <p className="text-pink-700">
           Explore the memories across Vietnam. Click on a highlighted province
           to see the stories.
         </p>
