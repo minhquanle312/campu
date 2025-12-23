@@ -20,5 +20,44 @@
   "WillMissYou": "I'll miss you, but thank you for letting me know.",
   "YourWishIsSending": "Your wish is sending...",
   "YourNameLabel": "Your lovely name",
-  "YourNamePlaceholder": "Enter your name"
+  "YourNamePlaceholder": "Enter your name",
+  "HeaderNav": {
+    "Home": "Home",
+    "WishForPu": "Wishes",
+    "Journey": "Journey"
+  },
+  "Home": {
+    "Title": "Wandering Through Vietnam 🇻🇳",
+    "Description": "Hi, I'm a passionate traveler exploring the hidden gems and breathtaking landscapes of Vietnam. Join me on this incredible journey of discovery, adventure, and unforgettable moments.",
+    "ExploreJourney": "Explore My Journey",
+    "ContactMe": "Contact Me",
+    "ExploreMap": "Explore the Map",
+    "ViewAllTrips": "View All Trips",
+    "JourneyStory": {
+      "Title": "My Journey Story",
+      "Paragraph1": "What started as a simple weekend trip has evolved into a passionate adventure across Vietnam. From the misty mountains of Ha Giang to the pristine beaches of Phu Quoc, every destination has taught me something new.",
+      "Paragraph2": "I believe that travel is not just about visiting places, but about experiencing cultures, meeting people, and creating memories that last a lifetime. Through my blog, I share detailed trip guides, budget breakdowns, and honest reviews to help fellow travelers plan their own adventures.",
+      "Paragraph3": "Whether you’re a solo traveler, going with friends, or planning a family trip, I hope my experiences inspire you to explore the beauty of Vietnam."
+    },
+    "Stats": {
+      "ProvincesVisited": "Provinces Visited",
+      "PhotosTaken": "Photos Taken",
+      "MemoriesMade": "Memories Made",
+      "DistanceTotal": "Km Traveled"
+    },
+    "MyPurpose": {
+      "Title": "Why I Travel",
+      "Description": "My mission is to inspire others to step out of their comfort zones and discover the incredible beauty that Vietnam has to offer. Every trip is an opportunity to learn, grow, and create unforgettable memories.",
+      "Explore": "Explore",
+      "ExploreDesc": "Discover hidden gems and off-the-beaten-path destinations",
+      "Capture": "Capture",
+      "CaptureDesc": "Document beautiful moments and stunning landscapes",
+      "Connect": "Connect",
+      "ConnectDesc": "Engage with local cultures and communities"
+    },
+    "ReadyToStart": {
+      "Title": "Ready to Start Your Journey?",
+      "Description": "Explore my interactive map to see all the places I've visited, get detailed trip information, budget breakdowns, and tips for your own adventure."
+    }
+  }
 }

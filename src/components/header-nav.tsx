@@ -25,7 +25,7 @@ const navItems = [
   },
 ]
 
-export function MainNav() {
+export function HeaderNav() {
   const pathname = usePathname()
   const { data: session } = useSession()
 
@@ -70,7 +70,9 @@ export function MainNav() {
                 )}
               >
                 <Icon className="w-4 h-4" />
-                <span className="font-medium">{item.label}</span>
+                <span className="font-medium hidden md:block">
+                  {item.label}
+                </span>
               </Link>
             )
           })}

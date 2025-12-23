@@ -2,8 +2,8 @@ import type React from 'react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Cẩm Pu's Ceremony Letter",
-  description: 'A cute letter card for a special ceremony',
+  title: 'Cẩm Pu’s Journey',
+  description: 'Cẩm Pu’s memorable journey and adventures',
 }
 
 export default function Layout({

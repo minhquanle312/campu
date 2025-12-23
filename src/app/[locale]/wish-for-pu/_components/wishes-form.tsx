@@ -1,11 +1,9 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Heart } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import Image from 'next/image'
 import { useState } from 'react'
 
 export default function WishesForm() {

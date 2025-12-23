@@ -3,7 +3,7 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import localFont from 'next/font/local'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import './globals.css'
-import { MainNav } from '@/components/main-nav'
+import { HeaderNav } from '@/components/header-nav'
 import { Footer } from '@/components/footer'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
@@ -51,8 +51,8 @@ export default async function RootLayout({ children, params }: Props) {
       >
         <NextIntlClientProvider>
           <div className="min-h-screen bg-linear-to-b from-rose-50 to-white">
-            <MainNav />
-            <main className="container mx-auto px-6 my-7">{children}</main>
+            <HeaderNav />
+            {children}
             <Footer />
           </div>
         </NextIntlClientProvider>

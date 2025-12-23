@@ -20,5 +20,44 @@
   "WillMissYou": "Tôi sẽ nhớ bạn, nhưng cảm ơn bạn đã cho tôi biết.",
   "YourWishIsSending": "Lời chúc của bạn đang được gửi đi...",
   "YourNameLabel": "Tên của bạn",
-  "YourNamePlaceholder": "Nhập tên của bạn"
+  "YourNamePlaceholder": "Nhập tên của bạn",
+  "HeaderNav": {
+    "Home": "Trang chủ",
+    "WishForPu": "Lời chúc",
+    "Journey": "Hành trình"
+  },
+  "Home": {
+    "Title": "Lang thang Việt Nam 🇻🇳",
+    "Description": "Xin chào, tôi là một người đam mê du lịch đang khám phá những viên ngọc ẩn và những phong cảnh ngoạn mục của Việt Nam. Hãy tham gia cùng tôi trong hành trình đáng kinh ngạc của sự khám phá, phiêu lưu và những khoảnh khắc không thể nào quên này.",
+    "ExploreJourney": "Khám phá hành trình của tôi",
+    "ContactMe": "Liên hệ với tôi",
+    "ExploreMap": "Khám phá bản đồ",
+    "ViewAllTrips": "Xem tất cả các chuyến đi",
+    "JourneyStory": {
+      "Title": "Câu chuyện hành trình của tôi",
+      "Paragraph1": "Những gì bắt đầu như một chuyến đi cuối tuần đơn giản đã trở thành một cuộc phiêu lưu đầy đam mê khắp Việt Nam. Từ những ngọn núi sương mù ở Hà Giang đến những bãi biển hoang sơ ở Phú Quốc, mỗi điểm đến đều dạy tôi điều gì đó mới mẻ.",
+      "Paragraph2": "Tôi tin rằng du lịch không chỉ là đến thăm các địa điểm, mà là trải nghiệm văn hóa, gặp gỡ mọi người và tạo ra những kỷ niệm tồn tại suốt đời. Thông qua blog của tôi, tôi chia sẻ các hướng dẫn chi tiết về chuyến đi, phân tích ngân sách và đánh giá trung thực để giúp các du khách khác lên kế hoạch cho những cuộc phiêu lưu của riêng họ.",
+      "Paragraph3": "Cho dù bạn là một du khách một mình, đi cùng bạn bè hay lên kế hoạch cho chuyến đi gia đình, tôi hy vọng những trải nghiệm của tôi sẽ truyền cảm hứng cho bạn khám phá vẻ đẹp của Việt Nam."
+    },
+    "Stats": {
+      "ProvincesVisited": "Tỉnh thành đã ghé thăm",
+      "PhotosTaken": "Bức ảnh đã chụp",
+      "MemoriesMade": "Kỷ niệm đã tạo nên",
+      "DistanceTotal": "Km đã đi"
+    },
+    "MyPurpose": {
+      "Title": "Tại sao tôi du lịch",
+      "Description": "Sứ mệnh của tôi là truyền cảm hứng cho người khác bước ra khỏi vùng an toàn của họ và khám phá vẻ đẹp đáng kinh ngạc mà Việt Nam mang lại. Mỗi chuyến đi là một cơ hội để học hỏi, phát triển và tạo ra những kỷ niệm khó quên.",
+      "Explore": "Khám phá",
+      "ExploreDesc": "Khám phá những viên ngọc ẩn và những điểm đến hẻo lánh",
+      "Capture": "Ghi lại",
+      "CaptureDesc": "Lưu giữ những khoảnh khắc đẹp và phong cảnh tuyệt đẹp",
+      "Connect": "Kết nối",
+      "ConnectDesc": "Giao lưu với văn hóa và cộng đồng địa phương"
+    },
+    "ReadyToStart": {
+      "Title": "Sẵn sàng bắt đầu hành trình của bạn?",
+      "Description": "Khám phá bản đồ tương tác của tôi để xem tất cả những nơi tôi đã đến, nhận thông tin chi tiết về chuyến đi, phân tích ngân sách và mẹo cho cuộc phiêu lưu của riêng bạn."
+    }
+  }
 }
