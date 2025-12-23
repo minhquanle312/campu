@@ -6,6 +6,7 @@ import './globals.css'
 import { HeaderNav } from '@/components/header-nav'
 import { Footer } from '@/components/footer'
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { setRequestLocale } from 'next-intl/server'
 
@@ -42,6 +43,7 @@ export default async function RootLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale)
+  const t = await getTranslations()
 
   return (
     <html lang={locale}>
@@ -51,6 +53,9 @@ export default async function RootLayout({ children, params }: Props) {
       >
         <NextIntlClientProvider>
           <div className="min-h-screen bg-linear-to-b from-rose-50 to-white">
+            <div className="bg-amber-500 text-black/90 px-4 py-2 text-center text-sm font-medium">
+              ⚠️ {t('DevelopmentWarning')}
+            </div>
             <HeaderNav />
             {children}
             <Footer />
