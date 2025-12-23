@@ -6,26 +6,28 @@ import { cn } from '@/lib/utils'
 import { Heart, Home, Map } from 'lucide-react'
 import { SwitchLanguage } from './switch-language'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { useTranslations } from 'next-intl'
 
 const navItems = [
   {
     href: '/',
-    label: 'Home',
+    labelKey: 'Home',
     icon: Home,
   },
   {
     href: '/wish-for-pu',
-    label: 'Wishes',
+    labelKey: 'Wishes',
     icon: Heart,
   },
   {
     href: '/journey',
-    label: 'Journey',
+    labelKey: 'Journey',
     icon: Map,
   },
 ]
 
 export function HeaderNav() {
+  const t = useTranslations('HeaderNav')
   const pathname = usePathname()
   const { data: session } = useSession()
 
@@ -71,7 +73,7 @@ export function HeaderNav() {
               >
                 <Icon className="w-4 h-4" />
                 <span className="font-medium hidden md:block">
-                  {item.label}
+                  {t(item.labelKey)}
                 </span>
               </Link>
             )

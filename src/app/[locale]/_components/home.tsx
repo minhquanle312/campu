@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Link } from '@/i18n/navigation'
 import { Camera, Heart, MapPin, Plane } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
 const stats = [
@@ -12,8 +12,8 @@ const stats = [
   { icon: Plane, labelKey: 'Stats.DistanceTotal', value: '10,000+' },
 ]
 
-export default async function HomePage() {
-  const t = await getTranslations('Home')
+export default function HomePage() {
+  const t = useTranslations('Home')
 
   return (
     <>
