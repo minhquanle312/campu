@@ -4,9 +4,25 @@ import Image from 'next/image'
 import WishesForm from './_components/wishes-form'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
+import { generateSiteMetadata } from '@/lib/metadata'
+import { Metadata } from 'next'
 
 type Props = {
   params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+
+  return generateSiteMetadata({
+    title: locale === 'vi' ? 'Lời chúc cho Pu' : 'Wishes for Pu',
+    description:
+      locale === 'vi'
+        ? 'Gửi những lời chúc tốt đẹp cho buổi lễ tốt nghiệp của Pu'
+        : "Send your beautiful wishes for Pu's graduation ceremony",
+    locale,
+    path: `/${locale}/wish-for-pu`,
+  })
 }
 
 export function generateStaticParams() {

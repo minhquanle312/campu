@@ -9,6 +9,8 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { setRequestLocale } from 'next-intl/server'
+import { generateSiteMetadata } from '@/lib/metadata'
+import { StructuredData } from '@/components/structured-data'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -21,10 +23,17 @@ const geistMono = localFont({
   weight: '100 900',
 })
 
-export const metadata: Metadata = {
-  title: 'Cẩm Pu',
-  description:
-    'A little corner of the world for Cẩm Pu - lovingly crafted by Minh Quân Lê',
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+
+  return generateSiteMetadata({
+    locale,
+    path: `/${locale}`,
+  })
 }
 
 export function generateStaticParams() {
@@ -47,6 +56,10 @@ export default async function RootLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
+      <head>
+        <StructuredData type="website" locale={locale} />
+        <StructuredData type="person" locale={locale} />
+      </head>
       <GoogleAnalytics gaId="G-4G1HZ52BL0" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
