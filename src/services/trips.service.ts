@@ -5,6 +5,7 @@ import { getUsers } from './users.service'
 export const getTrips = async (): Promise<Trip[]> => {
   const trips = await getSheetValues('Trips')
   const users = await getUsers()
+  console.log('🚀 ~ trips.service.ts ~ getTrips ~ users:', users)
 
   return trips.map(row => {
     return {
