@@ -39,7 +39,7 @@ export default function HomePage() {
         </div>
 
         {/* Floating Elements */}
-        <div className="absolute top-20 left-10 text-6xl animate-bounce [animation-duration:2s]">
+        {/* <div className="absolute top-20 left-10 text-6xl animate-bounce [animation-duration:2s]">
           ✈️
         </div>
         <div className="absolute bottom-20 right-10 text-6xl animate-bounce delay-100 [animation-duration:2s]">
@@ -47,7 +47,7 @@ export default function HomePage() {
         </div>
         <div className="absolute top-1/2 right-20 text-6xl animate-bounce delay-200 [animation-duration:2s]">
           ⛰️
-        </div>
+        </div> */}
       </section>
 
       {/* Stats Section */}

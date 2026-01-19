@@ -1,7 +1,9 @@
-import { getTrips } from '@/services/trips.service'
 import JourneyClient from './journey-client'
 import { generateSiteMetadata } from '@/lib/metadata'
 import { Metadata } from 'next'
+import dbConnect from '@/lib/mongodb'
+import Trip from '@/models/Trip'
+import { Trip as TripModel } from '@/models/trips.model'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -24,7 +26,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-  const trips = await getTrips()
+  await dbConnect()
+
+  const dbTrips = await Trip.find({})
+    .populate('province_id', '-_id')
+    .populate('participant_ids', '-_id')
+    .lean()
+
+  const formattedTrips: TripModel[] = dbTrips.map(trip => ({
+    ...trip,
+    id: trip._id.toString(),
+    province: trip.province_id,
+    provinceName: trip.province_id.name,
+    provinceId: trip.province_id.code,
+    participants: trip.participant_ids,
+    _id: undefined,
+    province_id: undefined,
+    participant_ids: undefined,
+  }))
 
   return (
     <main className="container py-8 min-h-screen flex flex-col gap-8">
@@ -38,7 +57,7 @@ export default async function Page() {
         </p>
       </div>
 
-      <JourneyClient trips={trips} />
+      <JourneyClient trips={formattedTrips} />
     </main>
   )
 }

@@ -75,7 +75,7 @@ export function ProvinceDetailSheet({
                       className="flex items-center gap-1"
                     >
                       <Calendar className="h-3 w-3" />
-                      {trip.date}
+                      {new Date(trip.date).toLocaleDateString()}
                     </Badge>
                   </div>
                   <p className="text-muted-foreground text-sm leading-relaxed">
