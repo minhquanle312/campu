@@ -13,6 +13,14 @@ const CVSchema = new mongoose.Schema(
       birthYear: { type: String, default: '' },
       website: { type: String, default: '' },
     },
+    summary: {
+      vi: { type: String, default: '' },
+      en: { type: String, default: '' },
+    },
+    objective: {
+      vi: { type: String, default: '' },
+      en: { type: String, default: '' },
+    },
     education: [
       {
         institution: {
@@ -48,7 +56,7 @@ const CVSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
 export default mongoose.models.CV || mongoose.model('CV', CVSchema)

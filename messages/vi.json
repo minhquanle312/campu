@@ -67,6 +67,13 @@
     "Skills": "Kỹ năng",
     "Contact": "Thông tin liên hệ",
     "DownloadPDF": "Tải PDF",
-    "Website": "Website"
+    "Website": "Website",
+    "Information": "Thông tin",
+    "Summary": "Tóm tắt",
+    "Objective": "Mục tiêu nghề nghiệp",
+    "CurrentLayout": "Bố cục hiện tại",
+    "SimpleLayout": "Bố cục đơn giản",
+    "InterviewAssistant": "Trợ lý phỏng vấn",
+    "InterviewAssistantDescription": "Trò chuyện để giới thiệu, đặt lịch phỏng vấn hoặc hỏi thêm thông tin"
   }
 }

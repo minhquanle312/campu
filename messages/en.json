@@ -67,6 +67,13 @@
     "Skills": "Skills",
     "Contact": "Contact",
     "DownloadPDF": "Download PDF",
-    "Website": "Website"
+    "Website": "Website",
+    "Information": "Information",
+    "Summary": "Summary",
+    "Objective": "Objective",
+    "CurrentLayout": "Current layout",
+    "SimpleLayout": "Simple layout",
+    "InterviewAssistant": "Interview assistant",
+    "InterviewAssistantDescription": "Chat for introductions, interview scheduling, or quick questions"
   }
 }

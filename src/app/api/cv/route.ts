@@ -4,19 +4,14 @@ import CV from '@/models/CV'
 import { auth } from '@/lib/auth'
 import { ADMIN_USER_EMAIL } from '@/config/admin-user'
 import { headers } from 'next/headers'
+import { emptyCVData } from '@/types/cv'
 
 export async function GET() {
   await dbConnect()
   const cv = await CV.findOne({})
 
   if (!cv) {
-    // Return an empty structure if no CV exists
-    return NextResponse.json({
-      personalInfo: { name: '', phone: '', email: '', address: { vi: '', en: '' }, birthYear: '', website: '' },
-      education: [],
-      skills: { vi: [], en: [] },
-      experience: []
-    })
+    return NextResponse.json(emptyCVData)
   }
 
   return NextResponse.json(cv)
@@ -24,10 +19,14 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   const session = await auth.api.getSession({
-    headers: await headers()
-  });
+    headers: await headers(),
+  })
 
-  if (!session || !session.user || !ADMIN_USER_EMAIL.includes(session.user.email)) {
+  if (
+    !session ||
+    !session.user ||
+    !ADMIN_USER_EMAIL.includes(session.user.email)
+  ) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
