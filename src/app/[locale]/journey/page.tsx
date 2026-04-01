@@ -2,6 +2,8 @@ import JourneyClient from './journey-client'
 import { generateSiteMetadata } from '@/lib/metadata'
 import { Metadata } from 'next'
 import dbConnect from '@/lib/mongodb'
+import '@/models/Province'
+import '@/models/User'
 import Trip from '@/models/Trip'
 import { Trip as TripModel } from '@/models/trips.model'
 
