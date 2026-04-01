@@ -1154,14 +1154,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:^16.2.1":
-  version: 16.2.1
-  resolution: "@next/swc-darwin-arm64@npm:16.2.1"
-  checksum: 10c0/df4edc423112885a32b9424d893f6d01fba79b3f50a7877c0d15d4df05bc5a587f06cfd984fcea030c9b690e2904029840cdbbbae3004c78f124c77e0b015402
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
 "@next/swc-darwin-x64@npm:16.1.0":
   version: 16.1.0
   resolution: "@next/swc-darwin-x64@npm:16.1.0"
@@ -3662,7 +3654,6 @@ __metadata:
   resolution: "campu@workspace:."
   dependencies:
     "@hookform/resolvers": "npm:^5.2.2"
-    "@next/swc-darwin-arm64": "npm:^16.2.1"
     "@next/third-parties": "npm:^16.1.0"
     "@radix-ui/react-accordion": "npm:^1.2.12"
     "@radix-ui/react-alert-dialog": "npm:^1.1.15"
