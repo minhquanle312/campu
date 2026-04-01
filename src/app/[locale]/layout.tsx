@@ -11,6 +11,7 @@ import { routing } from '@/i18n/routing'
 import { setRequestLocale } from 'next-intl/server'
 import { generateSiteMetadata } from '@/lib/metadata'
 import { StructuredData } from '@/components/structured-data'
+import { LayoutVisibility } from '@/components/layout-visibility'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -65,13 +66,23 @@ export default async function RootLayout({ children, params }: Props) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
       >
         <NextIntlClientProvider>
-          <div className="min-h-screen bg-linear-to-b from-rose-50 to-white">
-            <div className="bg-amber-500 text-black/90 px-4 py-2 text-center text-sm font-medium">
-              ⚠️ {t('DevelopmentWarning')}
-            </div>
-            <HeaderNav />
+          <div className="min-h-screen bg-linear-to-b from-rose-50 to-white print:bg-none">
+            <LayoutVisibility>
+              <div className="bg-amber-500 text-black/90 px-4 py-2 text-center text-sm font-medium print:hidden">
+                ⚠️ {t('DevelopmentWarning')}
+              </div>
+              <div className="print:hidden">
+                <HeaderNav />
+              </div>
+            </LayoutVisibility>
+            
             {children}
-            <Footer />
+            
+            <LayoutVisibility>
+              <div className="print:hidden">
+                <Footer />
+              </div>
+            </LayoutVisibility>
           </div>
         </NextIntlClientProvider>
       </body>

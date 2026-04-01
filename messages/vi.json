@@ -60,5 +60,13 @@
       "Title": "Sẵn sàng bắt đầu hành trình của bạn?",
       "Description": "Khám phá bản đồ tương tác của tôi để xem tất cả những nơi tôi đã đến, nhận thông tin chi tiết về chuyến đi, phân tích ngân sách và mẹo cho cuộc phiêu lưu của riêng bạn."
     }
+  },
+  "CV": {
+    "Education": "Học vấn",
+    "Experience": "Kinh nghiệm làm việc",
+    "Skills": "Kỹ năng",
+    "Contact": "Thông tin liên hệ",
+    "DownloadPDF": "Tải PDF",
+    "Website": "Website"
   }
 }

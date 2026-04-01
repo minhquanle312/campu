@@ -60,5 +60,13 @@
       "Title": "Ready to Start Your Journey?",
       "Description": "Explore my interactive map to see all the places I've visited, get detailed trip information, budget breakdowns, and tips for your own adventure."
     }
+  },
+  "CV": {
+    "Education": "Education",
+    "Experience": "Experience",
+    "Skills": "Skills",
+    "Contact": "Contact",
+    "DownloadPDF": "Download PDF",
+    "Website": "Website"
   }
 }

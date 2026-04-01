@@ -38,12 +38,14 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.69.0",
     "react-simple-maps": "^3.0.0",
+    "react-to-print": "^3.3.0",
     "react-tooltip": "^5.30.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^4.2.1"
   },
   "devDependencies": {
+    "@next/swc-darwin-arm64": "^16.2.1",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^25.0.3",
     "@types/react": "19.2.7",
