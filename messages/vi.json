@@ -71,9 +71,9 @@
     "Information": "Thông tin",
     "Summary": "Tóm tắt",
     "Objective": "Mục tiêu nghề nghiệp",
-    "CurrentLayout": "Bố cục hiện tại",
-    "SimpleLayout": "Bố cục đơn giản",
-    "InterviewAssistant": "Trợ lý phỏng vấn",
-    "InterviewAssistantDescription": "Trò chuyện để giới thiệu, đặt lịch phỏng vấn hoặc hỏi thêm thông tin"
+    "FullLayout": "Bố cục đầy đủ",
+    "MinimalLayout": "Bố cục tối giản",
+    "HRAssistant": "Trợ lý nhân sự",
+    "HRAssistantDescription": "Trò chuyện để liên hệ tuyển dụng, điều phối lịch sàng lọc hoặc theo dõi tuyển dụng"
   }
 }

@@ -169,7 +169,7 @@ export function AddTripForm() {
         <FormField
           control={form.control}
           name="images"
-          render={({ field: { value, onChange, ...fieldProps } }) => (
+          render={({ field: { onChange, ...fieldProps } }) => (
             <FormItem>
               <FormLabel>Images</FormLabel>
               <FormControl>

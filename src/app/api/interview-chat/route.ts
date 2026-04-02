@@ -44,8 +44,8 @@ export async function POST(request: Request) {
 
   const systemPrompt =
     locale === 'vi'
-      ? `Bạn là trợ lý song ngữ cho widget phỏng vấn trên CV cá nhân. Hãy trả lời ngắn gọn, lịch sự, rõ ràng bằng tiếng Việt. Hỗ trợ ba việc: giới thiệu ứng viên, trả lời câu hỏi thêm về hồ sơ, và xác nhận lịch phỏng vấn hoặc cuộc gọi nhanh. Thông tin ứng viên hiện tại: tên ${profile?.name || 'chưa có'}, công ty ${profile?.company || 'chưa có'}, số điện thoại ${profile?.phone || 'chưa có'}, địa chỉ công ty ${profile?.companyAddress || 'chưa có'}, email ${profile?.email || 'chưa có'}, giới thiệu ${profile?.aboutMe || 'chưa có'}. Lịch đã chọn: ${schedule ? `${schedule.type} vào ${schedule.date} lúc ${schedule.time}` : 'chưa chọn'}. Không nói rằng bạn đã gửi email hay tạo lịch thật. Hãy nhắc đây là bản nháp có thể kết nối API sau.`
-      : `You are a bilingual interview assistant for a personal CV widget. Reply briefly, warmly, and clearly in English. Help with three things: introducing the candidate, answering follow-up questions about the profile, and confirming an interview or quick-call preference. Current profile data: name ${profile?.name || 'missing'}, company ${profile?.company || 'missing'}, phone ${profile?.phone || 'missing'}, company address ${profile?.companyAddress || 'missing'}, email ${profile?.email || 'missing'}, about me ${profile?.aboutMe || 'missing'}. Selected schedule: ${schedule ? `${schedule.type} on ${schedule.date} at ${schedule.time}` : 'none selected'}. Do not claim that real email or calendar automation has already happened; frame it as a draft flow that can be connected later.`
+      ? `Bạn là trợ lý song ngữ cho widget tuyển dụng trên CV cá nhân. Hãy trả lời ngắn gọn, lịch sự, rõ ràng bằng tiếng Việt. Hỗ trợ ba việc: giới thiệu ứng viên, trả lời câu hỏi thêm về hồ sơ, và xác nhận kế hoạch liên hệ tuyển dụng như lời mời phỏng vấn hoặc cuộc gọi sàng lọc. Thông tin ứng viên hiện tại: tên ${profile?.name || 'chưa có'}, công ty ${profile?.company || 'chưa có'}, số điện thoại ${profile?.phone || 'chưa có'}, địa chỉ công ty ${profile?.companyAddress || 'chưa có'}, email ${profile?.email || 'chưa có'}, giới thiệu ${profile?.aboutMe || 'chưa có'}. Kế hoạch liên hệ đã chọn: ${schedule ? `${schedule.type === 'interview' ? 'lời mời phỏng vấn' : 'cuộc gọi sàng lọc'} vào ${schedule.date} lúc ${schedule.time}` : 'chưa chọn'}. Không nói rằng bạn đã gửi email hay tạo lịch thật. Hãy nhắc đây là bản nháp có thể kết nối API sau.`
+      : `You are a bilingual recruiter assistant for a personal CV widget. Reply briefly, warmly, and clearly in English. Help with three things: introducing the candidate, answering follow-up questions about the profile, and confirming recruiter outreach plans such as an interview invitation or screening call. Current profile data: name ${profile?.name || 'missing'}, company ${profile?.company || 'missing'}, phone ${profile?.phone || 'missing'}, company address ${profile?.companyAddress || 'missing'}, email ${profile?.email || 'missing'}, about me ${profile?.aboutMe || 'missing'}. Selected outreach plan: ${schedule ? `${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} on ${schedule.date} at ${schedule.time}` : 'none selected'}. Do not claim that real email or calendar automation has already happened; frame it as a draft recruiter workflow that can be connected later.`
 
   const apiKey = process.env.OPENAI_API_KEY
 
@@ -93,8 +93,8 @@ function buildFallbackReply(
 
   if (schedule) {
     return locale === 'vi'
-      ? `Đã ghi nhận lựa chọn ${schedule.type === 'interview' ? 'phỏng vấn' : 'cuộc gọi nhanh'} cho ${candidateName} vào ${schedule.date} lúc ${schedule.time}. Đây là lịch tạm trong widget; khi bạn thêm calendar API và email API sau, mình có thể dùng đúng luồng này để xác nhận tự động.`
-      : `I noted the preferred ${schedule.type === 'interview' ? 'interview' : 'quick call'} for ${candidateName} on ${schedule.date} at ${schedule.time}. This is currently a draft schedule inside the widget; once you connect calendar and email APIs later, the same flow can send real confirmations.`
+      ? `Đã ghi nhận kế hoạch liên hệ ${schedule.type === 'interview' ? 'mời phỏng vấn' : 'gọi sàng lọc'} cho ${candidateName} vào ${schedule.date} lúc ${schedule.time}. Đây là lịch tạm trong widget; khi bạn thêm calendar API và email API sau, mình có thể dùng đúng luồng này để xác nhận tự động.`
+      : `I noted the ${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} plan for ${candidateName} on ${schedule.date} at ${schedule.time}. This is currently a draft schedule inside the widget; once you connect calendar and email APIs later, the same flow can send real confirmations.`
   }
 
   if (
@@ -108,6 +108,6 @@ function buildFallbackReply(
   }
 
   return locale === 'vi'
-    ? `Mình đã nhận câu hỏi của bạn: “${input || '...'}”. Bản demo này đang chạy ở chế độ an toàn nên chưa gửi email hay đặt lịch thật, nhưng bạn vẫn có thể lưu thông tin ứng viên, chọn ngày giờ mong muốn và dùng widget này để mô phỏng luồng phỏng vấn song ngữ.`
-    : `I received your question: “${input || '...'}”. This demo is running in a safe placeholder mode, so it does not send real emails or book real calendar events yet, but you can already save interviewer details, pick a preferred date and time, and use the widget to simulate the bilingual interview flow.`
+    ? `Mình đã nhận câu hỏi của bạn: “${input || '...'}”. Bản demo này đang chạy ở chế độ an toàn nên chưa gửi email hay đặt lịch thật, nhưng bạn vẫn có thể lưu thông tin tuyển dụng, chọn ngày giờ mong muốn và dùng widget này để chuẩn bị nội dung liên hệ tuyển dụng song ngữ.`
+    : `I received your question: “${input || '...'}”. This demo is running in a safe placeholder mode, so it does not send real emails or book real calendar events yet, but you can already save recruiter details, pick a preferred date and time, and use the widget to prepare bilingual recruiter outreach.`
 }

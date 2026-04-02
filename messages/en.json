@@ -71,9 +71,9 @@
     "Information": "Information",
     "Summary": "Summary",
     "Objective": "Objective",
-    "CurrentLayout": "Current layout",
-    "SimpleLayout": "Simple layout",
-    "InterviewAssistant": "Interview assistant",
-    "InterviewAssistantDescription": "Chat for introductions, interview scheduling, or quick questions"
+    "FullLayout": "Full layout",
+    "MinimalLayout": "Minimal layout",
+    "HRAssistant": "HR assistant",
+    "HRAssistantDescription": "Chat for recruiter outreach, screening coordination, or hiring follow-up"
   }
 }

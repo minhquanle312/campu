@@ -10,10 +10,10 @@ type CVMessages = {
   information: string
   summary: string
   objective: string
-  currentLayout: string
-  simpleLayout: string
-  interviewAssistant: string
-  interviewAssistantDescription: string
+  fullLayout: string
+  minimalLayout: string
+  hrAssistant: string
+  hrAssistantDescription: string
 }
 
 type LayoutProps = {
@@ -268,7 +268,7 @@ function ExperienceSection({
   return (
     <div>
       {sectionHeading(title)}
-      <div className="space-y-8">
+      <div className="relative space-y-8 pl-8 before:absolute before:left-[6px] before:top-3 before:bottom-3 before:w-px before:bg-slate-200">
         {experience.length > 0 ? (
           experience.map(exp => (
             <div
@@ -278,22 +278,22 @@ function ExperienceSection({
                 localized(exp.role, locale),
                 localized(exp.period, locale),
               ])}
-              className="relative pl-8 before:absolute before:left-[6px] before:top-0 before:h-full before:w-px before:bg-slate-200"
+              className="relative"
             >
-              <div className="absolute left-0 top-2.5 h-3.5 w-3.5 rounded-full border-[3px] border-white bg-slate-400 shadow-sm" />
-              <div className="mb-3 rounded-3xl border border-slate-200 bg-white p-6 shadow-xs">
+              <div className="absolute -left-8 top-2.5 h-3.5 w-3.5 rounded-full border-[3px] border-white bg-slate-400 shadow-sm" />
+              <div className="space-y-4">
                 <div className="flex flex-col gap-1">
-                  <h3 className="font-bold text-slate-800 text-lg leading-tight">
+                  <h3 className="text-lg font-bold leading-tight text-slate-800">
                     {localized(exp.role, locale)}
                   </h3>
                   <div className="text-sm font-medium text-amber-600">
                     {exp.company}
                   </div>
-                  <time className="text-sm text-slate-500 font-medium">
+                  <time className="text-sm font-medium text-slate-500">
                     {localized(exp.period, locale)}
                   </time>
                 </div>
-                <ul className="mt-4 text-slate-600 text-sm space-y-2 list-disc pl-5">
+                <ul className="list-disc space-y-2 pl-5 text-sm text-slate-600">
                   {(exp.descriptions?.[locale] || []).map(desc => (
                     <li key={uniqueKey(['description', exp.company, desc])}>
                       {desc}

@@ -56,69 +56,69 @@ const translations = {
     open: 'Open assistant',
     language: 'Language',
     intro:
-      'Tell me a bit about yourself, ask for more information, or set up an interview or a quick call.',
-    name: 'Name',
+      'Share your recruiter details, ask about the candidate, or line up a screening call or interview.',
+    name: 'Recruiter name',
     company: 'Company',
     phone: 'Phone number',
     address: 'Company address',
-    email: 'Email',
-    aboutMe: 'About me',
-    saveProfile: 'Save details',
-    askPlaceholder: 'Ask about the CV, interview, or quick call…',
-    quickActions: 'Quick actions',
-    askMore: 'Ask more information',
-    scheduleInterview: 'Schedule interview',
-    scheduleCall: 'Quick call',
-    scheduleTitle: 'Choose a date and time',
+    email: 'Work email',
+    aboutMe: 'Role or hiring context',
+    saveProfile: 'Save recruiter details',
+    askPlaceholder: 'Ask about the candidate, hiring fit, or outreach timing…',
+    quickActions: 'Recruiter details',
+    askMore: 'Ask about candidate fit',
+    scheduleInterview: 'Plan interview outreach',
+    scheduleCall: 'Plan screening call',
+    scheduleTitle: 'Choose outreach timing',
     scheduleSubtitle:
-      'A simple placeholder scheduler you can later connect to calendar and email APIs.',
-    pickDate: 'Pick a day',
-    availableTimes: 'Available times',
-    selectedSchedule: 'Selected schedule',
-    noDate: 'Choose a date first',
+      'A simple placeholder scheduler for recruiter follow-up that you can later connect to calendar and email APIs.',
+    pickDate: 'Pick a date',
+    availableTimes: 'Available outreach times',
+    selectedSchedule: 'Selected outreach plan',
+    noDate: 'Choose a date and time first',
     send: 'Send',
     assistant: 'Assistant',
     you: 'You',
     interview: 'Interview',
-    quickCall: 'Quick call',
+    quickCall: 'Screening call',
     profileSaved:
-      'Your details are ready. You can now chat or choose a schedule.',
+      'Your recruiter details are ready. You can now draft outreach or choose a schedule.',
     scheduleReady:
-      'Your preferred time is saved in the widget. You can wire this to your calendar later.',
+      'Your outreach timing is saved in the widget. You can connect it to your calendar later.',
   },
   vi: {
     open: 'Mở trợ lý',
     language: 'Ngôn ngữ',
     intro:
-      'Hãy giới thiệu đôi chút về bạn, hỏi thêm thông tin hoặc đặt lịch phỏng vấn hay cuộc gọi nhanh.',
-    name: 'Tên',
+      'Hãy điền thông tin tuyển dụng của bạn, hỏi thêm về ứng viên hoặc sắp xếp cuộc gọi sàng lọc hay buổi phỏng vấn.',
+    name: 'Tên người tuyển dụng',
     company: 'Công ty',
     phone: 'Số điện thoại',
     address: 'Địa chỉ công ty',
-    email: 'Email',
-    aboutMe: 'Giới thiệu về bạn',
-    saveProfile: 'Lưu thông tin',
-    askPlaceholder: 'Hỏi thêm về CV, buổi phỏng vấn hoặc cuộc gọi nhanh…',
-    quickActions: 'Thao tác nhanh',
-    askMore: 'Hỏi thêm thông tin',
-    scheduleInterview: 'Đặt lịch phỏng vấn',
-    scheduleCall: 'Cuộc gọi nhanh',
-    scheduleTitle: 'Chọn ngày và giờ',
+    email: 'Email công việc',
+    aboutMe: 'Vai trò hoặc bối cảnh tuyển dụng',
+    saveProfile: 'Lưu thông tin tuyển dụng',
+    askPlaceholder: 'Hỏi về ứng viên, mức độ phù hợp hoặc thời điểm liên hệ…',
+    quickActions: 'Thông tin nhà tuyển dụng',
+    askMore: 'Hỏi về độ phù hợp của ứng viên',
+    scheduleInterview: 'Lên lịch mời phỏng vấn',
+    scheduleCall: 'Lên lịch gọi sàng lọc',
+    scheduleTitle: 'Chọn thời điểm liên hệ',
     scheduleSubtitle:
-      'Lịch hẹn mẫu để bạn kết nối thêm calendar API và email API sau đó.',
+      'Lịch hẹn mẫu cho bước liên hệ tuyển dụng, bạn có thể kết nối thêm calendar API và email API sau đó.',
     pickDate: 'Chọn ngày',
-    availableTimes: 'Khung giờ có thể chọn',
-    selectedSchedule: 'Lịch đã chọn',
-    noDate: 'Hãy chọn ngày trước',
+    availableTimes: 'Khung giờ liên hệ',
+    selectedSchedule: 'Kế hoạch liên hệ đã chọn',
+    noDate: 'Hãy chọn ngày và giờ trước',
     send: 'Gửi',
     assistant: 'Trợ lý',
     you: 'Bạn',
     interview: 'Phỏng vấn',
-    quickCall: 'Cuộc gọi nhanh',
+    quickCall: 'Cuộc gọi sàng lọc',
     profileSaved:
-      'Thông tin của bạn đã sẵn sàng. Bây giờ bạn có thể trò chuyện hoặc chọn lịch.',
+      'Thông tin tuyển dụng của bạn đã sẵn sàng. Bây giờ bạn có thể soạn lời liên hệ hoặc chọn lịch.',
     scheduleReady:
-      'Khung giờ mong muốn đã được lưu trong widget. Bạn có thể nối với calendar sau.',
+      'Thời điểm liên hệ đã được lưu trong widget. Bạn có thể nối với calendar sau.',
   },
 } as const
 
@@ -208,8 +208,8 @@ export function InterviewChatWidget({
     void sendMessage({
       text:
         widgetLocale === 'vi'
-          ? `Tôi vừa điền thông tin: tên ${profile.name}, công ty ${profile.company}, số điện thoại ${profile.phone}, địa chỉ công ty ${profile.companyAddress}, email ${profile.email}, giới thiệu: ${profile.aboutMe}`
-          : `I just filled in my details: name ${profile.name}, company ${profile.company}, phone ${profile.phone}, company address ${profile.companyAddress}, email ${profile.email}, about me: ${profile.aboutMe}`,
+          ? `Tôi là nhà tuyển dụng và vừa điền thông tin liên hệ: tên ${profile.name}, công ty ${profile.company}, số điện thoại ${profile.phone}, địa chỉ công ty ${profile.companyAddress}, email ${profile.email}, vai trò hoặc bối cảnh tuyển dụng: ${profile.aboutMe}`
+          : `I am a recruiter and just filled in my outreach details: name ${profile.name}, company ${profile.company}, phone ${profile.phone}, company address ${profile.companyAddress}, work email ${profile.email}, role or hiring context: ${profile.aboutMe}`,
     })
   }
 
@@ -227,8 +227,8 @@ export function InterviewChatWidget({
 
     const summary =
       widgetLocale === 'vi'
-        ? `Tôi muốn ${scheduleType === 'interview' ? 'đặt lịch phỏng vấn' : 'đặt một cuộc gọi nhanh'} vào ${format(selectedDate, 'dd/MM/yyyy')} lúc ${selectedTime}.`
-        : `I want to ${scheduleType === 'interview' ? 'schedule an interview' : 'set up a quick call'} on ${format(selectedDate, 'MM/dd/yyyy')} at ${selectedTime}.`
+        ? `Tôi muốn ${scheduleType === 'interview' ? 'gửi lời mời phỏng vấn' : 'sắp xếp cuộc gọi sàng lọc'} vào ngày ${format(selectedDate, 'dd/MM/yyyy')} lúc ${selectedTime}.`
+        : `I want to ${scheduleType === 'interview' ? 'send interview outreach' : 'set up a screening call'} on ${format(selectedDate, 'MM/dd/yyyy')} at ${selectedTime}.`
 
     void sendMessage({ text: summary })
   }
@@ -297,8 +297,8 @@ export function InterviewChatWidget({
                     onClick={() =>
                       setInput(
                         widgetLocale === 'vi'
-                          ? 'Cho tôi biết thêm thông tin về hồ sơ này.'
-                          : 'Tell me more about this profile.',
+                          ? 'Cho tôi biết thêm về hồ sơ này và mức độ phù hợp với vị trí tuyển dụng.'
+                          : 'Tell me more about this candidate and fit for the role.',
                       )
                     }
                   />
@@ -314,12 +314,12 @@ export function InterviewChatWidget({
                   />
                   <QuickAction
                     icon={Bot}
-                    label={t.askMore}
+                    label={t.saveProfile}
                     onClick={() =>
                       setInput(
                         widgetLocale === 'vi'
-                          ? 'Tôi muốn giới thiệu bản thân.'
-                          : 'I want to introduce myself.',
+                          ? 'Hãy giúp tôi soạn một lời nhắn đầu tiên để liên hệ với ứng viên.'
+                          : 'Help me draft a first outreach message to this candidate.',
                       )
                     }
                   />

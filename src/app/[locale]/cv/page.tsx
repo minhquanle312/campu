@@ -1,7 +1,9 @@
 import { getTranslations } from 'next-intl/server'
+import { ADMIN_USER_EMAIL } from '@/config/admin-user'
+import { CVPageShell } from '@/components/cv/cv-page-shell'
+import { getSession } from '@/lib/auth-server'
 import dbConnect from '@/lib/mongodb'
 import CVModel from '@/models/CV'
-import { CVPageShell } from '@/components/cv/cv-page-shell'
 import { emptyCVData, type CVData } from '@/types/cv'
 
 export default async function CVPage({
@@ -11,16 +13,21 @@ export default async function CVPage({
 }) {
   const { locale } = await params
   const t = await getTranslations('CV')
+  const session = await getSession()
+  const isAdmin = Boolean(
+    session?.user?.email && ADMIN_USER_EMAIL.includes(session.user.email),
+  )
 
   await dbConnect()
   const cvDoc =
     ((await CVModel.findOne({}).lean()) as CVData | null) || emptyCVData
 
-  const cv = cvDoc
+  const cv = JSON.parse(JSON.stringify(cvDoc)) as CVData
 
   return (
     <CVPageShell
       cv={cv}
+      isAdmin={isAdmin}
       locale={locale}
       messages={{
         contact: t('Contact'),
@@ -31,10 +38,10 @@ export default async function CVPage({
         information: t('Information'),
         summary: t('Summary'),
         objective: t('Objective'),
-        currentLayout: t('CurrentLayout'),
-        simpleLayout: t('SimpleLayout'),
-        interviewAssistant: t('InterviewAssistant'),
-        interviewAssistantDescription: t('InterviewAssistantDescription'),
+        fullLayout: t('FullLayout'),
+        minimalLayout: t('MinimalLayout'),
+        hrAssistant: t('HRAssistant'),
+        hrAssistantDescription: t('HRAssistantDescription'),
       }}
     />
   )

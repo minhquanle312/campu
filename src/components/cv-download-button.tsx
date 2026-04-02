@@ -1,21 +1,41 @@
 'use client'
 
+import { cn } from '@/lib/utils'
 import { Download } from 'lucide-react'
 
 type Props = {
   label: string
-  onDownload: () => void
+  action: () => void
+  className?: string
+  iconOnlyBelowSm?: boolean
 }
 
-export function CVDownloadButton({ label, onDownload }: Props) {
+export function CVDownloadButton({
+  label,
+  action,
+  className,
+  iconOnlyBelowSm = false,
+}: Props) {
   return (
     <button
       type="button"
-      onClick={onDownload}
-      className="print:hidden flex items-center justify-center gap-2 px-6 py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-medium rounded-full shadow-md hover:shadow-lg transition-all active:scale-95"
+      onClick={action}
+      aria-label={label}
+      title={label}
+      className={cn(
+        'print:hidden flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full bg-rose-500 px-3 py-3 font-medium text-white shadow-md transition-all hover:bg-rose-600 hover:shadow-lg active:scale-95 sm:min-h-10 sm:min-w-0 sm:px-4 sm:py-2.5',
+        className,
+      )}
     >
-      <Download className="w-4 h-4" />
-      {label}
+      <Download className="h-5 w-5 sm:h-4 sm:w-4" aria-hidden="true" />
+      {iconOnlyBelowSm ? (
+        <>
+          <span className="hidden sm:inline">{label}</span>
+          <span className="sr-only">{label}</span>
+        </>
+      ) : (
+        label
+      )}
     </button>
   )
 }
