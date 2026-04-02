@@ -46,13 +46,7 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle,
-    pageStyle: `
-      @page { size: A4; margin: 12mm; }
-      @media print {
-        html, body { background: white !important; }
-        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      }
-    `,
+    pageStyle: `\n      @page { size: A4; margin: 12mm; }\n      @media print {\n        html, body { background: white !important; }\n        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }\n        .cv-print-root {\n          display: block !important;\n          height: auto !important;\n          overflow: visible !important;\n          position: static !important;\n        }\n      }\n    `,
   })
 
   const activeLayout = useMemo(
@@ -160,7 +154,7 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
 
       <div
         ref={printRef}
-        className="pointer-events-none fixed left-0 top-0 -z-10 overflow-hidden opacity-0"
+        className="cv-print-root pointer-events-none h-0 overflow-hidden"
         aria-hidden="true"
       >
         <CVDesktopLayout cv={cv} locale={locale} messages={messages} />
