@@ -40,8 +40,6 @@ type InterviewChatWidgetProps = {
   description: string
 }
 
-type WidgetLocale = Locale
-
 type InterviewProfile = {
   name: string
   company: string
@@ -163,7 +161,6 @@ export function InterviewChatWidget({
   title,
   description,
 }: InterviewChatWidgetProps) {
-  const [widgetLocale, setWidgetLocale] = useState<WidgetLocale>(locale)
   const [input, setInput] = useState('')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
@@ -180,7 +177,7 @@ export function InterviewChatWidget({
     aboutMe: '',
   })
 
-  const t = translations[widgetLocale]
+  const t = translations[locale]
   const days = useMemo(() => getMonthDays(currentMonth), [currentMonth])
 
   const { messages, sendMessage, status } = useChat({
@@ -188,7 +185,7 @@ export function InterviewChatWidget({
       api: '/api/interview-chat',
       prepareSendMessagesRequest: ({ messages: currentMessages }) => ({
         body: {
-          locale: widgetLocale,
+          locale,
           profile,
           schedule:
             selectedDate && selectedTime
@@ -207,7 +204,7 @@ export function InterviewChatWidget({
   const saveProfile = () => {
     void sendMessage({
       text:
-        widgetLocale === 'vi'
+        locale === 'vi'
           ? `Tôi là nhà tuyển dụng và vừa điền thông tin liên hệ: tên ${profile.name}, công ty ${profile.company}, số điện thoại ${profile.phone}, địa chỉ công ty ${profile.companyAddress}, email ${profile.email}, vai trò hoặc bối cảnh tuyển dụng: ${profile.aboutMe}`
           : `I am a recruiter and just filled in my outreach details: name ${profile.name}, company ${profile.company}, phone ${profile.phone}, company address ${profile.companyAddress}, work email ${profile.email}, role or hiring context: ${profile.aboutMe}`,
     })
@@ -226,14 +223,14 @@ export function InterviewChatWidget({
     }
 
     const summary =
-      widgetLocale === 'vi'
+      locale === 'vi'
         ? `Tôi muốn ${scheduleType === 'interview' ? 'gửi lời mời phỏng vấn' : 'sắp xếp cuộc gọi sàng lọc'} vào ngày ${format(selectedDate, 'dd/MM/yyyy')} lúc ${selectedTime}.`
         : `I want to ${scheduleType === 'interview' ? 'send interview outreach' : 'set up a screening call'} on ${format(selectedDate, 'MM/dd/yyyy')} at ${selectedTime}.`
 
     void sendMessage({ text: summary })
   }
 
-  const displayLocale = widgetLocale === 'vi' ? viLocale : enUS
+  const displayLocale = locale === 'vi' ? viLocale : enUS
 
   return (
     <div className="fixed bottom-4 right-4 z-50 print:hidden sm:bottom-6 sm:right-6">
@@ -264,23 +261,6 @@ export function InterviewChatWidget({
                     {description}
                   </SheetDescription>
                 </div>
-                <div className="inline-flex rounded-full border border-slate-200 bg-white p-1 shadow-sm">
-                  {(['en', 'vi'] as const).map(option => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => setWidgetLocale(option)}
-                      className={cn(
-                        'rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition-colors',
-                        widgetLocale === option
-                          ? 'bg-slate-900 text-white'
-                          : 'text-slate-500 hover:text-slate-900',
-                      )}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
 
@@ -296,7 +276,7 @@ export function InterviewChatWidget({
                     label={t.askMore}
                     onClick={() =>
                       setInput(
-                        widgetLocale === 'vi'
+                        locale === 'vi'
                           ? 'Cho tôi biết thêm về hồ sơ này và mức độ phù hợp với vị trí tuyển dụng.'
                           : 'Tell me more about this candidate and fit for the role.',
                       )
@@ -317,7 +297,7 @@ export function InterviewChatWidget({
                     label={t.saveProfile}
                     onClick={() =>
                       setInput(
-                        widgetLocale === 'vi'
+                        locale === 'vi'
                           ? 'Hãy giúp tôi soạn một lời nhắn đầu tiên để liên hệ với ứng viên.'
                           : 'Help me draft a first outreach message to this candidate.',
                       )
@@ -474,7 +454,7 @@ export function InterviewChatWidget({
                     </div>
 
                     <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      {(widgetLocale === 'vi'
+                      {(locale === 'vi'
                         ? ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
                         : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
                       ).map(day => (
