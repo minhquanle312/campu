@@ -354,9 +354,9 @@ export function CVDesktopLayout({
             </div>
           </div>
 
-          <div className="col-span-2 bg-white p-10 md:p-14">
-            <div className="mb-10">
-              <h1 className="text-4xl font-black uppercase tracking-tight text-slate-800 md:text-5xl">
+          <div className="col-span-2 bg-white p-8 md:p-12">
+            <div className="mb-6">
+              <h1 className="text-3xl font-black uppercase tracking-tight text-slate-800 md:text-4xl">
                 {cv.personalInfo?.name || 'PHAN THỊ CẨM QUYÊN'}
               </h1>
               <p className="mt-2 text-lg text-slate-500 max-w-md">

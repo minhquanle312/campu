@@ -32,6 +32,36 @@ function getInitialLayoutMode(): LayoutMode {
   return window.matchMedia('(min-width: 768px)').matches ? 'current' : 'simple'
 }
 
+const cvPrintStyles = `
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  @media print {
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+    }
+
+    body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .cv-print-root {
+      display: block !important;
+      height: auto !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      overflow: visible !important;
+      padding: 0 !important;
+      position: static !important;
+    }
+  }
+`
+
 export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>(getInitialLayoutMode)
   const printRef = useRef<HTMLDivElement>(null)
@@ -46,14 +76,14 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle,
-    pageStyle: `\n      @page { size: A4; margin: 12mm; }\n      @media print {\n        html, body { background: white !important; }\n        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }\n        .cv-print-root {\n          display: block !important;\n          height: auto !important;\n          overflow: visible !important;\n          position: static !important;\n        }\n      }\n    `,
+    pageStyle: cvPrintStyles,
   })
 
   const activeLayout = useMemo(
     () =>
       isDesktopLayout ? (
         <>
-          <div className="hidden overflow-x-auto pb-4 md:block">
+          <div className="hidden overflow-x-auto md:block">
             <CVDesktopLayout
               cv={cv}
               locale={locale}
@@ -205,7 +235,7 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1200px]">{activeLayout}</div>
+      <div className="mx-auto max-w-300">{activeLayout}</div>
 
       <div
         ref={printRef}
