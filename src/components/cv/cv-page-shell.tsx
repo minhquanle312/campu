@@ -1,7 +1,7 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
-import { Home, LayoutTemplate, LogIn, PencilLine } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Home, LayoutTemplate, LogIn, Menu, PencilLine } from 'lucide-react'
 import { useReactToPrint } from 'react-to-print'
 import { Link } from '@/i18n/navigation'
 import { SwitchLanguage } from '@/components/switch-language'
@@ -25,15 +25,12 @@ type Props = {
 }
 
 function getInitialLayoutMode(): LayoutMode {
-  if (typeof window === 'undefined') {
-    return 'current'
-  }
-
-  return window.matchMedia('(min-width: 768px)').matches ? 'current' : 'simple'
+  return 'current'
 }
 
 export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>(getInitialLayoutMode)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const printRef = useRef<HTMLDivElement>(null)
   const { data: session } = useSession()
   const isDesktopLayout = layoutMode === 'current'
@@ -79,75 +76,186 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
     })
   }
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    if (!window.matchMedia('(min-width: 768px)').matches) {
+      setLayoutMode('simple')
+    }
+  }, [])
+
   const layoutLabel =
     layoutMode === 'current' ? messages.minimalLayout : messages.fullLayout
 
+  const toggleLayoutMode = () => {
+    setLayoutMode(current => (current === 'current' ? 'simple' : 'current'))
+  }
+
+  const handleMobileLayoutToggle = () => {
+    toggleLayoutMode()
+    setIsMobileMenuOpen(false)
+  }
+
+  const handleMobilePrint = () => {
+    handlePrint()
+    setIsMobileMenuOpen(false)
+  }
+
+  const handleMobileLogin = async () => {
+    setIsMobileMenuOpen(false)
+    await handleLogin()
+  }
+
   return (
     <main className="min-h-screen bg-slate-100 px-2 py-12 print:bg-white print:px-0 print:py-0 relative">
-      <div className="fixed left-4 top-4 z-50 flex flex-col items-start gap-2 print:hidden sm:left-6 sm:top-6">
-        <Link
-          href="/"
-          className={`${secondaryControlClassName} group`}
-          aria-label="Back to Home"
-          title="Back to Home"
-        >
-          <Home
-            className="h-5 w-5 transition-colors group-hover:text-amber-500 sm:h-4 sm:w-4"
-            aria-hidden="true"
-          />
-          <span className="hidden sm:inline">Home</span>
-          <span className="sr-only">Back to Home</span>
-        </Link>
-        <button
-          type="button"
-          onClick={() =>
-            setLayoutMode(current =>
-              current === 'current' ? 'simple' : 'current',
-            )
-          }
-          aria-label={layoutLabel}
-          title={layoutLabel}
-          className={secondaryControlClassName}
-        >
-          <LayoutTemplate
-            className="h-5 w-5 sm:h-4 sm:w-4"
-            aria-hidden="true"
-          />
-          <span className="hidden sm:inline">{layoutLabel}</span>
-          <span className="sr-only">{layoutLabel}</span>
-        </button>
-        <SwitchLanguage showLabel buttonClassName={secondaryControlClassName} />
-        <CVDownloadButton
-          label={messages.downloadPdf}
-          action={handlePrint}
-          iconOnlyBelowSm
-          className={primaryControlClassName}
-        />
-        {!session ? (
+      <div className="fixed left-4 top-4 z-50 print:hidden sm:left-6 sm:top-6">
+        <div className="hidden flex-col items-start gap-2 sm:flex">
+          <Link
+            href="/"
+            className={`${secondaryControlClassName} group`}
+            aria-label="Back to Home"
+            title="Back to Home"
+          >
+            <Home
+              className="h-5 w-5 transition-colors group-hover:text-amber-500 sm:h-4 sm:w-4"
+              aria-hidden="true"
+            />
+            <span className="hidden sm:inline">Home</span>
+            <span className="sr-only">Back to Home</span>
+          </Link>
           <button
             type="button"
-            onClick={handleLogin}
-            aria-label="Login with Google"
-            title="Login with Google"
+            onClick={toggleLayoutMode}
+            aria-label={layoutLabel}
+            title={layoutLabel}
             className={secondaryControlClassName}
           >
-            <LogIn className="h-5 w-5 sm:h-4 sm:w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Login</span>
-            <span className="sr-only">Login with Google</span>
+            <LayoutTemplate
+              className="h-5 w-5 sm:h-4 sm:w-4"
+              aria-hidden="true"
+            />
+            <span className="hidden sm:inline">{layoutLabel}</span>
+            <span className="sr-only">{layoutLabel}</span>
           </button>
-        ) : null}
-        {isAdmin ? (
-          <Link
-            href="/cv/edit"
-            aria-label="Edit CV"
-            title="Edit CV"
-            className={secondaryControlClassName}
-          >
-            <PencilLine className="h-5 w-5 sm:h-4 sm:w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Edit</span>
-            <span className="sr-only">Edit CV</span>
-          </Link>
-        ) : null}
+          <SwitchLanguage showLabel buttonClassName={secondaryControlClassName} />
+          <CVDownloadButton
+            label={messages.downloadPdf}
+            action={handlePrint}
+            iconOnlyBelowSm
+            className={primaryControlClassName}
+          />
+          {!session ? (
+            <button
+              type="button"
+              onClick={handleLogin}
+              aria-label="Login with Google"
+              title="Login with Google"
+              className={secondaryControlClassName}
+            >
+              <LogIn className="h-5 w-5 sm:h-4 sm:w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Login</span>
+              <span className="sr-only">Login with Google</span>
+            </button>
+          ) : null}
+          {isAdmin ? (
+            <Link
+              href="/cv/edit"
+              aria-label="Edit CV"
+              title="Edit CV"
+              className={secondaryControlClassName}
+            >
+              <PencilLine className="h-5 w-5 sm:h-4 sm:w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Edit</span>
+              <span className="sr-only">Edit CV</span>
+            </Link>
+          ) : null}
+        </div>
+
+        <div className="sm:hidden">
+          <div className="flex flex-col items-start gap-2">
+            <button
+              type="button"
+              aria-label={isMobileMenuOpen ? 'Close actions menu' : 'Open actions menu'}
+              aria-expanded={isMobileMenuOpen}
+              title={isMobileMenuOpen ? 'Close actions menu' : 'Open actions menu'}
+              onClick={() => setIsMobileMenuOpen(current => !current)}
+              className={secondaryControlClassName}
+            >
+              <Menu className="h-5 w-5" aria-hidden="true" />
+              <span className="sr-only">
+                {isMobileMenuOpen ? 'Close actions menu' : 'Open actions menu'}
+              </span>
+            </button>
+
+            {isMobileMenuOpen ? (
+              <div className="flex w-full flex-col items-start gap-2">
+                <Link
+                  href="/"
+                  className={`${secondaryControlClassName} group w-full justify-start`}
+                  aria-label="Back to Home"
+                  title="Back to Home"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Home
+                    className="h-5 w-5 transition-colors group-hover:text-amber-500"
+                    aria-hidden="true"
+                  />
+                  <span>Home</span>
+                  <span className="sr-only">Back to Home</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleMobileLayoutToggle}
+                  aria-label={layoutLabel}
+                  title={layoutLabel}
+                  className={`${secondaryControlClassName} w-full justify-start gap-2`}
+                >
+                  <LayoutTemplate className="h-5 w-5" aria-hidden="true" />
+                  <span>{layoutLabel}</span>
+                  <span className="sr-only">{layoutLabel}</span>
+                </button>
+                <SwitchLanguage
+                  showLabel
+                  className="w-full"
+                  buttonClassName={`${secondaryControlClassName} flex-1 justify-start`}
+                />
+                <CVDownloadButton
+                  label={messages.downloadPdf}
+                  action={handleMobilePrint}
+                  className={`${primaryControlClassName} w-full justify-start gap-2`}
+                />
+                {!session ? (
+                  <button
+                    type="button"
+                    onClick={handleMobileLogin}
+                    aria-label="Login with Google"
+                    title="Login with Google"
+                    className={`${secondaryControlClassName} w-full justify-start gap-2`}
+                  >
+                    <LogIn className="h-5 w-5" aria-hidden="true" />
+                    <span>Login</span>
+                    <span className="sr-only">Login with Google</span>
+                  </button>
+                ) : null}
+                {isAdmin ? (
+                  <Link
+                    href="/cv/edit"
+                    aria-label="Edit CV"
+                    title="Edit CV"
+                    className={`${secondaryControlClassName} w-full justify-start gap-2`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <PencilLine className="h-5 w-5" aria-hidden="true" />
+                    <span>Edit</span>
+                    <span className="sr-only">Edit CV</span>
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        </div>
       </div>
 
       <div className="mx-auto max-w-[1200px]">{activeLayout}</div>
