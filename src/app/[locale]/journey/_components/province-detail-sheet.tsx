@@ -15,7 +15,6 @@ import { Separator } from '@/components/ui/separator'
 import { MapPin, Calendar, Users, Image as ImageIcon } from 'lucide-react'
 import Image from 'next/image'
 import { PROVINCES_GEO_MAPPING } from '@/config/province'
-// import { trips } from '@/config/trips'
 import {
   MediaViewerModal,
   type MediaItem,
