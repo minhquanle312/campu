@@ -1,58 +1,35 @@
 {
-  "active_plan": "/Users/minhquanle/Workspace/personal-project/campu/.sisyphus/plans/cv-page-updates.md",
-  "started_at": "2026-04-02T04:10:17.698Z",
+  "active_plan": "/Users/minhquanle/Workspace/personal-project/campu/.sisyphus/plans/site-admin-ui-config-updates.md",
+  "started_at": "2026-04-03T04:24:26.107Z",
   "session_ids": [
-    "ses_2b3c6ae7affe90ergmBj0kXRtp",
-    "ses_2b39c222effeasx0vvupkedpDP",
-    "ses_2b38fcd2affeTLNJbJmu4e1d0h",
-    "ses_2b3893d74ffeLMmb3nyHbQQEwU",
-    "ses_2b35a0e17ffeB10uSiFcqioOWo",
-    "ses_2b35a0f95ffe3FXdvot9f8jx3d",
-    "ses_2b35a0e90ffeQP15EB9yjrV88R",
-    "ses_2b34cd086ffekIGGEEG0P5aXFP",
-    "ses_2b34ccfd8ffepFM5gQzs0pjIFc",
-    "ses_2b34ccf4effeHo4NPx1prUo2hP",
-    "ses_2b3488977ffe2D1bF4C7wNnlzt",
-    "ses_2b343ac52ffeJurd0UzCzqoDTS"
+    "ses_2aea23560ffeZB1y1F5dnGkwg5",
+    "ses_2ae034805ffeUc3bGcJTXbrjA7",
+    "ses_2adf0f420ffeI6KomcQXOs48uW",
+    "ses_2adf0f325ffeohpXej6t8R9a0c",
+    "ses_2adf0f35effe0PIoCeC84tR4GH",
+    "ses_2adf0f396ffe6EEskxG5ivNvVT",
+    "ses_2ade99115ffeG9zQN6YMi5dcjt",
+    "ses_2ade53025ffe1M0ZqZfpzGlqJ5",
+    "ses_2add9bbc9ffep9umEAIK4YFRcS",
+    "ses_2adbde957ffeTKJYYekhgsUiPd",
+    "ses_2adbdea2fffem5WYhgkW4vMD39",
+    "ses_2adbde911ffeSBHVihjXdt0saE",
+    "ses_2adbde9c0ffeK6jtqPspOovxug",
+    "ses_2adb81765ffe6OnlxxdRMykx7W",
+    "ses_2adb2a880ffeIqmevg8j41Sara",
+    "ses_2adaf8f5affevr6tMolZnLdtgT"
   ],
-  "plan_name": "cv-page-updates",
+  "plan_name": "site-admin-ui-config-updates",
   "agent": "atlas",
   "task_sessions": {
-    "todo:1": {
-      "task_key": "todo:1",
-      "task_label": "1",
-      "task_title": "Update CV message contract and localized copy",
-      "session_id": "ses_2b39c222effeasx0vvupkedpDP",
-      "agent": "Sisyphus-Junior",
-      "category": "quick",
-      "updated_at": "2026-04-02T04:18:17.264Z"
-    },
-    "todo:2": {
-      "task_key": "todo:2",
-      "task_label": "2",
-      "task_title": "Rebuild the CV action cluster and responsive default-layout behavior",
-      "session_id": "ses_2b38fcd2affeTLNJbJmu4e1d0h",
-      "agent": "Sisyphus-Junior",
-      "category": "visual-engineering",
-      "updated_at": "2026-04-02T04:29:28.781Z"
-    },
     "todo:3": {
       "task_key": "todo:3",
       "task_label": "3",
-      "task_title": "Tighten browser print/export to the CV document only",
-      "session_id": "ses_2b35a0f95ffe3FXdvot9f8jx3d",
-      "agent": "Sisyphus-Junior",
-      "category": "visual-engineering",
-      "updated_at": "2026-04-02T05:29:11.465Z"
-    },
-    "final-wave:f1": {
-      "task_key": "final-wave:f1",
-      "task_label": "F1",
-      "task_title": "Plan Compliance Audit — oracle",
-      "session_id": "ses_2b343ac52ffeJurd0UzCzqoDTS",
-      "agent": "Sisyphus-Junior",
-      "category": "deep",
-      "updated_at": "2026-04-02T05:49:31.853Z"
+      "task_title": "Add the protected settings surface and config read/write API",
+      "session_id": "ses_2adbdea2fffem5WYhgkW4vMD39",
+      "agent": "oracle",
+      "category": "",
+      "updated_at": "2026-04-03T07:34:22.710Z"
     }
   }
 }

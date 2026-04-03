@@ -25,20 +25,41 @@
   "HeaderNav": {
     "Home": "Trang chủ",
     "Wishes": "Lời chúc",
-    "Journey": "Hành trình"
+    "Journey": "Hành trình",
+    "Login": "Đăng nhập",
+    "SignedIn": "Sẵn sàng cho điểm dừng tiếp theo",
+    "Traveler": "Người lữ hành",
+    "Tagline": "Những ghi chú dịu dàng, bản đồ mềm mại và kỷ niệm nhỏ"
+  },
+  "Footer": {
+    "Blessing": "Mong thế giới luôn dịu dàng với bạn.",
+    "Description": "Một góc nhỏ để lưu lại kỷ niệm đẹp, những cung đường đáng nhớ và các câu chuyện khiến mỗi chuyến đi trở nên rất riêng.",
+    "Promise": "Được tạo ra để giống như một tấm bưu thiếp từ hành trình",
+    "Signature": "Làm nên bằng cả tấm lòng"
   },
   "Home": {
-    "Title": "Lang thang Việt Nam 🇻🇳",
-    "Description": "Xin chào, tôi là một người đam mê du lịch đang khám phá những viên ngọc ẩn và những phong cảnh ngoạn mục của Việt Nam. Hãy tham gia cùng tôi trong hành trình đáng kinh ngạc của sự khám phá, phiêu lưu và những khoảnh khắc không thể nào quên này.",
-    "ExploreJourney": "Khám phá hành trình của tôi",
-    "ContactMe": "Liên hệ với tôi",
+    "Eyebrow": "Một tấm bản đồ dịu dàng của địa điểm, cảm xúc và những cung đường đáng nhớ",
+    "Title": "Lang thang qua Việt Nam, từng kỷ niệm ấm áp một",
+    "Description": "Đây là một cuốn nhật ký du lịch mang cảm giác như lời mời nhẹ nhàng: vừa là album ảnh, vừa là sổ tay hành trình, vừa là lời nhắc rằng những chuyến đi đẹp nhất là những chuyến ở lại thật lâu trong ký ức.",
+    "ExploreJourney": "Khám phá hành trình",
+    "ContactMe": "Để lại lời nhắn cho Pu",
+    "HeroNote": "Hãy bắt đầu từ bản đồ hành trình nếu bạn muốn xem toàn bộ cung đường, hoặc để lại một lời nhắn nếu bạn đến đây vì phần câu chuyện rất riêng.",
+    "HeroImageAlt": "Một khung hình kỷ niệm du lịch tại Việt Nam",
+    "FeatureCard": {
+      "Kicker": "Ghi chú dọc đường",
+      "Title": "Những nơi mang cảm giác rộng hơn cả bản đồ",
+      "Description": "Từ những chuyến đi ngắn cuối tuần đến các vòng detour dài hơn, mỗi điểm dừng đều thêm một lớp cảm xúc cho câu chuyện."
+    },
     "ExploreMap": "Khám phá bản đồ",
     "ViewAllTrips": "Xem tất cả các chuyến đi",
     "JourneyStory": {
-      "Title": "Câu chuyện hành trình của tôi",
-      "Paragraph1": "Những gì bắt đầu như một chuyến đi cuối tuần đơn giản đã trở thành một cuộc phiêu lưu đầy đam mê khắp Việt Nam. Từ những ngọn núi sương mù ở Hà Giang đến những bãi biển hoang sơ ở Phú Quốc, mỗi điểm đến đều dạy tôi điều gì đó mới mẻ.",
-      "Paragraph2": "Tôi tin rằng du lịch không chỉ là đến thăm các địa điểm, mà là trải nghiệm văn hóa, gặp gỡ mọi người và tạo ra những kỷ niệm tồn tại suốt đời. Thông qua blog của tôi, tôi chia sẻ các hướng dẫn chi tiết về chuyến đi, phân tích ngân sách và đánh giá trung thực để giúp các du khách khác lên kế hoạch cho những cuộc phiêu lưu của riêng họ.",
-      "Paragraph3": "Cho dù bạn là một du khách một mình, đi cùng bạn bè hay lên kế hoạch cho chuyến đi gia đình, tôi hy vọng những trải nghiệm của tôi sẽ truyền cảm hứng cho bạn khám phá vẻ đẹp của Việt Nam."
+      "Kicker": "Câu chuyện hành trình",
+      "Badge": "Nhật ký du lịch cá nhân",
+      "Title": "Con đường dần trở thành cách để tôi nhìn cuộc sống kỹ hơn",
+      "Paragraph1": "Điều bắt đầu như một chuyến đi cuối tuần đơn giản dần trở thành thói quen chú ý nhiều hơn. Từ những buổi sáng phủ sương ở Hà Giang đến các buổi chiều yên ả gần biển ở Phú Quốc, mỗi nơi đều để lại một kiểu ký ức khác nhau.",
+      "Paragraph2": "Tôi không quá quan tâm đến việc sưu tầm điểm đến, mà quan tâm hơn đến cảm giác của từng chuyến đi: bữa ăn sau một quãng đường dài, những người đã giúp đỡ, những chi tiết nhỏ mà không checklist nào ghi lại được.",
+      "Paragraph3": "Góc nhỏ này gom những mảnh ghép đó lại để hành trình vừa dễ chia sẻ, vừa hữu ích, mà vẫn giữ được sự riêng tư và ấm áp.",
+      "ImageAlt": "Những kỷ niệm du lịch được xếp lớp như một tấm bưu thiếp scrapbook"
     },
     "Stats": {
       "ProvincesVisited": "Tỉnh thành đã ghé thăm",
@@ -47,18 +68,21 @@
       "DistanceTotal": "Km đã đi"
     },
     "MyPurpose": {
-      "Title": "Tại sao tôi du lịch",
-      "Description": "Sứ mệnh của tôi là truyền cảm hứng cho người khác bước ra khỏi vùng an toàn của họ và khám phá vẻ đẹp đáng kinh ngạc mà Việt Nam mang lại. Mỗi chuyến đi là một cơ hội để học hỏi, phát triển và tạo ra những kỷ niệm khó quên.",
+      "Kicker": "Lý do tôi tiếp tục đi",
+      "Title": "Với tôi, du lịch là sự kết hợp giữa tò mò và nâng niu",
+      "Description": "Tôi muốn dự án này đủ hữu ích nhưng không đánh mất cảm xúc: một nơi mà cung đường, hình ảnh và suy nghĩ có thể sống cùng nhau trong một nhịp điệu nhẹ nhàng.",
       "Explore": "Khám phá",
-      "ExploreDesc": "Khám phá những viên ngọc ẩn và những điểm đến hẻo lánh",
+      "ExploreDesc": "Tìm đến những góc Việt Nam yên tĩnh, bất ngờ hoặc đẹp theo cách ít người để ý.",
       "Capture": "Ghi lại",
-      "CaptureDesc": "Lưu giữ những khoảnh khắc đẹp và phong cảnh tuyệt đẹp",
+      "CaptureDesc": "Giữ lại ánh sáng, màu sắc và khung cảnh vốn dễ trôi qua rất nhanh.",
       "Connect": "Kết nối",
-      "ConnectDesc": "Giao lưu với văn hóa và cộng đồng địa phương"
+      "ConnectDesc": "Nhớ về những con người, cuộc trò chuyện và sự tử tế đã tạo nên hình dáng thật của mỗi vùng đất."
     },
     "ReadyToStart": {
-      "Title": "Sẵn sàng bắt đầu hành trình của bạn?",
-      "Description": "Khám phá bản đồ tương tác của tôi để xem tất cả những nơi tôi đã đến, nhận thông tin chi tiết về chuyến đi, phân tích ngân sách và mẹo cho cuộc phiêu lưu của riêng bạn."
+      "Kicker": "Điểm dừng tiếp theo",
+      "Title": "Hãy bắt đầu từ bản đồ, rồi đi theo nơi khiến bạn rung động nhất",
+      "Description": "Trang hành trình là cách rõ ràng nhất để xem những nơi tôi đã đi qua, hình dáng của từng chuyến đi và các chi tiết nhỏ đáng giữ lại cho kế hoạch của riêng bạn.",
+      "SupportingNote": "Ấm áp, cá nhân, nhưng vẫn đủ thực tế để bạn dùng ngay."
     }
   },
   "CV": {

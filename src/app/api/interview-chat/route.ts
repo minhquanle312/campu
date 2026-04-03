@@ -44,8 +44,8 @@ export async function POST(request: Request) {
 
   const systemPrompt =
     locale === 'vi'
-      ? `Bạn là trợ lý song ngữ cho widget tuyển dụng trên CV cá nhân. Hãy trả lời ngắn gọn, lịch sự, rõ ràng bằng tiếng Việt. Hỗ trợ ba việc: giới thiệu ứng viên, trả lời câu hỏi thêm về hồ sơ, và xác nhận kế hoạch liên hệ tuyển dụng như lời mời phỏng vấn hoặc cuộc gọi sàng lọc. Thông tin ứng viên hiện tại: tên ${profile?.name || 'chưa có'}, công ty ${profile?.company || 'chưa có'}, số điện thoại ${profile?.phone || 'chưa có'}, địa chỉ công ty ${profile?.companyAddress || 'chưa có'}, email ${profile?.email || 'chưa có'}, giới thiệu ${profile?.aboutMe || 'chưa có'}. Kế hoạch liên hệ đã chọn: ${schedule ? `${schedule.type === 'interview' ? 'lời mời phỏng vấn' : 'cuộc gọi sàng lọc'} vào ${schedule.date} lúc ${schedule.time}` : 'chưa chọn'}. Không nói rằng bạn đã gửi email hay tạo lịch thật. Hãy nhắc đây là bản nháp có thể kết nối API sau.`
-      : `You are a bilingual recruiter assistant for a personal CV widget. Reply briefly, warmly, and clearly in English. Help with three things: introducing the candidate, answering follow-up questions about the profile, and confirming recruiter outreach plans such as an interview invitation or screening call. Current profile data: name ${profile?.name || 'missing'}, company ${profile?.company || 'missing'}, phone ${profile?.phone || 'missing'}, company address ${profile?.companyAddress || 'missing'}, email ${profile?.email || 'missing'}, about me ${profile?.aboutMe || 'missing'}. Selected outreach plan: ${schedule ? `${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} on ${schedule.date} at ${schedule.time}` : 'none selected'}. Do not claim that real email or calendar automation has already happened; frame it as a draft recruiter workflow that can be connected later.`
+      ? `Bạn là trợ lý song ngữ cho widget tuyển dụng trên CV cá nhân. Hãy trả lời ngắn gọn, lịch sự, rõ ràng bằng tiếng Việt. Hỗ trợ ba việc: tóm tắt hoặc diễn giải hồ sơ ứng viên đang hiển thị trên CV, trả lời câu hỏi thêm của nhà tuyển dụng về mức độ phù hợp, và xác nhận kế hoạch liên hệ tuyển dụng như lời mời phỏng vấn hoặc cuộc gọi sàng lọc. QUAN TRỌNG: dữ liệu profile được gửi kèm là ngữ cảnh của nhà tuyển dụng/công ty, không phải thông tin nhận diện của ứng viên. Ngữ cảnh nhà tuyển dụng/công ty hiện tại: tên người tuyển dụng ${profile?.name || 'chưa có'}, công ty ${profile?.company || 'chưa có'}, số điện thoại ${profile?.phone || 'chưa có'}, địa chỉ công ty ${profile?.companyAddress || 'chưa có'}, email công việc ${profile?.email || 'chưa có'}, vai trò hoặc bối cảnh tuyển dụng ${profile?.aboutMe || 'chưa có'}. Kế hoạch liên hệ đã chọn: ${schedule ? `${schedule.type === 'interview' ? 'lời mời phỏng vấn' : 'cuộc gọi sàng lọc'} vào ${schedule.date} lúc ${schedule.time}` : 'chưa chọn'}. Không được nói các thông tin tuyển dụng này là tên, công ty, email hay phần giới thiệu của ứng viên. Không nói rằng bạn đã gửi email hay tạo lịch thật. Hãy nhắc đây là bản nháp có thể kết nối API sau.`
+      : `You are a bilingual recruiter assistant for a personal CV widget. Reply briefly, warmly, and clearly in English. Help with three things: summarizing or clarifying the candidate information shown on the CV, answering recruiter follow-up questions about fit, and confirming recruiter outreach plans such as an interview invitation or screening call. IMPORTANT: the attached profile data is recruiter/company context, not the candidate's identity. Current recruiter/company context: recruiter name ${profile?.name || 'missing'}, company ${profile?.company || 'missing'}, phone ${profile?.phone || 'missing'}, company address ${profile?.companyAddress || 'missing'}, work email ${profile?.email || 'missing'}, role or hiring context ${profile?.aboutMe || 'missing'}. Selected outreach plan: ${schedule ? `${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} on ${schedule.date} at ${schedule.time}` : 'none selected'}. Do not describe those recruiter details as the candidate's name, company, email, or bio. Do not claim that real email or calendar automation has already happened; frame it as a draft recruiter workflow that can be connected later.`
 
   const apiKey = process.env.OPENAI_API_KEY
 
@@ -88,13 +88,16 @@ function buildFallbackReply(
   schedule?: SchedulePayload,
 ) {
   const normalizedInput = input.toLowerCase()
-  const candidateName =
-    profile?.name || (locale === 'vi' ? 'ứng viên' : 'the candidate')
+  const candidateLabel = locale === 'vi' ? 'ứng viên' : 'the candidate'
+  const recruiterName = profile?.name?.trim()
+  const recruiterCompany = profile?.company?.trim()
+  const recruiterEmail = profile?.email?.trim()
+  const recruiterContext = profile?.aboutMe?.trim()
 
   if (schedule) {
     return locale === 'vi'
-      ? `Đã ghi nhận kế hoạch liên hệ ${schedule.type === 'interview' ? 'mời phỏng vấn' : 'gọi sàng lọc'} cho ${candidateName} vào ${schedule.date} lúc ${schedule.time}. Đây là lịch tạm trong widget; khi bạn thêm calendar API và email API sau, mình có thể dùng đúng luồng này để xác nhận tự động.`
-      : `I noted the ${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} plan for ${candidateName} on ${schedule.date} at ${schedule.time}. This is currently a draft schedule inside the widget; once you connect calendar and email APIs later, the same flow can send real confirmations.`
+      ? `Đã ghi nhận kế hoạch liên hệ ${schedule.type === 'interview' ? 'mời phỏng vấn' : 'gọi sàng lọc'} dành cho ${candidateLabel} vào ${schedule.date} lúc ${schedule.time}. Đây hiện là lịch nháp trong widget cho phía tuyển dụng${recruiterName ? ` của ${recruiterName}` : ''}${recruiterCompany ? ` từ ${recruiterCompany}` : ''}; khi bạn thêm calendar API và email API sau, cùng luồng này có thể dùng để xác nhận tự động.`
+      : `I noted the ${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} plan for ${candidateLabel} on ${schedule.date} at ${schedule.time}. This is currently a draft schedule inside the widget for the recruiter side${recruiterName ? ` (${recruiterName}` : ''}${recruiterCompany ? `${recruiterName ? ', ' : ' ('}${recruiterCompany}` : ''}${recruiterName || recruiterCompany ? ')' : ''}; once you connect calendar and email APIs later, the same flow can send real confirmations.`
   }
 
   if (
@@ -103,8 +106,8 @@ function buildFallbackReply(
     normalizedInput.includes('giới thiệu')
   ) {
     return locale === 'vi'
-      ? `${candidateName} hiện đến từ ${profile?.company || 'một đơn vị đang cập nhật'}, có thể liên hệ qua ${profile?.email || 'email chưa được điền'}. Phần giới thiệu hiện tại là: ${profile?.aboutMe || 'chưa có nội dung giới thiệu nào được lưu.'}`
-      : `${candidateName} is currently associated with ${profile?.company || 'an organization still being filled in'} and can be reached at ${profile?.email || 'an email that has not been entered yet'}. The saved introduction currently says: ${profile?.aboutMe || 'there is no saved introduction yet.'}`
+      ? `Mình có thể hỗ trợ tóm tắt ${candidateLabel} dựa trên nội dung CV đang hiển thị, nhưng các trường bạn vừa điền là ngữ cảnh của nhà tuyển dụng/công ty chứ không phải dữ liệu nhận diện của ứng viên. Hiện ngữ cảnh đã lưu${recruiterName ? `: người tuyển dụng ${recruiterName}` : ''}${recruiterCompany ? `${recruiterName ? ', ' : ': '}công ty ${recruiterCompany}` : ''}${recruiterEmail ? `${recruiterName || recruiterCompany ? ', ' : ': '}email ${recruiterEmail}` : ''}${recruiterContext ? `${recruiterName || recruiterCompany || recruiterEmail ? '. ' : ': '}Bối cảnh tuyển dụng: ${recruiterContext}` : '.'}`
+      : `I can help summarize ${candidateLabel} from the CV content shown on the page, but the fields you saved are recruiter/company context rather than the candidate's identity. The saved recruiter context${recruiterName ? ` includes recruiter name ${recruiterName}` : ''}${recruiterCompany ? `${recruiterName ? ', ' : ' includes '}company ${recruiterCompany}` : ''}${recruiterEmail ? `${recruiterName || recruiterCompany ? ', ' : ' includes '}email ${recruiterEmail}` : ''}${recruiterContext ? `${recruiterName || recruiterCompany || recruiterEmail ? '. ' : ' includes '}Hiring context: ${recruiterContext}` : '.'}`
   }
 
   return locale === 'vi'

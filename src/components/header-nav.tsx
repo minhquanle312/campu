@@ -3,10 +3,11 @@
 import { Link, usePathname } from '@/i18n/navigation'
 import { signIn, useSession } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
-import { Heart, Home, Map } from 'lucide-react'
+import { Compass, Heart, Home, LogIn, MapIcon, Sparkles } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { SwitchLanguage } from './switch-language'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { useTranslations } from 'next-intl'
+import { Button } from './ui/button'
 
 const navItems = [
   {
@@ -22,14 +23,21 @@ const navItems = [
   {
     href: '/journey',
     labelKey: 'Journey',
-    icon: Map,
+    icon: MapIcon,
   },
-]
+] as const
 
 export function HeaderNav() {
   const t = useTranslations('HeaderNav')
   const pathname = usePathname()
   const { data: session } = useSession()
+  const userName = session?.user?.name?.trim() || t('Traveler')
+  const initials = userName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0]?.toUpperCase())
+    .join('')
 
   const handleLogin = async () => {
     await signIn.social({
@@ -39,48 +47,97 @@ export function HeaderNav() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md shadow-xs flex justify-between items-center px-6">
-      {session ? (
-        <Avatar>
-          <AvatarImage
-            src={session?.user?.image || ''}
-            alt={session?.user?.name || 'User avatar'}
-          />
-          <AvatarFallback>{session?.user?.name?.[0] || '😜'}</AvatarFallback>
-        </Avatar>
-      ) : (
-        <button onClick={handleLogin} title="Login" type="button">
-          🍀
-        </button>
-      )}
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-center h-16 gap-2">
-          {navItems.map(item => {
-            const isActive = pathname === item.href
-            const Icon = item.icon
+    <nav className="sticky top-0 z-50 border-b border-white/70 bg-white/85 shadow-[0_8px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+      <div className="container flex min-h-18 items-center gap-3 py-3">
+        <div className="hidden min-w-0 items-center gap-3 md:flex">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-primary/15 bg-linear-to-br from-rose-100 via-white to-amber-50 text-primary shadow-sm">
+            <Compass className="h-5 w-5" aria-hidden="true" />
+          </div>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold tracking-[0.18em] text-foreground/90 uppercase">
+              Campu
+            </p>
+            <p className="truncate text-xs text-muted-foreground">
+              {t('Tagline')}
+            </p>
+          </div>
+        </div>
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300',
-                  'hover:bg-rose-50 hover:scale-105',
-                  isActive
-                    ? 'bg-linear-to-r from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-200'
-                    : 'text-gray-600 hover:text-rose-600',
-                )}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="font-medium hidden md:block">
-                  {t(item.labelKey)}
-                </span>
-              </Link>
-            )
-          })}
+        <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {navItems.map(item => {
+              const isActive = pathname === item.href
+              const Icon = item.icon
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={cn(
+                    'group inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2',
+                    isActive
+                      ? 'bg-primary text-primary-foreground shadow-sm'
+                      : 'text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground',
+                  )}
+                >
+                  <Icon
+                    className={cn(
+                      'h-4 w-4',
+                      isActive
+                        ? 'text-primary-foreground'
+                        : 'text-primary/80 group-hover:text-primary',
+                    )}
+                    aria-hidden="true"
+                  />
+                  <span>{t(item.labelKey)}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-2 sm:gap-3">
+          <SwitchLanguage
+            buttonClassName="min-h-10 rounded-full border-primary/10 bg-white/90 px-3 text-foreground shadow-sm hover:bg-accent/70 hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 active:scale-100"
+            showLabel
+          />
+
+          {session ? (
+            <div className="flex h-10 items-center gap-2 px-1">
+              <Avatar className="h-10 w-10 border border-primary/10">
+                <AvatarImage src={session.user.image || ''} alt={userName} />
+                <AvatarFallback className="bg-accent text-accent-foreground">
+                  {initials || 'CP'}
+                </AvatarFallback>
+              </Avatar>
+              <div className="hidden min-w-0 sm:block">
+                <p className="truncate text-sm font-medium text-foreground">
+                  {userName}
+                </p>
+                <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Sparkles
+                    className="h-3.5 w-3.5 text-primary"
+                    aria-hidden="true"
+                  />
+                  {t('SignedIn')}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleLogin}
+              className="h-10 rounded-full border-primary/15 bg-white/90 px-4 text-foreground shadow-sm transition-colors duration-200 hover:border-primary/30 hover:bg-accent/70 hover:text-accent-foreground motion-reduce:transition-none"
+            >
+              <LogIn className="h-4 w-4 text-primary" aria-hidden="true" />
+              <span className="hidden sm:inline">{t('Login')}</span>
+            </Button>
+          )}
         </div>
       </div>
-      <SwitchLanguage />
     </nav>
   )
 }

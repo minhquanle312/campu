@@ -67,21 +67,27 @@ export default async function RootLayout({ children, params }: Props) {
       >
         <NextIntlClientProvider>
           <div className="min-h-screen bg-linear-to-b from-rose-50 to-white print:bg-none">
-            <LayoutVisibility>
-              <div className="bg-amber-500 text-black/90 px-4 py-2 text-center text-sm font-medium print:hidden">
-                ⚠️ {t('DevelopmentWarning')}
-              </div>
-              <div className="print:hidden">
-                <HeaderNav />
-              </div>
-            </LayoutVisibility>
-            
-            {children}
-            
-            <LayoutVisibility>
-              <div className="print:hidden">
-                <Footer />
-              </div>
+            <LayoutVisibility
+              banner={
+                <div
+                  data-testid="shell-banner"
+                  className="border-b border-amber-300/70 bg-amber-100/90 px-4 py-2 text-center text-sm font-medium text-amber-950 backdrop-blur print:hidden"
+                >
+                  {t('DevelopmentWarning')}
+                </div>
+              }
+              header={
+                <div data-testid="shell-header" className="print:hidden">
+                  <HeaderNav />
+                </div>
+              }
+              footer={
+                <div data-testid="shell-footer" className="print:hidden">
+                  <Footer />
+                </div>
+              }
+            >
+              {children}
             </LayoutVisibility>
           </div>
         </NextIntlClientProvider>

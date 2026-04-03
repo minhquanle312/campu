@@ -25,20 +25,41 @@
   "HeaderNav": {
     "Home": "Home",
     "Wishes": "Wishes",
-    "Journey": "Journey"
+    "Journey": "Journey",
+    "Login": "Log in",
+    "SignedIn": "Ready for the next stop",
+    "Traveler": "Traveler",
+    "Tagline": "Warm notes, soft maps, and little keepsakes"
+  },
+  "Footer": {
+    "Blessing": "May the world be gentle with you.",
+    "Description": "A small corner for saving kind memories, thoughtful routes, and the stories that make each trip feel personal.",
+    "Promise": "Built to feel like a postcard from the road",
+    "Signature": "Made with a full heart"
   },
   "Home": {
-    "Title": "Wandering Through Vietnam 🇻🇳",
-    "Description": "Hi, I'm a passionate traveler exploring the hidden gems and breathtaking landscapes of Vietnam. Join me on this incredible journey of discovery, adventure, and unforgettable moments.",
-    "ExploreJourney": "Explore My Journey",
-    "ContactMe": "Contact Me",
+    "Eyebrow": "A gentle map of places, feelings, and roads worth remembering",
+    "Title": "Wandering through Vietnam, one warm memory at a time",
+    "Description": "This is a travel diary shaped like a soft invitation: part photo album, part route notebook, part reminder that the best trips are the ones that stay kind in your memory.",
+    "ExploreJourney": "Explore the journey",
+    "ContactMe": "Leave a note for Pu",
+    "HeroNote": "Start with the journey map if you want the full route, or leave a kind note if you came here for the personal side of the story.",
+    "HeroImageAlt": "A portrait-style travel memory from Vietnam",
+    "FeatureCard": {
+      "Kicker": "Field notes",
+      "Title": "Places that felt bigger than the map",
+      "Description": "From quick weekend escapes to longer detours, each stop adds a little more texture to the story."
+    },
     "ExploreMap": "Explore the Map",
     "ViewAllTrips": "View All Trips",
     "JourneyStory": {
-      "Title": "My Journey Story",
-      "Paragraph1": "What started as a simple weekend trip has evolved into a passionate adventure across Vietnam. From the misty mountains of Ha Giang to the pristine beaches of Phu Quoc, every destination has taught me something new.",
-      "Paragraph2": "I believe that travel is not just about visiting places, but about experiencing cultures, meeting people, and creating memories that last a lifetime. Through my blog, I share detailed trip guides, budget breakdowns, and honest reviews to help fellow travelers plan their own adventures.",
-      "Paragraph3": "Whether you’re a solo traveler, going with friends, or planning a family trip, I hope my experiences inspire you to explore the beauty of Vietnam."
+      "Kicker": "Journey story",
+      "Badge": "Personal travel journal",
+      "Title": "The road became a way to notice life more carefully",
+      "Paragraph1": "What began as a simple weekend getaway slowly turned into a habit of paying attention. From misty mountain mornings in Ha Giang to quiet afternoons near the sea in Phu Quoc, each place left behind a different kind of memory.",
+      "Paragraph2": "I care less about collecting destinations and more about remembering how each trip felt: the food after a long ride, the people who helped, the small details that never make it onto a checklist.",
+      "Paragraph3": "This space gathers those fragments together so the journey feels shareable, useful, and still a little personal.",
+      "ImageAlt": "Travel memories layered like a scrapbook postcard"
     },
     "Stats": {
       "ProvincesVisited": "Provinces Visited",
@@ -47,18 +68,21 @@
       "DistanceTotal": "Km Traveled"
     },
     "MyPurpose": {
-      "Title": "Why I Travel",
-      "Description": "My mission is to inspire others to step out of their comfort zones and discover the incredible beauty that Vietnam has to offer. Every trip is an opportunity to learn, grow, and create unforgettable memories.",
+      "Kicker": "Why I keep going",
+      "Title": "Travel, for me, is equal parts curiosity and care",
+      "Description": "I want this project to feel helpful without losing its heart: a place where routes, photos, and reflections live together in the same gentle rhythm.",
       "Explore": "Explore",
-      "ExploreDesc": "Discover hidden gems and off-the-beaten-path destinations",
+      "ExploreDesc": "Find corners of Vietnam that feel quiet, surprising, or beautifully overlooked.",
       "Capture": "Capture",
-      "CaptureDesc": "Document beautiful moments and stunning landscapes",
+      "CaptureDesc": "Hold onto the light, colors, and scenes that would otherwise disappear too quickly.",
       "Connect": "Connect",
-      "ConnectDesc": "Engage with local cultures and communities"
+      "ConnectDesc": "Remember the people, conversations, and kindness that gave each place its real shape."
     },
     "ReadyToStart": {
-      "Title": "Ready to Start Your Journey?",
-      "Description": "Explore my interactive map to see all the places I've visited, get detailed trip information, budget breakdowns, and tips for your own adventure."
+      "Kicker": "Next stop",
+      "Title": "Start with the map, then follow whatever catches your heart",
+      "Description": "The journey page is the clearest way to browse the places I have visited, the shape of each trip, and the little details worth keeping for your own planning.",
+      "SupportingNote": "Warm, personal, and still practical enough to use."
     }
   },
   "CV": {

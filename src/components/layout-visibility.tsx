@@ -1,16 +1,30 @@
 'use client'
 
-import { usePathname } from '@/i18n/navigation'
+import type { ReactNode } from 'react'
+import { useSelectedLayoutSegments } from 'next/navigation'
 
-export function LayoutVisibility({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-  
-  // Hide layout elements if we are on any /cv route
-  const isCVRoute = pathname === '/cv' || pathname.startsWith('/cv/')
-  
-  if (isCVRoute) {
-    return null
-  }
-  
-  return <>{children}</>
+type LayoutVisibilityProps = {
+  banner?: ReactNode
+  header?: ReactNode
+  footer?: ReactNode
+  children: ReactNode
+}
+
+export function LayoutVisibility({
+  banner,
+  header,
+  footer,
+  children,
+}: LayoutVisibilityProps) {
+  const segments = useSelectedLayoutSegments()
+  const isCVRoute = segments.includes('cv')
+
+  return (
+    <>
+      {isCVRoute ? null : banner}
+      {isCVRoute ? null : header}
+      {children}
+      {isCVRoute ? null : footer}
+    </>
+  )
 }

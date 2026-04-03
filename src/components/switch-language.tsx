@@ -1,6 +1,5 @@
 'use client'
 
-import { Languages } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useRouter, usePathname } from '@/i18n/navigation'
 import { ClassValue } from 'clsx'
@@ -42,29 +41,7 @@ export const SwitchLanguage: React.FC<SwitchLanguageProps> = ({
           buttonClassName,
         )}
       >
-        <span className="relative flex h-5 w-5 items-center justify-center">
-          <Languages className="h-5 w-5 sm:h-4 sm:w-4" aria-hidden="true" />
-          <span className="absolute -bottom-0.5 -right-1 block h-3.5 w-3.5 overflow-hidden rounded-full border border-slate-200 sm:hidden">
-            {locale === 'en' ? (
-              <Image
-                src="https://flagcdn.com/vn.svg"
-                alt=""
-                fill
-                className="object-cover"
-                aria-hidden="true"
-              />
-            ) : (
-              <Image
-                src="https://flagcdn.com/us.svg"
-                alt=""
-                fill
-                className="object-cover"
-                aria-hidden="true"
-              />
-            )}
-          </span>
-        </span>
-        <div className="relative hidden h-5 w-5 overflow-hidden rounded-full border border-slate-200 sm:block">
+        <div className="relative h-5 w-5 overflow-hidden rounded-full border border-slate-200">
           {locale === 'en' ? (
             <Image
               src="https://flagcdn.com/vn.svg"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Home, LayoutTemplate, LogIn, PencilLine } from 'lucide-react'
 import { useReactToPrint } from 'react-to-print'
 import { Link } from '@/i18n/navigation'
@@ -22,14 +22,6 @@ type Props = {
   isAdmin: boolean
   locale: Locale
   messages: CVMessages
-}
-
-function getInitialLayoutMode(): LayoutMode {
-  if (typeof window === 'undefined') {
-    return 'current'
-  }
-
-  return window.matchMedia('(min-width: 768px)').matches ? 'current' : 'simple'
 }
 
 const cvPrintStyles = `
@@ -63,7 +55,8 @@ const cvPrintStyles = `
 `
 
 export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>(getInitialLayoutMode)
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>('current')
+  const hasManualLayoutOverrideRef = useRef(false)
   const printRef = useRef<HTMLDivElement>(null)
   const { data: session } = useSession()
   const isDesktopLayout = layoutMode === 'current'
@@ -112,7 +105,32 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
   const layoutLabel =
     layoutMode === 'current' ? messages.minimalLayout : messages.fullLayout
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 768px)')
+
+    const syncLayoutMode = (matchesDesktop: boolean) => {
+      if (hasManualLayoutOverrideRef.current) {
+        return
+      }
+
+      setLayoutMode(matchesDesktop ? 'current' : 'simple')
+    }
+
+    syncLayoutMode(mediaQuery.matches)
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      syncLayoutMode(event.matches)
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
+
   const toggleLayoutMode = () => {
+    hasManualLayoutOverrideRef.current = true
     setLayoutMode(current => (current === 'current' ? 'simple' : 'current'))
   }
 
@@ -201,6 +219,16 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
               />
               <span className="sr-only">Back to Home</span>
             </Link>
+            <button
+              type="button"
+              onClick={toggleLayoutMode}
+              aria-label={layoutLabel}
+              title={layoutLabel}
+              className={secondaryControlClassName}
+            >
+              <LayoutTemplate className="h-5 w-5" aria-hidden="true" />
+              <span className="sr-only">{layoutLabel}</span>
+            </button>
             <SwitchLanguage buttonClassName={secondaryControlClassName} />
             <CVDownloadButton
               label={messages.downloadPdf}

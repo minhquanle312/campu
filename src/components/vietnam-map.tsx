@@ -18,11 +18,15 @@ const VIETNAM_GEO_URL = '/vietnam.geojson'
 interface VietnamMapProps {
   onProvinceClick: (provinceName: number) => void
   highlightedProvinces?: number[]
+  isProvinceInteractive?: (provinceId: number) => boolean
+  getProvinceTestId?: (provinceId: number) => string
 }
 
 const VietnamMap: React.FC<VietnamMapProps> = ({
   onProvinceClick,
   highlightedProvinces = [],
+  isProvinceInteractive,
+  getProvinceTestId,
 }) => {
   return (
     <>
@@ -40,23 +44,36 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
               geographies.map(geo => {
                 const provinceId = geo.properties.id_1
                 const isHighlighted = highlightedProvinces.includes(provinceId)
+                const interactive = isProvinceInteractive
+                  ? isProvinceInteractive(provinceId)
+                  : true
 
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
+                    data-testid={getProvinceTestId?.(provinceId)}
                     data-tooltip-id="my-tooltip"
                     data-tooltip-content={
                       PROVINCES_GEO_MAPPING[
                         provinceId as keyof typeof PROVINCES_GEO_MAPPING
                       ]
                     }
-                    onClick={() => onProvinceClick(provinceId)}
+                    onClick={() => {
+                      if (!interactive) {
+                        return
+                      }
+
+                      onProvinceClick(provinceId)
+                    }}
                     className={clsx(
-                      'transition-all duration-300 outline-hidden cursor-pointer stroke-white stroke-[0.5px]',
+                      'transition-all duration-300 outline-hidden stroke-white stroke-[0.5px]',
+                      interactive ? 'cursor-pointer' : 'cursor-not-allowed',
                       isHighlighted
                         ? 'fill-primary hover:fill-primary/80'
-                        : 'fill-muted-foreground/20 hover:fill-primary/60',
+                        : interactive
+                          ? 'fill-muted-foreground/20 hover:fill-primary/60'
+                          : 'fill-muted-foreground/10 opacity-50',
                     )}
                     style={{
                       default: { outline: 'none' },

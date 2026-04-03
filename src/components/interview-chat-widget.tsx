@@ -205,8 +205,8 @@ export function InterviewChatWidget({
     void sendMessage({
       text:
         locale === 'vi'
-          ? `Tôi là nhà tuyển dụng và vừa điền thông tin liên hệ: tên ${profile.name}, công ty ${profile.company}, số điện thoại ${profile.phone}, địa chỉ công ty ${profile.companyAddress}, email ${profile.email}, vai trò hoặc bối cảnh tuyển dụng: ${profile.aboutMe}`
-          : `I am a recruiter and just filled in my outreach details: name ${profile.name}, company ${profile.company}, phone ${profile.phone}, company address ${profile.companyAddress}, work email ${profile.email}, role or hiring context: ${profile.aboutMe}`,
+          ? `Tôi là nhà tuyển dụng và vừa lưu bối cảnh liên hệ của bên tuyển dụng: tên ${profile.name}, công ty ${profile.company}, số điện thoại ${profile.phone}, địa chỉ công ty ${profile.companyAddress}, email ${profile.email}, vai trò hoặc bối cảnh tuyển dụng: ${profile.aboutMe}. Hãy dùng các thông tin này làm ngữ cảnh nhà tuyển dụng/công ty, không phải thông tin nhận diện của ứng viên.`
+          : `I am a recruiter and just saved my recruiter/company outreach context: name ${profile.name}, company ${profile.company}, phone ${profile.phone}, company address ${profile.companyAddress}, work email ${profile.email}, role or hiring context ${profile.aboutMe}. Please use these details as recruiter/company context, not as the candidate's identity.`,
     })
   }
 
