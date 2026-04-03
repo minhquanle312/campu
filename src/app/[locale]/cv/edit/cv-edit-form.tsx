@@ -188,7 +188,7 @@ export default function CVEditForm({
             </div>
             <textarea
               {...register('summary.vi')}
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-[120px]"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-30"
             />
           </div>
           <div className="space-y-2">
@@ -197,7 +197,7 @@ export default function CVEditForm({
             </div>
             <textarea
               {...register('summary.en')}
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-[120px]"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-30"
             />
           </div>
         </div>
@@ -212,7 +212,7 @@ export default function CVEditForm({
             </div>
             <textarea
               {...register('objective.vi')}
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-[120px]"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-30"
             />
           </div>
           <div className="space-y-2">
@@ -221,7 +221,7 @@ export default function CVEditForm({
             </div>
             <textarea
               {...register('objective.en')}
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-[120px]"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-30"
             />
           </div>
         </div>
@@ -420,7 +420,7 @@ export default function CVEditForm({
                 </div>
                 <textarea
                   {...register(`experience.${index}.descriptions.vi` as const)}
-                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-[120px]"
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-30"
                   defaultValue={initialData?.experience?.[
                     index
                   ]?.descriptions?.vi?.join('\n')}
@@ -432,7 +432,7 @@ export default function CVEditForm({
                 </div>
                 <textarea
                   {...register(`experience.${index}.descriptions.en` as const)}
-                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-[120px]"
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm min-h-30"
                   defaultValue={initialData?.experience?.[
                     index
                   ]?.descriptions?.en?.join('\n')}

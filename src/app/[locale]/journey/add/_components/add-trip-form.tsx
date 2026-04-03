@@ -154,7 +154,7 @@ export function AddTripForm() {
               <FormControl>
                 <Textarea
                   placeholder="Describe your trip..."
-                  className="min-h-[120px]"
+                  className="min-h-30"
                   {...field}
                 />
               </FormControl>

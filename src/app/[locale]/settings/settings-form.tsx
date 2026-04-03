@@ -246,7 +246,7 @@ export default function SettingsForm({ initialConfig }: SettingsFormProps) {
                         .filter(Boolean),
                     })
                   }
-                  className="min-h-[120px] w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  className="min-h-30 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                 />
               </label>
 
