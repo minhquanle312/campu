@@ -50,7 +50,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.2",
     "@types/node": "^25.5.0",
-    "@types/react": "19.2.14",
+    "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@types/react-simple-maps": "^3.0.6",
     "eslint": "^9.39.4",
@@ -58,7 +58,7 @@
     "playwright": "^1.59.1",
     "postcss": "^8.5.8",
     "prettier": "^3.8.1",
-    "shadcn": "^3.8.5",
+    "shadcn": "^4.1.2",
     "tailwindcss": "^4.2.2",
     "tapable": "^2.3.2",
     "typescript": "^5.9.3"

@@ -73,26 +73,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@antfu/ni@npm:^25.0.0":
-  version: 25.0.0
-  resolution: "@antfu/ni@npm:25.0.0"
-  dependencies:
-    ansis: "npm:^4.0.0"
-    fzf: "npm:^0.5.2"
-    package-manager-detector: "npm:^1.3.0"
-    tinyexec: "npm:^1.0.1"
-  bin:
-    na: bin/na.mjs
-    nci: bin/nci.mjs
-    ni: bin/ni.mjs
-    nlx: bin/nlx.mjs
-    nr: bin/nr.mjs
-    nun: bin/nun.mjs
-    nup: bin/nup.mjs
-  checksum: 10c0/a6e5eae4fafde9112088fcb41c3c5aa2e4a8b9a5252ff61ef8c4140c92e57cc85b0a02af48c1d460c66b6ec8adc109395544eaa63942b9af5954e82fdc36f2ea
-  languageName: node
-  linkType: hard
-
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.28.6, @babel/code-frame@npm:^7.29.0":
   version: 7.29.0
   resolution: "@babel/code-frame@npm:7.29.0"
@@ -4216,13 +4196,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansis@npm:^4.0.0":
-  version: 4.2.0
-  resolution: "ansis@npm:4.2.0"
-  checksum: 10c0/cd6a7a681ecd36e72e0d79c1e34f1f3bcb1b15bcbb6f0f8969b4228062d3bfebbef468e09771b00d93b2294370b34f707599d4a113542a876de26823b795b5d2
-  languageName: node
-  linkType: hard
-
 "argparse@npm:^2.0.1":
   version: 2.0.1
   resolution: "argparse@npm:2.0.1"
@@ -4738,7 +4711,7 @@ __metadata:
     "@react-pdf/renderer": "npm:^4.3.2"
     "@tailwindcss/postcss": "npm:^4.2.2"
     "@types/node": "npm:^25.5.0"
-    "@types/react": "npm:19.2.14"
+    "@types/react": "npm:19.2.7"
     "@types/react-dom": "npm:19.2.3"
     "@types/react-simple-maps": "npm:^3.0.6"
     ai: "npm:^6.0.143"
@@ -4770,7 +4743,7 @@ __metadata:
     react-to-print: "npm:^3.3.0"
     react-tooltip: "npm:^5.30.0"
     recharts: "npm:3.8.0"
-    shadcn: "npm:^3.8.5"
+    shadcn: "npm:^4.1.2"
     sonner: "npm:^2.0.7"
     tailwind-merge: "npm:^3.5.0"
     tailwindcss: "npm:^4.2.2"
@@ -6500,13 +6473,6 @@ __metadata:
   version: 3.1.0
   resolution: "fuzzysort@npm:3.1.0"
   checksum: 10c0/da9bb32de16f2a5c2c000b99031d9f4f8a01380c12d5d3b67296443a1152c55987ce3c4ddbfe97481b0e9b6f2fb77d61dceba29a93ad36ee23ef5bab6a31afb8
-  languageName: node
-  linkType: hard
-
-"fzf@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "fzf@npm:0.5.2"
-  checksum: 10c0/5b1f945b289855891c4e3cb03db35381f8d85464dceb15b6d32f0fc74e43d7d2b9a13554cf78a86760ba762de39134d40644ccb54e60668a4bc5b15c4765d36e
   languageName: node
   linkType: hard
 
@@ -8704,13 +8670,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"package-manager-detector@npm:^1.3.0":
-  version: 1.6.0
-  resolution: "package-manager-detector@npm:1.6.0"
-  checksum: 10c0/6419d0b840be64fd45bcdcb7a19f09b81b65456d5e7f7a3daac305a4c90643052122f6ac0308afe548ffee75e36148532a2002ea9d292754f1e385aa2e1ea03b
-  languageName: node
-  linkType: hard
-
 "pako@npm:^0.2.5":
   version: 0.2.9
   resolution: "pako@npm:0.2.9"
@@ -9695,11 +9654,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shadcn@npm:^3.8.5":
-  version: 3.8.5
-  resolution: "shadcn@npm:3.8.5"
+"shadcn@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "shadcn@npm:4.1.2"
   dependencies:
-    "@antfu/ni": "npm:^25.0.0"
     "@babel/core": "npm:^7.28.0"
     "@babel/parser": "npm:^7.28.0"
     "@babel/plugin-transform-typescript": "npm:^7.28.0"
@@ -9736,7 +9694,7 @@ __metadata:
     zod-to-json-schema: "npm:^3.24.6"
   bin:
     shadcn: dist/index.js
-  checksum: 10c0/86401246725399fa9ce61721a03136b0466e2cb18f888d35f706926425bbfa08468204ec2673317c7d500939eb71d07bb410927acb54a79049ef726f5453e2ea
+  checksum: 10c0/05b62a1ab5b2e373c530fa9db815d36a592666b7ab89c5de5dc69c86cf6b02de488a6bb3fd11acdfc78e359579db4b0f786a54c95fa94733ccb5ffdc42a002f0
   languageName: node
   linkType: hard
 
@@ -10334,13 +10292,6 @@ __metadata:
   version: 1.3.3
   resolution: "tiny-invariant@npm:1.3.3"
   checksum: 10c0/65af4a07324b591a059b35269cd696aba21bef2107f29b9f5894d83cc143159a204b299553435b03874ebb5b94d019afa8b8eff241c8a4cfee95872c2e1c1c4a
-  languageName: node
-  linkType: hard
-
-"tinyexec@npm:^1.0.1":
-  version: 1.0.4
-  resolution: "tinyexec@npm:1.0.4"
-  checksum: 10c0/d4a5bbcf6bdb23527a4b74c4aa566f41432167112fe76f420ec7e3a90a3ecfd3a7d944383e2719fc3987b69400f7b928daf08700d145fb527c2e80ec01e198bd
   languageName: node
   linkType: hard
 
