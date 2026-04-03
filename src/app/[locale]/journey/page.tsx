@@ -6,6 +6,8 @@ import '@/models/Province'
 import '@/models/User'
 import Trip from '@/models/Trip'
 import { mapTripDocToViewModel } from '@/lib/trip-mapper'
+import { getSession } from '@/lib/auth-server'
+import { ADMIN_USER_EMAIL } from '@/config/admin-user'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -30,12 +32,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page() {
   await dbConnect()
 
-  const dbTrips = await Trip.find({})
-    .populate('province_id', '-_id')
-    .populate('participant_ids', '-_id')
-    .lean()
+  const [dbTrips, session] = await Promise.all([
+    Trip.find({})
+      .populate('province_id', '-_id')
+      .populate('participant_ids', '-_id')
+      .lean(),
+    getSession(),
+  ])
 
   const formattedTrips = dbTrips.map(mapTripDocToViewModel)
+  const isAdmin = ADMIN_USER_EMAIL.includes(session?.user?.email || '')
 
   return (
     <main className="container py-8 min-h-screen flex flex-col gap-8">
@@ -49,7 +55,7 @@ export default async function Page() {
         </p>
       </div>
 
-      <JourneyClient trips={formattedTrips} />
+      <JourneyClient trips={formattedTrips} isAdmin={isAdmin} />
     </main>
   )
 }

@@ -30,6 +30,16 @@ export default async function proxy(request: NextRequest) {
     ) {
       return NextResponse.redirect(new URL('/journey', request.url))
     }
+
+    // Protect /journey/[id]/edit routes
+    const journeyEditMatch = pathname.match(/^\/journey\/[^/]+\/edit$/)
+    if (
+      journeyEditMatch &&
+      !ADMIN_USER_EMAIL.includes(user?.email || '')
+    ) {
+      const tripPath = pathname.replace('/edit', '')
+      return NextResponse.redirect(new URL(tripPath, request.url))
+    }
   }
 
   return response
@@ -40,5 +50,5 @@ export const config = {
   // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
   // - … `/journey/add`
-  matcher: ['/((?!api|trpc|_next|_vercel|.*\\..*).*)', '/journey/add'],
+  matcher: ['/((?!api|trpc|_next|_vercel|.*\\\\..*).*)', '/journey/add'],
 }
