@@ -388,7 +388,7 @@ export function CVDesktopLayout({
 
 export function CVSimpleLayout({ cv, locale, messages }: LayoutProps) {
   return (
-    <div className="mx-auto max-w-4xl rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl sm:p-8 lg:p-10">
+    <div className="mx-auto max-w-4xl rounded-4xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8 lg:p-10">
       <div className="space-y-10">
         <InformationSection cv={cv} title={messages.information} />
         <ContactSection cv={cv} locale={locale} title={messages.contact} />
