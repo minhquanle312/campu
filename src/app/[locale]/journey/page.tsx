@@ -5,7 +5,7 @@ import dbConnect from '@/lib/mongodb'
 import '@/models/Province'
 import '@/models/User'
 import Trip from '@/models/Trip'
-import { Trip as TripModel } from '@/models/trips.model'
+import { mapTripDocToViewModel } from '@/lib/trip-mapper'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -35,17 +35,7 @@ export default async function Page() {
     .populate('participant_ids', '-_id')
     .lean()
 
-  const formattedTrips: TripModel[] = dbTrips.map(trip => ({
-    ...trip,
-    id: trip._id.toString(),
-    province: trip.province_id,
-    provinceName: trip.province_id.name,
-    provinceId: trip.province_id.code,
-    participants: trip.participant_ids,
-    _id: undefined,
-    province_id: undefined,
-    participant_ids: undefined,
-  }))
+  const formattedTrips = dbTrips.map(mapTripDocToViewModel)
 
   return (
     <main className="container py-8 min-h-screen flex flex-col gap-8">
