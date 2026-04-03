@@ -6,9 +6,6 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL('https://ik.imagekit.io/campu/**')],
   },
-  turbopack: {
-    root: path.join(__dirname, '..'),
-  },
 }
 
 const withNextIntl = createNextIntlPlugin()
