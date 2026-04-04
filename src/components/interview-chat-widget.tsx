@@ -266,7 +266,7 @@ export function InterviewChatWidget({
 
             <ScrollArea className="flex-1 px-6 py-6">
               <div className="space-y-6 pb-6">
-                <div className="rounded-[2rem] border border-rose-100 bg-white/90 p-5 shadow-sm">
+                <div className="rounded-4xl border border-rose-100 bg-white/90 p-5 shadow-sm">
                   <p className="text-sm leading-6 text-slate-600">{t.intro}</p>
                 </div>
 
@@ -305,7 +305,7 @@ export function InterviewChatWidget({
                   />
                 </div>
 
-                <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+                <section className="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
                     <UserRound className="size-4" />
                     {t.quickActions}
@@ -399,7 +399,7 @@ export function InterviewChatWidget({
                   </Button>
                 </section>
 
-                <section className="rounded-[2rem] border border-slate-200 bg-slate-950 p-5 text-white shadow-sm">
+                <section className="rounded-4xl border border-slate-200 bg-slate-950 p-5 text-white shadow-sm">
                   <div className="flex items-center justify-between gap-4">
                     <div>
                       <p className="text-xs uppercase tracking-[0.24em] text-rose-200">
@@ -414,7 +414,7 @@ export function InterviewChatWidget({
                     </div>
                   </div>
 
-                  <div className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+                  <div className="mt-5 rounded-3xl border border-white/10 bg-white/5 p-4">
                     <div className="mb-4 flex items-center justify-between">
                       <button
                         type="button"
@@ -521,7 +521,7 @@ export function InterviewChatWidget({
                     </div>
                   </div>
 
-                  <div className="mt-5 rounded-[1.5rem] border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
+                  <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
                     <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
                       {t.selectedSchedule}
                     </p>
@@ -543,7 +543,7 @@ export function InterviewChatWidget({
                   </Button>
                 </section>
 
-                <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+                <section className="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
                     <Bot className="size-4" />
                     {t.assistant}
@@ -614,7 +614,7 @@ function QuickAction({
     <button
       type="button"
       onClick={onClick}
-      className="rounded-[1.5rem] border border-slate-200 bg-white p-4 text-left transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-sm"
+      className="rounded-3xl border border-slate-200 bg-white p-4 text-left transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-sm"
     >
       <Icon className="mb-3 size-4 text-rose-500" />
       <p className="text-sm font-semibold text-slate-700">{label}</p>

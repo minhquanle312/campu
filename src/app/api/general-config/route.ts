@@ -108,7 +108,7 @@ export async function PUT(request: Request) {
 
   await dbConnect()
   const config = await GeneralConfigModel.findOneAndUpdate({}, resolvedConfig, {
-    new: true,
+    returnDocument: 'after',
     upsert: true,
   }).lean()
 

@@ -1,13 +1,19 @@
 import { auth } from '@/lib/auth'
 import { ADMIN_USER_EMAIL } from '@/config/admin-user'
-import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import CVEditForm from './cv-edit-form'
 import dbConnect from '@/lib/mongodb'
 import CVModel from '@/models/CV'
 import { emptyCVData } from '@/types/cv'
+import { redirect } from '@/i18n/navigation'
 
-export default async function CVEditPage() {
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function CVEditPage({ params }: Props) {
+  const { locale } = await params
+
   const session = await auth.api.getSession({
     headers: await headers(),
   })
@@ -17,7 +23,7 @@ export default async function CVEditPage() {
     !session.user ||
     !ADMIN_USER_EMAIL.includes(session.user.email)
   ) {
-    redirect('/')
+    redirect({ href: '/', locale })
   }
 
   // Fetch current data serverside to avoid client hydration mismatch

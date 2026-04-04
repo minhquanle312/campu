@@ -1,35 +1,19 @@
 {
-  "active_plan": "/Users/minhquanle/Workspace/personal-project/campu/.sisyphus/plans/site-admin-ui-config-updates.md",
-  "started_at": "2026-04-03T04:24:26.107Z",
+  "active_plan": "/Users/minhquanle/Workspace/personal-project/campu/.sisyphus/plans/journey-trip-sharing.md",
+  "started_at": "2026-04-03T19:27:30.000Z",
   "session_ids": [
-    "ses_2aea23560ffeZB1y1F5dnGkwg5",
-    "ses_2ae034805ffeUc3bGcJTXbrjA7",
-    "ses_2adf0f420ffeI6KomcQXOs48uW",
-    "ses_2adf0f325ffeohpXej6t8R9a0c",
-    "ses_2adf0f35effe0PIoCeC84tR4GH",
-    "ses_2adf0f396ffe6EEskxG5ivNvVT",
-    "ses_2ade99115ffeG9zQN6YMi5dcjt",
-    "ses_2ade53025ffe1M0ZqZfpzGlqJ5",
-    "ses_2add9bbc9ffep9umEAIK4YFRcS",
-    "ses_2adbde957ffeTKJYYekhgsUiPd",
-    "ses_2adbdea2fffem5WYhgkW4vMD39",
-    "ses_2adbde911ffeSBHVihjXdt0saE",
-    "ses_2adbde9c0ffeK6jtqPspOovxug",
-    "ses_2adb81765ffe6OnlxxdRMykx7W",
-    "ses_2adb2a880ffeIqmevg8j41Sara",
-    "ses_2adaf8f5affevr6tMolZnLdtgT"
+    "ses_2ab4944d7ffeHV3JISn1r2JoX8",
+    "ses_2ab2bfa77ffec7wsMRixXc9FuP",
+    "ses_2ab2bdbb3ffeIA1XIGh38q5ZrQ",
+    "ses_2ab2c16d0ffequMW8lXF0ftUab",
+    "ses_2ab295684ffehDhzvX8b5Weehj",
+    "ses_2ab296735ffegnoSTb5b6ijIOh",
+    "ses_2ab299a02ffeDmG8CZ8ooVQGk7",
+    "ses_2ab27ccb7ffeDTpvDc8rQymAB4",
+    "ses_2ab279a16ffe4ETTmW3L7oCk4Q",
+    "ses_2ab27abfdffeJMaWyHNa5eskGm"
   ],
-  "plan_name": "site-admin-ui-config-updates",
+  "plan_name": "journey-trip-sharing",
   "agent": "atlas",
-  "task_sessions": {
-    "todo:3": {
-      "task_key": "todo:3",
-      "task_label": "3",
-      "task_title": "Add the protected settings surface and config read/write API",
-      "session_id": "ses_2adbdea2fffem5WYhgkW4vMD39",
-      "agent": "oracle",
-      "category": "",
-      "updated_at": "2026-04-03T07:34:22.710Z"
-    }
-  }
+  "task_sessions": {}
 }

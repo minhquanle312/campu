@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import Image from 'next/image'
 import {
   Check,
@@ -288,7 +288,7 @@ export default function HomeInlineAdminPanel({
                   return (
                     <div
                       key={item.slot}
-                      className="space-y-4 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-4"
+                      className="space-y-4 rounded-3xl border border-slate-200 bg-slate-50/80 p-4"
                     >
                       <div>
                         <h3 className="text-base font-semibold text-slate-900">
@@ -304,7 +304,7 @@ export default function HomeInlineAdminPanel({
                           <p className="text-xs font-semibold tracking-[0.16em] text-slate-500 uppercase">
                             Live image
                           </p>
-                          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                          <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-slate-200 bg-white">
                             <Image
                               fill
                               src={resolvePreviewSource(liveAsset)}
@@ -322,7 +322,7 @@ export default function HomeInlineAdminPanel({
                           <p className="text-xs font-semibold tracking-[0.16em] text-slate-500 uppercase">
                             Draft preview
                           </p>
-                          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-dashed border-primary/30 bg-white">
+                          <div className="relative aspect-4/3 overflow-hidden rounded-2xl border border-dashed border-primary/30 bg-white">
                             <Image
                               fill
                               src={resolvePreviewSource(draftAsset)}
