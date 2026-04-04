@@ -26,7 +26,7 @@ const JOURNEY_TEST_IDS = {
   modeToggle: 'journey-mode-toggle',
   listResults: 'journey-list-results',
   emptyState: 'journey-empty-state',
-  mapRegion: (provinceId: number) => `journey-map-region-${provinceId}`,
+  mapRegion: (provinceCode: number) => `journey-map-region-${provinceCode}`,
 } as const
 
 export function normalizeJourneySearchText(value: string) {
@@ -45,13 +45,15 @@ type Props = {
 export default function JourneyClient({ trips, isAdmin = false }: Props) {
   const [mode, setMode] = useState<JourneyMode>('map')
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedProvince, setSelectedProvince] = useState<number | null>(null)
+  const [selectedProvinceCode, setSelectedProvinceCode] = useState<
+    number | null
+  >(null)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null)
   const [isTripSheetOpen, setIsTripSheetOpen] = useState(false)
 
-  const provincesWithTrips = useMemo(
-    () => Array.from(new Set(trips.map(trip => trip.provinceId))),
+  const provinceCodesWithTrips = useMemo(
+    () => Array.from(new Set(trips.map(trip => trip.provinceCode))),
     [trips],
   )
   const normalizedSearchQuery = normalizeJourneySearchText(searchQuery)
@@ -77,24 +79,24 @@ export default function JourneyClient({ trips, isAdmin = false }: Props) {
     })
   }, [isSearchActive, normalizedSearchQuery, trips])
 
-  const visibleProvinceIds = useMemo(
-    () => Array.from(new Set(visibleTrips.map(trip => trip.provinceId))),
+  const visibleProvinceCodes = useMemo(
+    () => Array.from(new Set(visibleTrips.map(trip => trip.provinceCode))),
     [visibleTrips],
   )
 
-  const matchingProvinceIds = isSearchActive
-    ? visibleProvinceIds
-    : provincesWithTrips
+  const matchingProvinceCodes = isSearchActive
+    ? visibleProvinceCodes
+    : provinceCodesWithTrips
 
-  const highlightedProvinceIds = matchingProvinceIds
+  const highlightedProvinceCodes = matchingProvinceCodes
 
   const hasVisibleResults = visibleTrips.length > 0
   const activeResultLabel = isSearchActive
     ? `${visibleTrips.length} matching trip${visibleTrips.length === 1 ? '' : 's'}`
     : `${trips.length} trip${trips.length === 1 ? '' : 's'}`
 
-  const isProvinceInteractive = (provinceId: number) => {
-    if (!provincesWithTrips.includes(provinceId)) {
+  const isProvinceInteractive = (provinceCode: number) => {
+    if (!provinceCodesWithTrips.includes(provinceCode)) {
       return false
     }
 
@@ -102,19 +104,19 @@ export default function JourneyClient({ trips, isAdmin = false }: Props) {
       return true
     }
 
-    return matchingProvinceIds.includes(provinceId)
+    return matchingProvinceCodes.includes(provinceCode)
   }
 
   const clearSearch = () => {
     setSearchQuery('')
   }
 
-  const handleProvinceClick = (provinceName: number) => {
-    if (!isProvinceInteractive(provinceName)) {
+  const handleProvinceClick = (provinceCode: number) => {
+    if (!isProvinceInteractive(provinceCode)) {
       return
     }
 
-    setSelectedProvince(provinceName)
+    setSelectedProvinceCode(provinceCode)
     setIsSheetOpen(true)
   }
 
@@ -157,7 +159,7 @@ export default function JourneyClient({ trips, isAdmin = false }: Props) {
             <p className="text-sm text-muted-foreground">
               {isSearchActive
                 ? `Showing ${activeResultLabel} for "${searchQuery.trim()}".`
-                : `Browse ${activeResultLabel} across ${provincesWithTrips.length} provinces.`}
+                : `Browse ${activeResultLabel} across ${provinceCodesWithTrips.length} provinces.`}
             </p>
           </div>
 
@@ -225,7 +227,7 @@ export default function JourneyClient({ trips, isAdmin = false }: Props) {
           <div className="absolute inset-0 rounded-xl border border-border bg-background shadow-xs">
             <VietnamMap
               onProvinceClick={handleProvinceClick}
-              highlightedProvinces={highlightedProvinceIds}
+              highlightedProvinces={highlightedProvinceCodes}
               isProvinceInteractive={isProvinceInteractive}
               getProvinceTestId={JOURNEY_TEST_IDS.mapRegion}
             />
@@ -315,7 +317,7 @@ export default function JourneyClient({ trips, isAdmin = false }: Props) {
       ) : null}
 
       <ProvinceDetailSheet
-        provinceId={selectedProvince}
+        provinceCode={selectedProvinceCode}
         isOpen={isSheetOpen}
         onOpenChange={setIsSheetOpen}
         trips={visibleTrips}

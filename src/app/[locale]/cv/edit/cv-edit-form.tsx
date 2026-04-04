@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { Save, Plus, Trash2 } from 'lucide-react'
 import type { CVData, CVExperienceItem } from '@/types/cv'
 

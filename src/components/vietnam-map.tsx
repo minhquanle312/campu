@@ -16,10 +16,10 @@ import { PROVINCES_GEO_MAPPING } from '@/config/province'
 const VIETNAM_GEO_URL = '/vietnam.geojson'
 
 interface VietnamMapProps {
-  onProvinceClick: (provinceName: number) => void
+  onProvinceClick: (provinceCode: number) => void
   highlightedProvinces?: number[]
-  isProvinceInteractive?: (provinceId: number) => boolean
-  getProvinceTestId?: (provinceId: number) => string
+  isProvinceInteractive?: (provinceCode: number) => boolean
+  getProvinceTestId?: (provinceCode: number) => string
 }
 
 const VietnamMap: React.FC<VietnamMapProps> = ({
@@ -42,21 +42,22 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
           <Geographies geography={VIETNAM_GEO_URL}>
             {({ geographies }) =>
               geographies.map(geo => {
-                const provinceId = geo.properties.id_1
-                const isHighlighted = highlightedProvinces.includes(provinceId)
+                const provinceCode = geo.properties.id_1 as number
+                const isHighlighted =
+                  highlightedProvinces.includes(provinceCode)
                 const interactive = isProvinceInteractive
-                  ? isProvinceInteractive(provinceId)
+                  ? isProvinceInteractive(provinceCode)
                   : true
 
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    data-testid={getProvinceTestId?.(provinceId)}
+                    data-testid={getProvinceTestId?.(provinceCode)}
                     data-tooltip-id="my-tooltip"
                     data-tooltip-content={
                       PROVINCES_GEO_MAPPING[
-                        provinceId as keyof typeof PROVINCES_GEO_MAPPING
+                        provinceCode as keyof typeof PROVINCES_GEO_MAPPING
                       ]
                     }
                     onClick={() => {
@@ -64,7 +65,7 @@ const VietnamMap: React.FC<VietnamMapProps> = ({
                         return
                       }
 
-                      onProvinceClick(provinceId)
+                      onProvinceClick(provinceCode)
                     }}
                     className={clsx(
                       'transition-all duration-300 outline-hidden stroke-white stroke-[0.5px]',

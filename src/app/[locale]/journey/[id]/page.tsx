@@ -55,7 +55,7 @@ export default async function TripDetailPage({ params }: Props) {
 
   const [tripDoc, costDocs, session] = await Promise.all([
     Trip.findById(id)
-      .populate('province_id', '-_id')
+      .populate('province_id')
       .populate('participant_ids', '-_id')
       .lean(),
     TripCost.find({ trip_id: id }).lean(),

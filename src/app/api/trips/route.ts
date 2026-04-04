@@ -63,7 +63,7 @@ export async function POST(request: Request) {
   const trip = await Trip.create(validationResult.data)
 
   const populated = await Trip.findById(trip._id)
-    .populate('province_id', '-_id')
+    .populate('province_id')
     .populate('participant_ids', '-_id')
     .lean()
 

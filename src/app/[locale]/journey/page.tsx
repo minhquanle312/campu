@@ -34,7 +34,7 @@ export default async function Page() {
 
   const [dbTrips, session] = await Promise.all([
     Trip.find({})
-      .populate('province_id', '-_id')
+      .populate('province_id')
       .populate('participant_ids', '-_id')
       .lean(),
     getSession(),

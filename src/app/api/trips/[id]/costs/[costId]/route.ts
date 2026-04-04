@@ -63,7 +63,7 @@ export async function PUT(request: Request, { params }: Props) {
   const cost = await TripCost.findOneAndUpdate(
     { _id: costId, trip_id: id },
     validationResult.data,
-    { new: true },
+    { returnDocument: 'after' },
   ).lean()
 
   if (!cost) {

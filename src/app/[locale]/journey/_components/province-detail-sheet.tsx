@@ -32,7 +32,7 @@ import {
 import { Trip } from '@/models/trips.model'
 
 interface ProvinceDetailSheetProps {
-  provinceId: number | null
+  provinceCode: number | null
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   trips: Trip[]
@@ -40,7 +40,7 @@ interface ProvinceDetailSheetProps {
 }
 
 export function ProvinceDetailSheet({
-  provinceId,
+  provinceCode,
   isOpen,
   onOpenChange,
   trips,
@@ -48,11 +48,13 @@ export function ProvinceDetailSheet({
 }: ProvinceDetailSheetProps) {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null)
 
-  const selectedTrips = trips.filter(t => t.provinceId === provinceId)
+  const selectedTrips = trips.filter(t => t.provinceCode === provinceCode)
 
   const provinceName =
-    provinceId !== null
-      ? PROVINCES_GEO_MAPPING[provinceId as keyof typeof PROVINCES_GEO_MAPPING]
+    provinceCode !== null
+      ? PROVINCES_GEO_MAPPING[
+          provinceCode as keyof typeof PROVINCES_GEO_MAPPING
+        ]
       : ''
 
   // Province stats
@@ -153,7 +155,10 @@ export function ProvinceDetailSheet({
                     </Badge>
                   )}
                   {trip.images.length > 0 && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       <Camera className="h-3 w-3" />
                       {trip.images.length} photo
                       {trip.images.length === 1 ? '' : 's'}
@@ -165,9 +170,7 @@ export function ProvinceDetailSheet({
                 {trip.participants.length > 0 && (
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
-                      With:
-                    </span>
+                    <span className="text-sm text-muted-foreground">With:</span>
                     <div className="flex -space-x-2">
                       {trip.participants.map(p => (
                         <Avatar

@@ -1,5 +1,4 @@
 import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 import { ADMIN_USER_EMAIL } from '@/config/admin-user'
 import { auth } from '@/lib/auth'
 import dbConnect from '@/lib/mongodb'
@@ -9,8 +8,14 @@ import {
   resolveGeneralConfig,
 } from '@/types/general-config'
 import SettingsForm from './settings-form'
+import { redirect } from '@/i18n/navigation'
 
-export default async function SettingsPage() {
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function SettingsPage({ params }: Props) {
+  const { locale } = await params
   const session = await auth.api.getSession({
     headers: await headers(),
   })
@@ -20,7 +25,7 @@ export default async function SettingsPage() {
     !session.user ||
     !ADMIN_USER_EMAIL.includes(session.user.email)
   ) {
-    redirect('/')
+    redirect({ locale, href: '/' })
   }
 
   await dbConnect()

@@ -25,12 +25,10 @@ export async function GET() {
     // token: "random-token", // Optional, a unique token for request
   })
 
-  return Response.json({
+  return NextResponse.json({
     token,
     expire,
     signature,
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
   })
-
-  // return NextResponse.json(createImageKitHomepageUploadAuth())
 }

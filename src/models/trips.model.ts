@@ -28,7 +28,8 @@ export interface Trip {
   date: string
   summary: string
   provinceName: string
-  provinceId: number
+  provinceId: string
+  provinceCode: number
   participants: User[]
   participantIds: string[]
   images: string[]

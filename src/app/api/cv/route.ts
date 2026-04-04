@@ -34,6 +34,9 @@ export async function PUT(request: Request) {
   const body = await request.json()
 
   // Find the first CV and update it, or create if it doesn't exist
-  const cv = await CV.findOneAndUpdate({}, body, { new: true, upsert: true })
+  const cv = await CV.findOneAndUpdate({}, body, {
+    returnDocument: 'after',
+    upsert: true,
+  })
   return NextResponse.json(cv)
 }

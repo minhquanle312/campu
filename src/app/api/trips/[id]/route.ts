@@ -25,7 +25,7 @@ export async function GET(_request: Request, { params }: Props) {
   await dbConnect()
 
   const trip = await Trip.findById(id)
-    .populate('province_id', '-_id')
+    .populate('province_id')
     .populate('participant_ids', '-_id')
     .lean()
 
@@ -83,9 +83,9 @@ export async function PUT(request: Request, { params }: Props) {
   await dbConnect()
 
   const trip = await Trip.findByIdAndUpdate(id, validationResult.data, {
-    new: true,
+    returnDocument: 'after',
   })
-    .populate('province_id', '-_id')
+    .populate('province_id')
     .populate('participant_ids', '-_id')
     .lean()
 

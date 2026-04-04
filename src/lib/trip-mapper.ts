@@ -16,8 +16,7 @@ function mapDetails(details: any): TripDetails | undefined {
   if (details.cuisine_experience != null)
     mapped.cuisineExperience = details.cuisine_experience
   if (details.disadvantages) mapped.disadvantages = details.disadvantages
-  if (details.duration_days != null)
-    mapped.durationDays = details.duration_days
+  if (details.duration_days != null) mapped.durationDays = details.duration_days
   if (details.best_season) mapped.bestSeason = details.best_season
 
   return Object.keys(mapped).length > 0 ? mapped : undefined
@@ -32,7 +31,11 @@ export function mapTripDocToViewModel(doc: any): Trip {
     date: doc.date,
     summary: doc.summary,
     provinceName: doc.province_id?.name ?? '',
-    provinceId: doc.province_id?.code ?? 0,
+    provinceId: doc.province_id?._id?.toString() || undefined,
+    provinceCode:
+      typeof doc.province_id?.code === 'number'
+        ? doc.province_id.code
+        : Number(doc.province_id?.code) || undefined,
     participants: participants.map((p: any) => ({
       id: p._id?.toString() ?? p.id,
       name: p.name ?? '',

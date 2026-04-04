@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { Trip, TripCost } from '@/models/trips.model'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -17,7 +17,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { MarkdownRenderer } from '@/components/markdown-renderer'
-import { PROVINCES_GEO_MAPPING } from '@/config/province'
 import {
   ArrowLeft,
   Eye,
@@ -32,11 +31,12 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { Province } from '@/models/province.model'
 
 interface EditTripFormProps {
   trip: Trip
-  rawTrip: any
   costs: TripCost[]
+  provinces: Province[]
 }
 
 type UploadAuthResponse = {
@@ -90,8 +90,8 @@ async function uploadFileToImageKit(file: File): Promise<string> {
 
 export function EditTripForm({
   trip,
-  rawTrip,
   costs: initialCosts,
+  provinces,
 }: EditTripFormProps) {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
@@ -106,11 +106,7 @@ export function EditTripForm({
     new Date(trip.date).toISOString().split('T')[0],
   )
   const [summary, setSummary] = useState(trip.summary)
-  const [provinceId, setProvinceId] = useState(
-    rawTrip.province_id?._id?.toString() ||
-      rawTrip.province_id?.toString() ||
-      '',
-  )
+  const [provinceId, setProvinceId] = useState(trip.provinceId.toString())
   const [imagesList, setImagesList] = useState<string[]>(trip.images)
   const [videos, setVideos] = useState(trip.videos.join('\n'))
   const [coverImage, setCoverImage] = useState(trip.coverImage || '')
@@ -143,16 +139,12 @@ export function EditTripForm({
   const [newCostAmount, setNewCostAmount] = useState('')
   const [newCostNote, setNewCostNote] = useState('')
 
-  const provinces = Object.entries(PROVINCES_GEO_MAPPING).map(
-    ([id, name]) => ({
-      id,
-      name,
-    }),
-  )
+  // const provinces = Object.entries(PROVINCES_GEO_MAPPING).map(([id, name]) => ({
+  //   id,
+  //   name,
+  // }))
 
-  const handleCoverUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
@@ -168,20 +160,16 @@ export function EditTripForm({
     }
   }
 
-  const handleImagesUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleImagesUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files || files.length === 0) return
 
     setUploading('images')
     try {
-      const urls: string[] = []
-      for (const file of Array.from(files)) {
-        const url = await uploadFileToImageKit(file)
-        urls.push(url)
-      }
-      setImagesList((prev) => [...prev, ...urls])
+      const urls = await Promise.all(
+        Array.from(files).map(uploadFileToImageKit),
+      )
+      setImagesList(prev => [...prev, ...urls])
       toast.success(`${urls.length} image(s) uploaded`)
     } catch (err: any) {
       toast.error(err.message || 'Upload failed')
@@ -192,7 +180,7 @@ export function EditTripForm({
   }
 
   const removeImage = (index: number) => {
-    setImagesList((prev) => prev.filter((_, i) => i !== index))
+    setImagesList(prev => prev.filter((_, i) => i !== index))
   }
 
   const handleSave = async () => {
@@ -215,10 +203,11 @@ export function EditTripForm({
         title,
         date,
         summary,
+        province_id: provinceId,
         images: imagesList,
         videos: videos
           .split('\n')
-          .map((s) => s.trim())
+          .map(s => s.trim())
           .filter(Boolean),
       }
 
@@ -264,7 +253,7 @@ export function EditTripForm({
       if (!res.ok) throw new Error('Failed to add cost')
 
       const newCost = await res.json()
-      setCosts((prev) => [...prev, newCost])
+      setCosts(prev => [...prev, newCost])
       setNewCostCategory('')
       setNewCostAmount('')
       setNewCostNote('')
@@ -282,7 +271,7 @@ export function EditTripForm({
 
       if (!res.ok) throw new Error('Failed to delete cost')
 
-      setCosts((prev) => prev.filter((c) => c.id !== costId))
+      setCosts(prev => prev.filter(c => c.id !== costId))
       toast.success('Cost deleted')
     } catch {
       toast.error('Failed to delete cost')
@@ -329,7 +318,7 @@ export function EditTripForm({
             <Input
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               placeholder="Trip title"
             />
           </div>
@@ -340,7 +329,7 @@ export function EditTripForm({
                 id="date"
                 type="date"
                 value={date}
-                onChange={(e) => setDate(e.target.value)}
+                onChange={e => setDate(e.target.value)}
               />
             </div>
             <div className="space-y-2">
@@ -350,7 +339,7 @@ export function EditTripForm({
                   <SelectValue placeholder="Select province" />
                 </SelectTrigger>
                 <SelectContent>
-                  {provinces.map((p) => (
+                  {provinces.map(p => (
                     <SelectItem key={p.id} value={p.id}>
                       {p.name}
                     </SelectItem>
@@ -364,7 +353,7 @@ export function EditTripForm({
             <Textarea
               id="summary"
               value={summary}
-              onChange={(e) => setSummary(e.target.value)}
+              onChange={e => setSummary(e.target.value)}
               placeholder="Trip summary"
               className="min-h-24"
             />
@@ -384,7 +373,7 @@ export function EditTripForm({
               <Input
                 id="vehicle"
                 value={vehicle}
-                onChange={(e) => setVehicle(e.target.value)}
+                onChange={e => setVehicle(e.target.value)}
                 placeholder="e.g. Motorcycle, Bus"
               />
             </div>
@@ -409,7 +398,7 @@ export function EditTripForm({
               <Input
                 id="vibe"
                 value={vibe}
-                onChange={(e) => setVibe(e.target.value)}
+                onChange={e => setVibe(e.target.value)}
                 placeholder="e.g. Adventurous, Relaxing"
               />
             </div>
@@ -419,7 +408,7 @@ export function EditTripForm({
                 id="durationDays"
                 type="number"
                 value={durationDays}
-                onChange={(e) => setDurationDays(e.target.value)}
+                onChange={e => setDurationDays(e.target.value)}
                 placeholder="e.g. 3"
               />
             </div>
@@ -432,9 +421,10 @@ export function EditTripForm({
                   <SelectValue placeholder="Rate scenery" />
                 </SelectTrigger>
                 <SelectContent>
-                  {[1, 2, 3, 4, 5].map((n) => (
+                  {[1, 2, 3, 4, 5].map(n => (
                     <SelectItem key={n} value={String(n)}>
-                      {'\u2605'.repeat(n)}{'\u2606'.repeat(5 - n)}
+                      {'\u2605'.repeat(n)}
+                      {'\u2606'.repeat(5 - n)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -450,9 +440,10 @@ export function EditTripForm({
                   <SelectValue placeholder="Rate cuisine" />
                 </SelectTrigger>
                 <SelectContent>
-                  {[1, 2, 3, 4, 5].map((n) => (
+                  {[1, 2, 3, 4, 5].map(n => (
                     <SelectItem key={n} value={String(n)}>
-                      {'\u2605'.repeat(n)}{'\u2606'.repeat(5 - n)}
+                      {'\u2605'.repeat(n)}
+                      {'\u2606'.repeat(5 - n)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -464,7 +455,7 @@ export function EditTripForm({
             <Input
               id="bestSeason"
               value={bestSeason}
-              onChange={(e) => setBestSeason(e.target.value)}
+              onChange={e => setBestSeason(e.target.value)}
               placeholder="e.g. Spring, Oct-Dec"
             />
           </div>
@@ -473,7 +464,7 @@ export function EditTripForm({
             <Textarea
               id="preparation"
               value={preparation}
-              onChange={(e) => setPreparation(e.target.value)}
+              onChange={e => setPreparation(e.target.value)}
               placeholder="What to prepare or bring..."
               className="min-h-20"
             />
@@ -483,7 +474,7 @@ export function EditTripForm({
             <Textarea
               id="disadvantages"
               value={disadvantages}
-              onChange={(e) => setDisadvantages(e.target.value)}
+              onChange={e => setDisadvantages(e.target.value)}
               placeholder="Any downsides or things to watch out for..."
               className="min-h-20"
             />
@@ -537,10 +528,12 @@ export function EditTripForm({
               )}
               {uploading === 'cover' ? 'Uploading...' : 'Upload Cover'}
             </Button>
-            <span className="text-sm text-muted-foreground self-center">or</span>
+            <span className="text-sm text-muted-foreground self-center">
+              or
+            </span>
             <Input
               value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
+              onChange={e => setCoverImage(e.target.value)}
               placeholder="Paste image URL"
               className="flex-1"
             />
@@ -619,7 +612,7 @@ export function EditTripForm({
           <Textarea
             id="videos"
             value={videos}
-            onChange={(e) => setVideos(e.target.value)}
+            onChange={e => setVideos(e.target.value)}
             placeholder="https://video1.mp4"
             className="min-h-20 font-mono text-sm"
           />
@@ -652,7 +645,7 @@ export function EditTripForm({
         <CardContent className="space-y-4">
           <Textarea
             value={article}
-            onChange={(e) => setArticle(e.target.value)}
+            onChange={e => setArticle(e.target.value)}
             placeholder="Write your trip story in markdown..."
             className="min-h-48 font-mono text-sm"
           />
@@ -689,7 +682,7 @@ export function EditTripForm({
                   </tr>
                 </thead>
                 <tbody>
-                  {costs.map((cost) => (
+                  {costs.map(cost => (
                     <tr key={cost.id} className="border-b last:border-0">
                       <td className="p-3 text-sm capitalize">
                         {cost.category}
@@ -744,7 +737,7 @@ export function EditTripForm({
               <Input
                 type="number"
                 value={newCostAmount}
-                onChange={(e) => setNewCostAmount(e.target.value)}
+                onChange={e => setNewCostAmount(e.target.value)}
                 placeholder="0"
               />
             </div>
@@ -752,7 +745,7 @@ export function EditTripForm({
               <Label>Note</Label>
               <Input
                 value={newCostNote}
-                onChange={(e) => setNewCostNote(e.target.value)}
+                onChange={e => setNewCostNote(e.target.value)}
                 placeholder="Optional note"
               />
             </div>

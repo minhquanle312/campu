@@ -1,8 +1,8 @@
-import { redirect } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
 import dbConnect from '@/lib/mongodb'
 import Trip from '@/models/Trip'
 import TripCost from '@/models/TripCost'
-import '@/models/Province'
+import Province from '@/models/Province'
 import '@/models/User'
 import { mapTripDocToViewModel } from '@/lib/trip-mapper'
 import { getSession } from '@/lib/auth-server'
@@ -26,17 +26,18 @@ export default async function EditTripPage({ params }: Props) {
   const isAdmin = ADMIN_USER_EMAIL.includes(session?.user?.email || '')
 
   if (!isAdmin) {
-    redirect(`/${locale}/journey/${id}`)
+    redirect({ href: `/journey/${id}`, locale })
   }
 
   await dbConnect()
 
-  const [tripDoc, costDocs] = await Promise.all([
+  const [tripDoc, costDocs, provinceDocs] = await Promise.all([
     Trip.findById(id)
-      .populate('province_id', '-_id')
+      .populate('province_id')
       .populate('participant_ids', '-_id')
       .lean(),
     TripCost.find({ trip_id: id }).lean(),
+    Province.find().lean(),
   ])
 
   if (!tripDoc) {
@@ -44,7 +45,7 @@ export default async function EditTripPage({ params }: Props) {
   }
 
   const trip = mapTripDocToViewModel(tripDoc)
-  const rawTrip = JSON.parse(JSON.stringify(tripDoc))
+  // const rawTrip = JSON.parse(JSON.stringify(tripDoc))
 
   const costs = costDocs.map((cost: any) => ({
     id: cost._id.toString(),
@@ -55,10 +56,16 @@ export default async function EditTripPage({ params }: Props) {
     note: cost.note || '',
   }))
 
+  const provinces = provinceDocs.map(p => ({
+    id: p._id.toString(),
+    name: p.name,
+    code: p.code,
+  }))
+
   return (
     <main className="container py-8 min-h-screen max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold tracking-tight mb-8">Edit Trip</h1>
-      <EditTripForm trip={trip} rawTrip={rawTrip} costs={costs} />
+      <EditTripForm trip={trip} provinces={provinces} costs={costs} />
     </main>
   )
 }
