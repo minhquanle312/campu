@@ -244,9 +244,9 @@ export function InterviewChatWidget({
 
         <SheetContent
           side="right"
-          className="w-full overflow-hidden border-l-0 bg-white p-0 sm:max-w-[460px]"
+          className="w-full overflow-hidden border-l-0 bg-white p-0 sm:max-w-115"
         >
-          <div className="flex h-full flex-col bg-linear-to-b from-rose-50 via-white to-white">
+          <div className="flex h-full min-h-0 flex-col bg-linear-to-b from-rose-50 via-white to-white">
             <div className="border-b border-rose-100 px-6 py-5">
               <div className="flex items-start justify-between gap-4 pr-8">
                 <div>
@@ -264,7 +264,7 @@ export function InterviewChatWidget({
               </div>
             </div>
 
-            <ScrollArea className="flex-1 px-6 py-6">
+            <ScrollArea className="min-h-0 flex-1 px-6 py-6">
               <div className="space-y-6 pb-6">
                 <div className="rounded-4xl border border-rose-100 bg-white/90 p-5 shadow-sm">
                   <p className="text-sm leading-6 text-slate-600">{t.intro}</p>

@@ -6,4 +6,11 @@ export default defineConfig([
   {
     extends: [...nextCoreWebVitals, ...nextTypescript],
   },
+  {
+    settings: {
+      react: {
+        version: '19',
+      },
+    },
+  },
 ])

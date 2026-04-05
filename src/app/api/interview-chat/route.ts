@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
   if (apiKey) {
     const result = streamText({
-      model: openai('gpt-4.1-mini'),
+      model: openai('gpt-5.2'),
       system: systemPrompt,
       messages: await convertToModelMessages(messages),
     })
