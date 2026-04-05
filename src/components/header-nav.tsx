@@ -6,6 +6,7 @@ import { signIn, useSession } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
 import {
   Compass,
+  FileText,
   Heart,
   Home,
   LogIn,
@@ -41,6 +42,11 @@ const navItems = [
     href: '/journey',
     labelKey: 'Journey',
     icon: MapIcon,
+  },
+  {
+    href: '/cv',
+    labelKey: 'CV',
+    icon: FileText,
   },
 ] as const
 
