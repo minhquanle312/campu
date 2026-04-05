@@ -55,6 +55,7 @@ export function HeaderNav() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const isAdmin = Boolean(session?.user?.isAdmin)
   const userName = session?.user?.name?.trim() || t('Traveler')
   const initials = userName
     .split(/\s+/)
@@ -187,7 +188,17 @@ export function HeaderNav() {
           />
 
           {session ? (
-            <div className="flex h-10 items-center gap-2 px-1">
+            <div className="flex items-center gap-2 px-1">
+              {isAdmin ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="hidden h-10 rounded-full border-primary/15 bg-white/90 px-4 text-foreground shadow-sm transition-colors duration-200 hover:border-primary/30 hover:bg-accent/70 hover:text-accent-foreground motion-reduce:transition-none sm:inline-flex"
+                >
+                  <Link href="/settings">{t('Settings')}</Link>
+                </Button>
+              ) : null}
               <Avatar className="h-10 w-10 border border-primary/10">
                 <AvatarImage src={session.user.image || ''} alt={userName} />
                 <AvatarFallback className="bg-accent text-accent-foreground">
