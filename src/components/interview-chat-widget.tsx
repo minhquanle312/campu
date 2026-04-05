@@ -32,6 +32,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Textarea } from '@/components/ui/textarea'
+import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { cn } from '@/lib/utils'
 import type { Locale } from '@/types/cv'
 
@@ -515,9 +516,16 @@ export function InterviewChatWidget({
                         </p>
                         {message.parts.map(part =>
                           part.type === 'text' ? (
-                            <p key={`${message.id}-${part.text}`}>
-                              {part.text}
-                            </p>
+                            <MarkdownRenderer
+                              key={`${message.id}-${part.text}`}
+                              content={part.text}
+                              className={cn(
+                                'space-y-3 break-words [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_code]:rounded [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.95em] [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:px-3 [&_pre]:py-2 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5',
+                                message.role === 'user'
+                                  ? '[&_a]:text-white [&_code]:bg-white/15 [&_pre]:bg-white/10'
+                                  : '[&_a]:text-slate-900 [&_code]:bg-slate-200 [&_pre]:bg-white',
+                              )}
+                            />
                           ) : null,
                         )}
                       </div>
