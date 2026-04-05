@@ -176,10 +176,7 @@ export function TripDetailClient({
         (trip.details.sceneryQuality || trip.details.cuisineExperience) && (
           <div className="flex flex-wrap gap-6">
             {trip.details.sceneryQuality && (
-              <StarRating
-                value={trip.details.sceneryQuality}
-                label="Scenery"
-              />
+              <StarRating value={trip.details.sceneryQuality} label="Scenery" />
             )}
             {trip.details.cuisineExperience && (
               <StarRating
@@ -303,9 +300,7 @@ export function TripDetailClient({
                   <th className="text-left p-3 text-sm font-medium">
                     Category
                   </th>
-                  <th className="text-right p-3 text-sm font-medium">
-                    Amount
-                  </th>
+                  <th className="text-right p-3 text-sm font-medium">Amount</th>
                   <th className="text-left p-3 text-sm font-medium">Note</th>
                 </tr>
               </thead>

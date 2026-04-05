@@ -4,9 +4,7 @@ const tripDetailsSchema = z
   .object({
     vehicle: z.string().optional(),
     article: z.string().optional(),
-    difficulty: z
-      .enum(['easy', 'moderate', 'hard', 'extreme'])
-      .optional(),
+    difficulty: z.enum(['easy', 'moderate', 'hard', 'extreme']).optional(),
     vibe: z.string().optional(),
     preparation: z.string().optional(),
     scenery_quality: z.number().min(1).max(5).optional(),
@@ -42,13 +40,7 @@ export const updateTripSchema = z.object({
 })
 
 export const createTripCostSchema = z.object({
-  category: z.enum([
-    'transport',
-    'food',
-    'accommodation',
-    'activity',
-    'other',
-  ]),
+  category: z.enum(['transport', 'food', 'accommodation', 'activity', 'other']),
   amount: z.number().positive('Amount must be positive'),
   currency: z.string().default('VND'),
   note: z.string().optional(),

@@ -82,28 +82,35 @@ export function TripQuickViewSheet({
             {trip.details && (
               <div className="flex flex-wrap gap-2">
                 {trip.details.difficulty && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                  >
                     <Sparkles className="h-3 w-3" />
                     {trip.details.difficulty}
                   </Badge>
                 )}
                 {trip.details.durationDays && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                  >
                     <Clock className="h-3 w-3" />
                     {trip.details.durationDays} day
                     {trip.details.durationDays > 1 ? 's' : ''}
                   </Badge>
                 )}
                 {trip.details.vehicle && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
+                  <Badge
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                  >
                     <Car className="h-3 w-3" />
                     {trip.details.vehicle}
                   </Badge>
                 )}
                 {trip.details.vibe && (
-                  <Badge variant="secondary">
-                    {trip.details.vibe}
-                  </Badge>
+                  <Badge variant="secondary">{trip.details.vibe}</Badge>
                 )}
               </div>
             )}
