@@ -98,6 +98,46 @@
     "FullLayout": "Bố cục đầy đủ",
     "MinimalLayout": "Bố cục tối giản",
     "HRAssistant": "Trợ lý nhân sự",
-    "HRAssistantDescription": "Trò chuyện để liên hệ tuyển dụng, điều phối lịch sàng lọc hoặc theo dõi tuyển dụng"
+    "HRAssistantDescription": "Trò chuyện để liên hệ tuyển dụng, điều phối lịch sàng lọc hoặc theo dõi tuyển dụng",
+    "InterviewChatWidget": {
+      "Intro": "Hãy điền thông tin tuyển dụng của bạn, hỏi thêm về ứng viên hoặc sắp xếp cuộc gọi sàng lọc hay buổi phỏng vấn.",
+      "Name": "Tên người tuyển dụng",
+      "Company": "Công ty",
+      "Phone": "Số điện thoại",
+      "Address": "Địa chỉ công ty",
+      "Email": "Email công việc",
+      "AboutMe": "Vai trò hoặc bối cảnh tuyển dụng",
+      "SaveProfile": "Lưu thông tin tuyển dụng",
+      "AskPlaceholder": "Hỏi về ứng viên, mức độ phù hợp hoặc thời điểm liên hệ…",
+      "QuickActions": "Thông tin nhà tuyển dụng",
+      "AskMore": "Hỏi về độ phù hợp của ứng viên",
+      "AskMorePrefill": "Cho tôi biết thêm về hồ sơ này và mức độ phù hợp với vị trí tuyển dụng.",
+      "SaveProfilePrefill": "Hãy giúp tôi soạn một lời nhắn đầu tiên để liên hệ với ứng viên.",
+      "SaveProfilePrompt": "Tôi là nhà tuyển dụng và vừa lưu bối cảnh liên hệ của bên tuyển dụng: tên {name}, công ty {company}, số điện thoại {phone}, địa chỉ công ty {companyAddress}, email {email}, vai trò hoặc bối cảnh tuyển dụng: {aboutMe}. Hãy dùng các thông tin này làm ngữ cảnh nhà tuyển dụng/công ty, không phải thông tin nhận diện của ứng viên.",
+      "ScheduleInterview": "Lên lịch mời phỏng vấn",
+      "ScheduleCall": "Lên lịch gọi sàng lọc",
+      "ScheduleSummaryInterview": "Tôi muốn gửi lời mời phỏng vấn vào ngày {date} lúc {time}.",
+      "ScheduleSummaryQuickCall": "Tôi muốn sắp xếp cuộc gọi sàng lọc vào ngày {date} lúc {time}.",
+      "ScheduleTitle": "Chọn thời điểm liên hệ",
+      "ScheduleSubtitle": "Lịch hẹn mẫu cho bước liên hệ tuyển dụng, bạn có thể kết nối thêm calendar API và email API sau đó.",
+      "AvailableTimes": "Khung giờ liên hệ",
+      "SelectedSchedule": "Kế hoạch liên hệ đã chọn",
+      "NoDate": "Hãy chọn ngày và giờ trước",
+      "Send": "Gửi",
+      "ErrorSending": "Trợ lý chưa thể phản hồi lúc này. Hãy kiểm tra cấu hình AI và thử lại.",
+      "Assistant": "Trợ lý",
+      "You": "Bạn",
+      "Interview": "Phỏng vấn",
+      "QuickCall": "Cuộc gọi sàng lọc",
+      "Weekdays": {
+        "Mon": "T2",
+        "Tue": "T3",
+        "Wed": "T4",
+        "Thu": "T5",
+        "Fri": "T6",
+        "Sat": "T7",
+        "Sun": "CN"
+      }
+    }
   }
 }

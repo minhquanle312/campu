@@ -5,6 +5,7 @@ import { format } from 'date-fns'
 import { enUS, vi as viLocale } from 'date-fns/locale'
 import { DefaultChatTransport } from 'ai'
 import { useChat } from '@ai-sdk/react'
+import { useTranslations } from 'next-intl'
 import {
   Bot,
   Briefcase,
@@ -49,81 +50,6 @@ type InterviewProfile = {
   aboutMe: string
 }
 
-const translations = {
-  en: {
-    open: 'Open assistant',
-    language: 'Language',
-    intro:
-      'Share your recruiter details, ask about the candidate, or line up a screening call or interview.',
-    name: 'Recruiter name',
-    company: 'Company',
-    phone: 'Phone number',
-    address: 'Company address',
-    email: 'Work email',
-    aboutMe: 'Role or hiring context',
-    saveProfile: 'Save recruiter details',
-    askPlaceholder: 'Ask about the candidate, hiring fit, or outreach timing…',
-    quickActions: 'Recruiter details',
-    askMore: 'Ask about candidate fit',
-    scheduleInterview: 'Plan interview outreach',
-    scheduleCall: 'Plan screening call',
-    scheduleTitle: 'Choose outreach timing',
-    scheduleSubtitle:
-      'A simple placeholder scheduler for recruiter follow-up that you can later connect to calendar and email APIs.',
-    pickDate: 'Pick a date',
-    availableTimes: 'Available outreach times',
-    selectedSchedule: 'Selected outreach plan',
-    noDate: 'Choose a date and time first',
-    send: 'Send',
-    errorSending:
-      'The assistant could not respond right now. Please check your AI setup and try again.',
-    assistant: 'Assistant',
-    you: 'You',
-    interview: 'Interview',
-    quickCall: 'Screening call',
-    profileSaved:
-      'Your recruiter details are ready. You can now draft outreach or choose a schedule.',
-    scheduleReady:
-      'Your outreach timing is saved in the widget. You can connect it to your calendar later.',
-  },
-  vi: {
-    open: 'Mở trợ lý',
-    language: 'Ngôn ngữ',
-    intro:
-      'Hãy điền thông tin tuyển dụng của bạn, hỏi thêm về ứng viên hoặc sắp xếp cuộc gọi sàng lọc hay buổi phỏng vấn.',
-    name: 'Tên người tuyển dụng',
-    company: 'Công ty',
-    phone: 'Số điện thoại',
-    address: 'Địa chỉ công ty',
-    email: 'Email công việc',
-    aboutMe: 'Vai trò hoặc bối cảnh tuyển dụng',
-    saveProfile: 'Lưu thông tin tuyển dụng',
-    askPlaceholder: 'Hỏi về ứng viên, mức độ phù hợp hoặc thời điểm liên hệ…',
-    quickActions: 'Thông tin nhà tuyển dụng',
-    askMore: 'Hỏi về độ phù hợp của ứng viên',
-    scheduleInterview: 'Lên lịch mời phỏng vấn',
-    scheduleCall: 'Lên lịch gọi sàng lọc',
-    scheduleTitle: 'Chọn thời điểm liên hệ',
-    scheduleSubtitle:
-      'Lịch hẹn mẫu cho bước liên hệ tuyển dụng, bạn có thể kết nối thêm calendar API và email API sau đó.',
-    pickDate: 'Chọn ngày',
-    availableTimes: 'Khung giờ liên hệ',
-    selectedSchedule: 'Kế hoạch liên hệ đã chọn',
-    noDate: 'Hãy chọn ngày và giờ trước',
-    send: 'Gửi',
-    errorSending:
-      'Trợ lý chưa thể phản hồi lúc này. Hãy kiểm tra cấu hình AI và thử lại.',
-    assistant: 'Trợ lý',
-    you: 'Bạn',
-    interview: 'Phỏng vấn',
-    quickCall: 'Cuộc gọi sàng lọc',
-    profileSaved:
-      'Thông tin tuyển dụng của bạn đã sẵn sàng. Bây giờ bạn có thể soạn lời liên hệ hoặc chọn lịch.',
-    scheduleReady:
-      'Thời điểm liên hệ đã được lưu trong widget. Bạn có thể nối với calendar sau.',
-  },
-} as const
-
 const timeSlots = [
   '09:00',
   '09:30',
@@ -165,6 +91,16 @@ export function InterviewChatWidget({
   title,
   description,
 }: InterviewChatWidgetProps) {
+  const t = useTranslations('CV.InterviewChatWidget')
+  const weekdays = [
+    t('Weekdays.Mon'),
+    t('Weekdays.Tue'),
+    t('Weekdays.Wed'),
+    t('Weekdays.Thu'),
+    t('Weekdays.Fri'),
+    t('Weekdays.Sat'),
+    t('Weekdays.Sun'),
+  ]
   const [input, setInput] = useState('')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
@@ -181,7 +117,6 @@ export function InterviewChatWidget({
     aboutMe: '',
   })
 
-  const t = translations[locale]
   const days = useMemo(() => getMonthDays(currentMonth), [currentMonth])
 
   const { messages, sendMessage, status, error } = useChat({
@@ -207,10 +142,14 @@ export function InterviewChatWidget({
 
   const saveProfile = () => {
     void sendMessage({
-      text:
-        locale === 'vi'
-          ? `Tôi là nhà tuyển dụng và vừa lưu bối cảnh liên hệ của bên tuyển dụng: tên ${profile.name}, công ty ${profile.company}, số điện thoại ${profile.phone}, địa chỉ công ty ${profile.companyAddress}, email ${profile.email}, vai trò hoặc bối cảnh tuyển dụng: ${profile.aboutMe}. Hãy dùng các thông tin này làm ngữ cảnh nhà tuyển dụng/công ty, không phải thông tin nhận diện của ứng viên.`
-          : `I am a recruiter and just saved my recruiter/company outreach context: name ${profile.name}, company ${profile.company}, phone ${profile.phone}, company address ${profile.companyAddress}, work email ${profile.email}, role or hiring context ${profile.aboutMe}. Please use these details as recruiter/company context, not as the candidate's identity.`,
+      text: t('SaveProfilePrompt', {
+        name: profile.name,
+        company: profile.company,
+        phone: profile.phone,
+        companyAddress: profile.companyAddress,
+        email: profile.email,
+        aboutMe: profile.aboutMe,
+      }),
     })
   }
 
@@ -227,9 +166,21 @@ export function InterviewChatWidget({
     }
 
     const summary =
-      locale === 'vi'
-        ? `Tôi muốn ${scheduleType === 'interview' ? 'gửi lời mời phỏng vấn' : 'sắp xếp cuộc gọi sàng lọc'} vào ngày ${format(selectedDate, 'dd/MM/yyyy')} lúc ${selectedTime}.`
-        : `I want to ${scheduleType === 'interview' ? 'send interview outreach' : 'set up a screening call'} on ${format(selectedDate, 'MM/dd/yyyy')} at ${selectedTime}.`
+      scheduleType === 'interview'
+        ? t('ScheduleSummaryInterview', {
+            date: format(
+              selectedDate,
+              locale === 'vi' ? 'dd/MM/yyyy' : 'MM/dd/yyyy',
+            ),
+            time: selectedTime,
+          })
+        : t('ScheduleSummaryQuickCall', {
+            date: format(
+              selectedDate,
+              locale === 'vi' ? 'dd/MM/yyyy' : 'MM/dd/yyyy',
+            ),
+            time: selectedTime,
+          })
 
     void sendMessage({ text: summary })
   }
@@ -256,7 +207,7 @@ export function InterviewChatWidget({
                 <div>
                   <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-rose-700">
                     <Sparkles className="size-3.5" />
-                    {t.assistant}
+                    {t('Assistant')}
                   </div>
                   <SheetTitle className="text-xl font-black tracking-tight text-slate-900">
                     {title}
@@ -271,52 +222,42 @@ export function InterviewChatWidget({
             <ScrollArea className="min-h-0 flex-1 px-6 py-6">
               <div className="space-y-6 pb-6">
                 <div className="rounded-4xl border border-rose-100 bg-white/90 p-5 shadow-sm">
-                  <p className="text-sm leading-6 text-slate-600">{t.intro}</p>
+                  <p className="text-sm leading-6 text-slate-600">
+                    {t('Intro')}
+                  </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <QuickAction
                     icon={Briefcase}
-                    label={t.askMore}
-                    onClick={() =>
-                      setInput(
-                        locale === 'vi'
-                          ? 'Cho tôi biết thêm về hồ sơ này và mức độ phù hợp với vị trí tuyển dụng.'
-                          : 'Tell me more about this candidate and fit for the role.',
-                      )
-                    }
+                    label={t('AskMore')}
+                    onClick={() => setInput(t('AskMorePrefill'))}
                   />
                   <QuickAction
                     icon={CalendarDays}
-                    label={t.scheduleInterview}
+                    label={t('ScheduleInterview')}
                     onClick={() => setScheduleType('interview')}
                   />
                   <QuickAction
                     icon={Clock3}
-                    label={t.scheduleCall}
+                    label={t('ScheduleCall')}
                     onClick={() => setScheduleType('quickCall')}
                   />
                   <QuickAction
                     icon={Bot}
-                    label={t.saveProfile}
-                    onClick={() =>
-                      setInput(
-                        locale === 'vi'
-                          ? 'Hãy giúp tôi soạn một lời nhắn đầu tiên để liên hệ với ứng viên.'
-                          : 'Help me draft a first outreach message to this candidate.',
-                      )
-                    }
+                    label={t('SaveProfile')}
+                    onClick={() => setInput(t('SaveProfilePrefill'))}
                   />
                 </div>
 
                 <section className="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
                     <UserRound className="size-4" />
-                    {t.quickActions}
+                    {t('QuickActions')}
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-2">
-                    <Field label={t.name} icon={UserRound}>
+                    <Field label={t('Name')} icon={UserRound}>
                       <Input
                         value={profile.name}
                         onChange={event =>
@@ -327,7 +268,7 @@ export function InterviewChatWidget({
                         }
                       />
                     </Field>
-                    <Field label={t.company} icon={Briefcase}>
+                    <Field label={t('Company')} icon={Briefcase}>
                       <Input
                         value={profile.company}
                         onChange={event =>
@@ -338,7 +279,7 @@ export function InterviewChatWidget({
                         }
                       />
                     </Field>
-                    <Field label={t.phone} icon={Phone}>
+                    <Field label={t('Phone')} icon={Phone}>
                       <Input
                         value={profile.phone}
                         onChange={event =>
@@ -349,7 +290,7 @@ export function InterviewChatWidget({
                         }
                       />
                     </Field>
-                    <Field label={t.email} icon={Mail}>
+                    <Field label={t('Email')} icon={Mail}>
                       <Input
                         type="email"
                         value={profile.email}
@@ -362,7 +303,7 @@ export function InterviewChatWidget({
                       />
                     </Field>
                     <Field
-                      label={t.address}
+                      label={t('Address')}
                       icon={MapPinned}
                       className="sm:col-span-2"
                     >
@@ -377,7 +318,7 @@ export function InterviewChatWidget({
                       />
                     </Field>
                     <Field
-                      label={t.aboutMe}
+                      label={t('AboutMe')}
                       icon={MessageSquareMore}
                       className="sm:col-span-2"
                     >
@@ -399,7 +340,7 @@ export function InterviewChatWidget({
                     className="mt-4 w-full rounded-2xl bg-rose-500 py-6 text-sm font-semibold hover:bg-rose-600"
                     onClick={saveProfile}
                   >
-                    {t.saveProfile}
+                    {t('SaveProfile')}
                   </Button>
                 </section>
 
@@ -407,14 +348,16 @@ export function InterviewChatWidget({
                   <div className="flex items-center justify-between gap-4">
                     <div>
                       <p className="text-xs uppercase tracking-[0.24em] text-rose-200">
-                        {t.scheduleTitle}
+                        {t('ScheduleTitle')}
                       </p>
                       <p className="mt-2 text-sm leading-6 text-slate-300">
-                        {t.scheduleSubtitle}
+                        {t('ScheduleSubtitle')}
                       </p>
                     </div>
                     <div className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em]">
-                      {scheduleType === 'interview' ? t.interview : t.quickCall}
+                      {scheduleType === 'interview'
+                        ? t('Interview')
+                        : t('QuickCall')}
                     </div>
                   </div>
 
@@ -458,10 +401,7 @@ export function InterviewChatWidget({
                     </div>
 
                     <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      {(locale === 'vi'
-                        ? ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
-                        : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                      ).map(day => (
+                      {weekdays.map(day => (
                         <span key={day}>{day}</span>
                       ))}
                     </div>
@@ -504,7 +444,7 @@ export function InterviewChatWidget({
 
                   <div className="mt-5">
                     <p className="mb-3 text-xs uppercase tracking-[0.24em] text-slate-400">
-                      {t.availableTimes}
+                      {t('AvailableTimes')}
                     </p>
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                       {timeSlots.map(slot => (
@@ -527,12 +467,12 @@ export function InterviewChatWidget({
 
                   <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
                     <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
-                      {t.selectedSchedule}
+                      {t('SelectedSchedule')}
                     </p>
                     <p className="mt-2 leading-6">
                       {selectedDate && selectedTime
-                        ? `${scheduleType === 'interview' ? t.interview : t.quickCall} • ${format(selectedDate, 'PPPP', { locale: displayLocale })} • ${selectedTime}`
-                        : t.noDate}
+                        ? `${scheduleType === 'interview' ? t('Interview') : t('QuickCall')} • ${format(selectedDate, 'PPPP', { locale: displayLocale })} • ${selectedTime}`
+                        : t('NoDate')}
                     </p>
                   </div>
 
@@ -542,20 +482,20 @@ export function InterviewChatWidget({
                     onClick={saveSchedule}
                   >
                     {scheduleType === 'interview'
-                      ? t.scheduleInterview
-                      : t.scheduleCall}
+                      ? t('ScheduleInterview')
+                      : t('ScheduleCall')}
                   </Button>
                 </section>
 
                 <section className="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
                     <Bot className="size-4" />
-                    {t.assistant}
+                    {t('Assistant')}
                   </div>
 
                   {error ? (
                     <div className="mb-4 rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-700">
-                      {t.errorSending}
+                      {t('ErrorSending')}
                     </div>
                   ) : null}
 
@@ -571,7 +511,7 @@ export function InterviewChatWidget({
                         )}
                       >
                         <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">
-                          {message.role === 'user' ? t.you : t.assistant}
+                          {message.role === 'user' ? t('You') : t('Assistant')}
                         </p>
                         {message.parts.map(part =>
                           part.type === 'text' ? (
@@ -594,7 +534,7 @@ export function InterviewChatWidget({
                     <Input
                       value={input}
                       onChange={event => setInput(event.target.value)}
-                      placeholder={t.askPlaceholder}
+                      placeholder={t('AskPlaceholder')}
                       disabled={status !== 'ready'}
                       className="h-12 flex-1 rounded-3xl border-slate-200 bg-slate-50 px-4 text-sm shadow-none placeholder:text-slate-400"
                     />
@@ -604,7 +544,7 @@ export function InterviewChatWidget({
                       disabled={status !== 'ready'}
                     >
                       <Send className="size-4" />
-                      {t.send}
+                      {t('Send')}
                     </Button>
                   </form>
                 </section>

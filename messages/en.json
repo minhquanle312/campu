@@ -98,6 +98,46 @@
     "FullLayout": "Full layout",
     "MinimalLayout": "Minimal layout",
     "HRAssistant": "HR assistant",
-    "HRAssistantDescription": "Chat for recruiter outreach, screening coordination, or hiring follow-up"
+    "HRAssistantDescription": "Chat for recruiter outreach, screening coordination, or hiring follow-up",
+    "InterviewChatWidget": {
+      "Intro": "Share your recruiter details, ask about the candidate, or line up a screening call or interview.",
+      "Name": "Recruiter name",
+      "Company": "Company",
+      "Phone": "Phone number",
+      "Address": "Company address",
+      "Email": "Work email",
+      "AboutMe": "Role or hiring context",
+      "SaveProfile": "Save recruiter details",
+      "AskPlaceholder": "Ask about the candidate, hiring fit, or outreach timing…",
+      "QuickActions": "Recruiter details",
+      "AskMore": "Ask about candidate fit",
+      "AskMorePrefill": "Tell me more about this candidate and fit for the role.",
+      "SaveProfilePrefill": "Help me draft a first outreach message to this candidate.",
+      "SaveProfilePrompt": "I am a recruiter and just saved my recruiter/company outreach context: name {name}, company {company}, phone {phone}, company address {companyAddress}, work email {email}, role or hiring context {aboutMe}. Please use these details as recruiter/company context, not as the candidate's identity.",
+      "ScheduleInterview": "Plan interview outreach",
+      "ScheduleCall": "Plan screening call",
+      "ScheduleSummaryInterview": "I want to send interview outreach on {date} at {time}.",
+      "ScheduleSummaryQuickCall": "I want to set up a screening call on {date} at {time}.",
+      "ScheduleTitle": "Choose outreach timing",
+      "ScheduleSubtitle": "A simple placeholder scheduler for recruiter follow-up that you can later connect to calendar and email APIs.",
+      "AvailableTimes": "Available outreach times",
+      "SelectedSchedule": "Selected outreach plan",
+      "NoDate": "Choose a date and time first",
+      "Send": "Send",
+      "ErrorSending": "The assistant could not respond right now. Please check your AI setup and try again.",
+      "Assistant": "Assistant",
+      "You": "You",
+      "Interview": "Interview",
+      "QuickCall": "Screening call",
+      "Weekdays": {
+        "Mon": "Mon",
+        "Tue": "Tue",
+        "Wed": "Wed",
+        "Thu": "Thu",
+        "Fri": "Fri",
+        "Sat": "Sat",
+        "Sun": "Sun"
+      }
+    }
   }
 }
