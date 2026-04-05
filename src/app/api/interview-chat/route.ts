@@ -29,6 +29,8 @@ type SchedulePayload = {
   time: string
 } | null
 
+type ChatLanguage = 'en' | 'vi'
+
 function getMessageText(message: UIMessage) {
   return message.parts
     .filter(part => part.type === 'text')
@@ -64,6 +66,48 @@ function buildConversationPrompt(messages: UIMessage[]) {
   ].join('\n\n')
 }
 
+function detectMessageLanguage(
+  input: string | undefined,
+  fallbackLocale: ChatLanguage,
+): ChatLanguage {
+  const text = input?.trim()
+
+  if (!text) {
+    return fallbackLocale
+  }
+
+  const normalizedText = text.toLowerCase()
+
+  const hasVietnameseDiacritics =
+    /[ăâđêôơưáàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]/i.test(
+      text,
+    )
+
+  const vietnameseSignalCount = [
+    /\b(và|là|của|cho|với|không|mình|bạn|giúp|hãy|tôi|gì|nào|được|trong|cần|muốn|phỏng vấn|tiếng việt)\b/gi,
+  ].reduce(
+    (count, pattern) => count + (normalizedText.match(pattern)?.length || 0),
+    0,
+  )
+
+  const englishSignalCount = [
+    /\b(the|and|for|with|please|can|could|would|should|help|interview|english|reply|what|how|why)\b/gi,
+  ].reduce(
+    (count, pattern) => count + (normalizedText.match(pattern)?.length || 0),
+    0,
+  )
+
+  if (hasVietnameseDiacritics || vietnameseSignalCount > englishSignalCount) {
+    return 'vi'
+  }
+
+  if (englishSignalCount > vietnameseSignalCount) {
+    return 'en'
+  }
+
+  return fallbackLocale
+}
+
 export async function POST(request: Request) {
   const {
     messages,
@@ -82,8 +126,10 @@ export async function POST(request: Request) {
     .find(message => message.role === 'user')
     ?.parts.find(part => part.type === 'text')
 
+  const responseLanguage = detectMessageLanguage(lastUserText?.text, locale)
+
   const systemPrompt =
-    locale === 'vi'
+    responseLanguage === 'vi'
       ? `Bạn là trợ lý song ngữ cho widget tuyển dụng trên CV cá nhân. Hãy trả lời ngắn gọn, lịch sự, rõ ràng bằng tiếng Việt. Hỗ trợ ba việc: tóm tắt hoặc diễn giải hồ sơ ứng viên đang hiển thị trên CV, trả lời câu hỏi thêm của nhà tuyển dụng về mức độ phù hợp, và xác nhận kế hoạch liên hệ tuyển dụng như lời mời phỏng vấn hoặc cuộc gọi sàng lọc. QUAN TRỌNG: dữ liệu profile được gửi kèm là ngữ cảnh của nhà tuyển dụng/công ty, không phải thông tin nhận diện của ứng viên. Ngữ cảnh nhà tuyển dụng/công ty hiện tại: tên người tuyển dụng ${profile?.name || 'chưa có'}, công ty ${profile?.company || 'chưa có'}, số điện thoại ${profile?.phone || 'chưa có'}, địa chỉ công ty ${profile?.companyAddress || 'chưa có'}, email công việc ${profile?.email || 'chưa có'}, vai trò hoặc bối cảnh tuyển dụng ${profile?.aboutMe || 'chưa có'}. Kế hoạch liên hệ đã chọn: ${schedule ? `${schedule.type === 'interview' ? 'lời mời phỏng vấn' : 'cuộc gọi sàng lọc'} vào ${schedule.date} lúc ${schedule.time}` : 'chưa chọn'}. Không được nói các thông tin tuyển dụng này là tên, công ty, email hay phần giới thiệu của ứng viên. Không nói rằng bạn đã gửi email hay tạo lịch thật. Hãy nhắc đây là bản nháp có thể kết nối API sau.`
       : `You are a bilingual recruiter assistant for a personal CV widget. Reply briefly, warmly, and clearly in English. Help with three things: summarizing or clarifying the candidate information shown on the CV, answering recruiter follow-up questions about fit, and confirming recruiter outreach plans such as an interview invitation or screening call. IMPORTANT: the attached profile data is recruiter/company context, not the candidate's identity. Current recruiter/company context: recruiter name ${profile?.name || 'missing'}, company ${profile?.company || 'missing'}, phone ${profile?.phone || 'missing'}, company address ${profile?.companyAddress || 'missing'}, work email ${profile?.email || 'missing'}, role or hiring context ${profile?.aboutMe || 'missing'}. Selected outreach plan: ${schedule ? `${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} on ${schedule.date} at ${schedule.time}` : 'none selected'}. Do not describe those recruiter details as the candidate's name, company, email, or bio. Do not claim that real email or calendar automation has already happened; frame it as a draft recruiter workflow that can be connected later.`
 
@@ -106,7 +152,7 @@ export async function POST(request: Request) {
       return result.toUIMessageStreamResponse()
     } catch {
       const failureText =
-        locale === 'vi'
+        responseLanguage === 'vi'
           ? 'Mình không thể lấy phản hồi lúc này. Vui lòng thử lại sau.'
           : 'I could not respond right now. Please try again in a moment.'
 
@@ -127,7 +173,7 @@ export async function POST(request: Request) {
   }
 
   const fallbackText = buildFallbackReply(
-    locale,
+    responseLanguage,
     lastUserText?.text || '',
     profile,
     schedule || null,
