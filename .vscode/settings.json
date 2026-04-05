@@ -1,4 +1,23 @@
 {
   "i18n-ally.localesPaths": ["messages", "src/i18n"],
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "cSpell.words": [
+    "bằng",
+    "cảnh",
+    "công",
+    "diễn",
+    "dụng",
+    "giải",
+    "hoạch",
+    "liên",
+    "ngắn",
+    "nhắc",
+    "nhân",
+    "nhận",
+    "nháp",
+    "ràng",
+    "rằng",
+    "sàng",
+    "trên"
+  ]
 }
