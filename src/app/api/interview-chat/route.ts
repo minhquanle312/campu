@@ -1,5 +1,4 @@
 import {
-  convertToModelMessages,
   createUIMessageStream,
   createUIMessageStreamResponse,
   streamText,
@@ -30,6 +29,31 @@ type SchedulePayload = {
   time: string
 } | null
 
+function getMessageText(message: UIMessage) {
+  return message.parts
+    .filter(part => part.type === 'text')
+    .map(part => part.text.trim())
+    .filter(Boolean)
+    .join('\n')
+}
+
+function buildConversationPrompt(messages: UIMessage[]) {
+  return messages
+    .map(message => {
+      const text = getMessageText(message)
+
+      if (!text) {
+        return null
+      }
+
+      const speaker = message.role === 'assistant' ? 'Assistant' : 'Recruiter'
+
+      return `${speaker}: ${text}`
+    })
+    .filter((entry): entry is string => Boolean(entry))
+    .join('\n\n')
+}
+
 export async function POST(request: Request) {
   const {
     messages,
@@ -54,21 +78,28 @@ export async function POST(request: Request) {
       : `You are a bilingual recruiter assistant for a personal CV widget. Reply briefly, warmly, and clearly in English. Help with three things: summarizing or clarifying the candidate information shown on the CV, answering recruiter follow-up questions about fit, and confirming recruiter outreach plans such as an interview invitation or screening call. IMPORTANT: the attached profile data is recruiter/company context, not the candidate's identity. Current recruiter/company context: recruiter name ${profile?.name || 'missing'}, company ${profile?.company || 'missing'}, phone ${profile?.phone || 'missing'}, company address ${profile?.companyAddress || 'missing'}, work email ${profile?.email || 'missing'}, role or hiring context ${profile?.aboutMe || 'missing'}. Selected outreach plan: ${schedule ? `${schedule.type === 'interview' ? 'interview outreach' : 'screening call'} on ${schedule.date} at ${schedule.time}` : 'none selected'}. Do not describe those recruiter details as the candidate's name, company, email, or bio. Do not claim that real email or calendar automation has already happened; frame it as a draft recruiter workflow that can be connected later.`
 
   const apiKey = process.env.AI_API_KEY
+  const conversationPrompt = buildConversationPrompt(messages)
+  console.log('🚀 ~ route.ts ~ POST ~ conversationPrompt:', conversationPrompt)
 
   if (apiKey) {
     try {
       const result = streamText({
         model: getOpenAIModel(apiKey),
+        providerOptions: {
+          openai: {
+            store: true,
+          },
+        },
         system: systemPrompt,
-        messages: await convertToModelMessages(messages),
+        prompt: conversationPrompt,
       })
 
       return result.toUIMessageStreamResponse()
     } catch {
       const failureText =
         locale === 'vi'
-          ? 'Mình không thể lấy phản hồi AI thật lúc này. Vui lòng kiểm tra lại AI_API_KEY hoặc thử lại sau.'
-          : 'I could not get a real AI response right now. Please verify AI_API_KEY or try again in a moment.'
+          ? 'Mình không thể lấy phản hồi lúc này. Vui lòng thử lại sau.'
+          : 'I could not response right now. Please try again in a moment.'
 
       return createUIMessageStreamResponse({
         stream: createUIMessageStream({
