@@ -1,2 +1,0 @@
-- Task 3 remains verification-blocked on the admin persistence scenario because the local environment does not currently provide a real allowlisted authenticated session for end-to-end save/reload proof. Non-admin redirect and unauthorized API rejection are verified; write-path validation is hardened.
-- Task 5 local verification remains limited by the lack of a real allowlisted authenticated admin session in this environment, so the inline upload/save flow is verified through code paths, LSP diagnostics, lint, and build rather than a live protected round-trip.
