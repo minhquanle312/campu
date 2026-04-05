@@ -75,6 +75,8 @@ const translations = {
     selectedSchedule: 'Selected outreach plan',
     noDate: 'Choose a date and time first',
     send: 'Send',
+    errorSending:
+      'The assistant could not respond right now. Please check your AI setup and try again.',
     assistant: 'Assistant',
     you: 'You',
     interview: 'Interview',
@@ -109,6 +111,8 @@ const translations = {
     selectedSchedule: 'Kế hoạch liên hệ đã chọn',
     noDate: 'Hãy chọn ngày và giờ trước',
     send: 'Gửi',
+    errorSending:
+      'Trợ lý chưa thể phản hồi lúc này. Hãy kiểm tra cấu hình AI và thử lại.',
     assistant: 'Trợ lý',
     you: 'Bạn',
     interview: 'Phỏng vấn',
@@ -180,7 +184,7 @@ export function InterviewChatWidget({
   const t = translations[locale]
   const days = useMemo(() => getMonthDays(currentMonth), [currentMonth])
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({
       api: '/api/interview-chat',
       prepareSendMessagesRequest: ({ messages: currentMessages }) => ({
@@ -548,6 +552,12 @@ export function InterviewChatWidget({
                     <Bot className="size-4" />
                     {t.assistant}
                   </div>
+
+                  {error ? (
+                    <div className="mb-4 rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-700">
+                      {t.errorSending}
+                    </div>
+                  ) : null}
 
                   <div className="mb-4 space-y-3">
                     {messages.map(message => (

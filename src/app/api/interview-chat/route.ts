@@ -5,9 +5,15 @@ import {
   streamText,
   type UIMessage,
 } from 'ai'
-import { openai } from '@ai-sdk/openai'
+import { createOpenAI } from '@ai-sdk/openai'
 
 export const maxDuration = 30
+
+const getOpenAIModel = (apiKey: string) =>
+  createOpenAI({
+    baseURL: 'https://aiproxy.moreshared.com/v1',
+    apiKey,
+  })('gpt-5.2')
 
 type InterviewProfile = {
   name?: string
@@ -50,13 +56,34 @@ export async function POST(request: Request) {
   const apiKey = process.env.AI_API_KEY
 
   if (apiKey) {
-    const result = streamText({
-      model: openai('gpt-5.2'),
-      system: systemPrompt,
-      messages: await convertToModelMessages(messages),
-    })
+    try {
+      const result = streamText({
+        model: getOpenAIModel(apiKey),
+        system: systemPrompt,
+        messages: await convertToModelMessages(messages),
+      })
 
-    return result.toUIMessageStreamResponse()
+      return result.toUIMessageStreamResponse()
+    } catch {
+      const failureText =
+        locale === 'vi'
+          ? 'Mình không thể lấy phản hồi AI thật lúc này. Vui lòng kiểm tra lại AI_API_KEY hoặc thử lại sau.'
+          : 'I could not get a real AI response right now. Please verify AI_API_KEY or try again in a moment.'
+
+      return createUIMessageStreamResponse({
+        stream: createUIMessageStream({
+          execute: ({ writer }) => {
+            writer.write({ type: 'text-start', id: 'ai-error-reply' })
+            writer.write({
+              type: 'text-delta',
+              id: 'ai-error-reply',
+              delta: failureText,
+            })
+            writer.write({ type: 'text-end', id: 'ai-error-reply' })
+          },
+        }),
+      })
+    }
   }
 
   const fallbackText = buildFallbackReply(
