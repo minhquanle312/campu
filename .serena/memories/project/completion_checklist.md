@@ -1,0 +1,1 @@
+After code changes, run the relevant verification steps from project scripts when applicable: `yarn lint`, relevant tests if present, and `yarn build` for production-impacting changes. Keep formatting consistent with Prettier and existing Next.js/TypeScript patterns.

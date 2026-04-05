@@ -1,0 +1,1 @@
+Codebase appears to use TypeScript with Next.js conventions. Root scripts indicate ESLint for linting and Prettier for formatting. Package manager is intended to be Yarn 4. Follow existing project conventions and prefer type-safe changes without suppression comments.
