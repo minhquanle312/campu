@@ -3286,10 +3286,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-gnu@npm:1.15.24, @swc/core-linux-x64-gnu@npm:^1.15.24":
+"@swc/core-linux-x64-gnu@npm:1.15.24":
   version: 1.15.24
   resolution: "@swc/core-linux-x64-gnu@npm:1.15.24"
-  checksum: 10c0/6841601413887eec1529c13e23dc91dca84532ec2c45d7f7c0f5e574d8370145bbb88e31cd67d8a972f39758ab82d0836b0ea978dda2b31aa2ea395c3a64aee3
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -4811,7 +4810,6 @@ __metadata:
     "@next/third-parties": "npm:^16.2.2"
     "@radix-ui/react-visually-hidden": "npm:^1.2.4"
     "@react-pdf/renderer": "npm:^4.3.3"
-    "@swc/core-linux-x64-gnu": "npm:^1.15.24"
     "@tailwindcss/postcss": "npm:^4.2.2"
     "@tailwindcss/typography": "npm:^0.5.19"
     "@types/node": "npm:^25.5.2"
