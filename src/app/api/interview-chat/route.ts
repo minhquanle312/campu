@@ -38,7 +38,7 @@ function getMessageText(message: UIMessage) {
 }
 
 function buildConversationPrompt(messages: UIMessage[]) {
-  return messages
+  const transcript = messages
     .map(message => {
       const text = getMessageText(message)
 
@@ -48,10 +48,20 @@ function buildConversationPrompt(messages: UIMessage[]) {
 
       const speaker = message.role === 'assistant' ? 'Assistant' : 'Recruiter'
 
-      return `${speaker}: ${text}`
+      return `[${speaker}]\n${text}`
     })
     .filter((entry): entry is string => Boolean(entry))
     .join('\n\n')
+
+  if (!transcript) {
+    return ''
+  }
+
+  return [
+    'Conversation transcript:',
+    transcript,
+    'Respond as the assistant to the latest recruiter message only. Keep the answer concise, warm, and actionable.',
+  ].join('\n\n')
 }
 
 export async function POST(request: Request) {
@@ -79,7 +89,6 @@ export async function POST(request: Request) {
 
   const apiKey = process.env.AI_API_KEY
   const conversationPrompt = buildConversationPrompt(messages)
-  console.log('🚀 ~ route.ts ~ POST ~ conversationPrompt:', conversationPrompt)
 
   if (apiKey) {
     try {
@@ -99,7 +108,7 @@ export async function POST(request: Request) {
       const failureText =
         locale === 'vi'
           ? 'Mình không thể lấy phản hồi lúc này. Vui lòng thử lại sau.'
-          : 'I could not response right now. Please try again in a moment.'
+          : 'I could not respond right now. Please try again in a moment.'
 
       return createUIMessageStreamResponse({
         stream: createUIMessageStream({

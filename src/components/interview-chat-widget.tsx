@@ -584,23 +584,29 @@ export function InterviewChatWidget({
                     ))}
                   </div>
 
-                  <div className="flex gap-3">
-                    <Textarea
+                  <form
+                    className="flex items-center gap-3"
+                    onSubmit={event => {
+                      event.preventDefault()
+                      submitMessage()
+                    }}
+                  >
+                    <Input
                       value={input}
                       onChange={event => setInput(event.target.value)}
                       placeholder={t.askPlaceholder}
-                      className="min-h-[90px] rounded-3xl border-slate-200 bg-slate-50 px-4 py-3"
+                      disabled={status !== 'ready'}
+                      className="h-12 flex-1 rounded-3xl border-slate-200 bg-slate-50 px-4 text-sm shadow-none placeholder:text-slate-400"
                     />
                     <Button
-                      type="button"
-                      className="h-auto rounded-3xl bg-slate-900 px-4 hover:bg-slate-800"
-                      onClick={submitMessage}
+                      type="submit"
+                      className="h-12 rounded-3xl bg-slate-900 px-4 hover:bg-slate-800"
                       disabled={status !== 'ready'}
                     >
                       <Send className="size-4" />
                       {t.send}
                     </Button>
-                  </div>
+                  </form>
                 </section>
               </div>
             </ScrollArea>
