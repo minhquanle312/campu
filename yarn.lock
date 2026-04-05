@@ -3289,6 +3289,7 @@ __metadata:
 "@swc/core-linux-x64-gnu@npm:1.15.24, @swc/core-linux-x64-gnu@npm:^1.15.24":
   version: 1.15.24
   resolution: "@swc/core-linux-x64-gnu@npm:1.15.24"
+  checksum: 10c0/6841601413887eec1529c13e23dc91dca84532ec2c45d7f7c0f5e574d8370145bbb88e31cd67d8a972f39758ab82d0836b0ea978dda2b31aa2ea395c3a64aee3
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -3821,12 +3822,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:19.2.7":
-  version: 19.2.7
-  resolution: "@types/react@npm:19.2.7"
+"@types/react@npm:*, @types/react@npm:19.2.14":
+  version: 19.2.14
+  resolution: "@types/react@npm:19.2.14"
   dependencies:
     csstype: "npm:^3.2.2"
-  checksum: 10c0/a7b75f1f9fcb34badd6f84098be5e35a0aeca614bc91f93d2698664c0b2ba5ad128422bd470ada598238cebe4f9e604a752aead7dc6f5a92261d0c7f9b27cfd1
+  checksum: 10c0/7d25bf41b57719452d86d2ac0570b659210402707313a36ee612666bf11275a1c69824f8c3ee1fdca077ccfe15452f6da8f1224529b917050eb2d861e52b59b7
   languageName: node
   linkType: hard
 
@@ -4858,9 +4859,6 @@ __metadata:
     typescript: "npm:^6.0.2"
     vaul: "npm:^1.1.2"
     zod: "npm:^4.3.6"
-  dependenciesMeta:
-    "@swc/core-linux-x64-gnu":
-      optional: true
   languageName: unknown
   linkType: soft
 
