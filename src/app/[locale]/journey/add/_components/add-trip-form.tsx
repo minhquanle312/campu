@@ -28,6 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PROVINCES_GEO_MAPPING } from '@/config/province'
 import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { Eye, EyeOff } from 'lucide-react'
+import type { Trip } from '@/models/trips.model'
 import { toast } from 'sonner'
 
 const formSchema = z.object({
@@ -56,6 +57,7 @@ export function AddTripForm() {
   const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
+  const [createdTrip, setCreatedTrip] = useState<Trip | null>(null)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -82,6 +84,7 @@ export function AddTripForm() {
 
   async function onSubmit(values: FormValues) {
     setSubmitting(true)
+    setCreatedTrip(null)
     try {
       const details: Record<string, any> = {}
       if (values.vehicle) details.vehicle = values.vehicle
@@ -128,8 +131,9 @@ export function AddTripForm() {
         throw new Error(err.error || 'Failed to create trip')
       }
 
+      const trip = (await res.json()) as Trip
+      setCreatedTrip(trip)
       toast.success('Trip created successfully!')
-      router.push('/journey')
     } catch (err: any) {
       toast.error(err.message || 'Failed to create trip')
     } finally {
@@ -474,6 +478,38 @@ export function AddTripForm() {
             )}
           </CardContent>
         </Card>
+
+        {createdTrip ? (
+          <div className="space-y-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 sm:p-5">
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-emerald-900">
+                Trip saved successfully
+              </h3>
+              <p className="text-sm leading-6 text-emerald-800/90">
+                Your new journey entry is saved. Continue editing it now or
+                return to the journey list and come back later.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button
+                type="button"
+                className="sm:flex-1"
+                onClick={() => router.push(`/journey/${createdTrip.id}/edit`)}
+              >
+                Continue editing trip
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="sm:flex-1"
+                onClick={() => router.push('/journey')}
+              >
+                Back to journey list
+              </Button>
+            </div>
+          </div>
+        ) : null}
 
         {/* Submit */}
         <div className="flex gap-4">

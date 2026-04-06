@@ -1,5 +1,3 @@
-import { ADMIN_USER_EMAIL } from '@/config/admin-user'
-import { getSession } from '@/lib/auth-server'
 import dbConnect from '@/lib/mongodb'
 import GeneralConfigModel from '@/models/GeneralConfig'
 import {
@@ -34,11 +32,6 @@ export default async function Home({ params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
 
-  const session = await getSession()
-  const isAdmin = Boolean(
-    session?.user?.email && ADMIN_USER_EMAIL.includes(session.user.email),
-  )
-
   await dbConnect()
   const configDoc = await GeneralConfigModel.findOne({}).lean()
   const generalConfig = resolveGeneralConfig(
@@ -50,7 +43,6 @@ export default async function Home({ params }: Props) {
   return (
     <HomePage
       locale={locale}
-      isAdmin={isAdmin}
       initialConfig={generalConfig}
       primaryImage={generalConfig.homepage.primaryImage}
       secondaryImage={generalConfig.homepage.secondaryImage}

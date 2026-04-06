@@ -22,6 +22,10 @@
   "YourNameLabel": "Tên của bạn",
   "YourNamePlaceholder": "Nhập tên của bạn",
   "DevelopmentWarning": "Website này đang được phát triển và cập nhật hàng ngày. Một số tính năng có thể thay đổi.",
+  "PendingPublishBanner": {
+    "Title": "Đã yêu cầu cập nhật nội dung",
+    "Description": "Các thay đổi nội dung mới nhất đang được đưa lên website. Vui lòng chờ 5–10 phút để phiên bản đã cập nhật hoàn tất xuất bản."
+  },
   "HeaderNav": {
     "Home": "Trang chủ",
     "Wishes": "Lời chúc",

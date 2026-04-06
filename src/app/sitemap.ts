@@ -7,6 +7,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/',
     '/vi/',
     '/en/',
+    '/vi/cv/',
+    '/en/cv/',
     '/vi/journey/',
     '/en/journey/',
     '/en/wish-for-pu/',

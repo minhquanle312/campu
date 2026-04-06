@@ -202,8 +202,9 @@ export default function HomeInlineAdminPanel({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...liveConfig,
           homepage: draftHomepage,
+          cv: liveConfig.cv,
+          aiAssistant: liveConfig.aiAssistant,
         }),
       })
 
@@ -244,7 +245,8 @@ export default function HomeInlineAdminPanel({
                 </h2>
                 <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
                   Upload replacements for the two homepage image slots, preview
-                  them here, then save when you are ready to publish.
+                  them here, then save when you are ready to update the homepage
+                  images.
                 </p>
               </div>
             </div>
@@ -366,8 +368,8 @@ export default function HomeInlineAdminPanel({
                         ) : (
                           <>
                             <Upload className="h-4 w-4" aria-hidden="true" />
-                            Uploading alone does not publish — save to update
-                            the live homepage.
+                            Uploading alone does not update the homepage — save
+                            your changes to the live homepage.
                           </>
                         )}
                       </div>

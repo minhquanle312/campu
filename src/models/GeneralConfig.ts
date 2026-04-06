@@ -44,6 +44,10 @@ const GeneralConfigSchema = new mongoose.Schema(
         default: [],
       },
     },
+    deploy: {
+      pending: { type: Boolean, default: false },
+      requestedAt: { type: String, default: null },
+    },
   },
   { timestamps: true },
 )

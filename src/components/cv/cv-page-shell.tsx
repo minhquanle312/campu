@@ -18,7 +18,6 @@ type LayoutMode = 'current' | 'simple'
 
 type Props = {
   cv: CVData
-  isAdmin: boolean
   locale: Locale
   messages: CVMessages
 }
@@ -53,11 +52,12 @@ const cvPrintStyles = `
   }
 `
 
-export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
+export function CVPageShell({ cv, locale, messages }: Props) {
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('current')
   const hasManualLayoutOverrideRef = useRef(false)
   const printRef = useRef<HTMLDivElement>(null)
   const { data: session } = useSession()
+  const isAdmin = Boolean(session?.user?.isAdmin)
   const isDesktopLayout = layoutMode === 'current'
   const secondaryControlClassName =
     'flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 bg-white/90 px-3 py-3 text-sm font-medium text-slate-700 shadow-md backdrop-blur-md transition-all hover:bg-slate-100 hover:shadow-lg active:scale-95 sm:min-h-10 sm:min-w-0 sm:gap-2 sm:px-4 sm:py-2.5'

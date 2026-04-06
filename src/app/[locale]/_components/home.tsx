@@ -15,7 +15,7 @@ import {
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
-import HomeInlineAdminPanel from './home-inline-admin-panel'
+import HomeAdminPanelGate from './home-admin-panel-gate'
 
 const STATIC_FALLBACK_IMAGE = '/for-pu/avatar.jpg'
 
@@ -46,7 +46,6 @@ const purposeCards = [
 
 type HomePageProps = {
   locale: string
-  isAdmin: boolean
   initialConfig: GeneralConfig
   primaryImage: GeneralConfigAsset | null
   secondaryImage: GeneralConfigAsset | null
@@ -54,7 +53,6 @@ type HomePageProps = {
 
 export default function HomePage({
   locale,
-  isAdmin,
   initialConfig,
   primaryImage,
   secondaryImage,
@@ -144,9 +142,7 @@ export default function HomePage({
         </div>
       </section>
 
-      {isAdmin ? (
-        <HomeInlineAdminPanel initialConfig={initialConfig} key={locale} />
-      ) : null}
+      <HomeAdminPanelGate initialConfig={initialConfig} key={locale} />
 
       <section className="pb-18 sm:pb-24">
         <div className="container">

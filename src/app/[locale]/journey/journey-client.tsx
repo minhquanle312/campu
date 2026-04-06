@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { List, MapIcon, MapPin, Pencil, Search, X } from 'lucide-react'
 import Link from 'next/link'
+import { useSession } from '@/lib/auth-client'
 
 type JourneyMode = 'map' | 'list'
 
@@ -39,10 +40,11 @@ export function normalizeJourneySearchText(value: string) {
 
 type Props = {
   trips: Trip[]
-  isAdmin?: boolean
 }
 
-export default function JourneyClient({ trips, isAdmin = false }: Props) {
+export default function JourneyClient({ trips }: Props) {
+  const { data: session } = useSession()
+  const isAdmin = Boolean(session?.user?.isAdmin)
   const [mode, setMode] = useState<JourneyMode>('map')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedProvinceCode, setSelectedProvinceCode] = useState<

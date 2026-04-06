@@ -15,6 +15,34 @@ export type GeneralConfigDocumentGroup = {
   documentUrls: string[]
 }
 
+export type GeneralConfigDeployState = {
+  pending: boolean
+  requestedAt: string | null
+}
+
+export const GENERAL_CONFIG_DEPLOY_PENDING_STATUS = 'deploy_pending'
+export const GENERAL_CONFIG_DEPLOY_REQUESTED_STATUS = 'deploy_requested'
+
+export const GENERAL_CONFIG_DEPLOY_PENDING_MESSAGE =
+  'Deploy has already been requested and is still pending.'
+export const GENERAL_CONFIG_DEPLOY_REQUESTED_MESSAGE =
+  'Deploy requested successfully. It can take 5-10 minutes to complete.'
+
+export type GeneralConfigDeployResponse = {
+  status:
+    | typeof GENERAL_CONFIG_DEPLOY_PENDING_STATUS
+    | typeof GENERAL_CONFIG_DEPLOY_REQUESTED_STATUS
+  message: string
+  deploy: GeneralConfigDeployState
+}
+
+export type GeneralConfigDeployErrorResponse = {
+  error: string
+  statusCode?: number
+}
+
+export const DEPLOY_PENDING_WINDOW_MS = 10 * 60 * 1000
+
 export type GeneralConfig = {
   homepage: {
     primaryImage: GeneralConfigAsset | null
@@ -26,6 +54,7 @@ export type GeneralConfig = {
   aiAssistant: {
     documentGroups: GeneralConfigDocumentGroup[]
   }
+  deploy: GeneralConfigDeployState
 }
 
 export const emptyGeneralConfig: GeneralConfig = {
@@ -39,6 +68,57 @@ export const emptyGeneralConfig: GeneralConfig = {
   aiAssistant: {
     documentGroups: [],
   },
+  deploy: {
+    pending: false,
+    requestedAt: null,
+  },
+}
+
+const resolveDeployState = (
+  deploy?: Partial<GeneralConfigDeployState> | null,
+): GeneralConfigDeployState => {
+  const requestedAtValue = deploy?.requestedAt
+
+  return {
+    pending:
+      typeof deploy?.pending === 'boolean'
+        ? deploy.pending
+        : emptyGeneralConfig.deploy.pending,
+    requestedAt: typeof requestedAtValue === 'string' ? requestedAtValue : null,
+  }
+}
+
+export function getDeployPendingExpiryTime(
+  requestedAt: string | null,
+): number | null {
+  if (!requestedAt) {
+    return null
+  }
+
+  const requestedAtTime = Date.parse(requestedAt)
+
+  if (Number.isNaN(requestedAtTime)) {
+    return null
+  }
+
+  return requestedAtTime + DEPLOY_PENDING_WINDOW_MS
+}
+
+export function isDeployPendingActive(
+  deploy?: Partial<GeneralConfigDeployState> | null,
+  now = Date.now(),
+): boolean {
+  if (!deploy?.pending) {
+    return false
+  }
+
+  const expiresAt = getDeployPendingExpiryTime(deploy.requestedAt ?? null)
+
+  if (expiresAt === null) {
+    return false
+  }
+
+  return expiresAt > now
 }
 
 const mergeAsset = (
@@ -106,5 +186,6 @@ export function resolveGeneralConfig(
     aiAssistant: {
       documentGroups,
     },
+    deploy: resolveDeployState(config?.deploy),
   }
 }

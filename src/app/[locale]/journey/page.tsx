@@ -6,8 +6,8 @@ import '@/models/Province'
 import '@/models/User'
 import Trip from '@/models/Trip'
 import { mapTripDocToViewModel } from '@/lib/trip-mapper'
-import { getSession } from '@/lib/auth-server'
-import { ADMIN_USER_EMAIL } from '@/config/admin-user'
+import { routing } from '@/i18n/routing'
+import { setRequestLocale } from 'next-intl/server'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -27,35 +27,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   })
 }
 
-// export const dynamic = 'force-dynamic'
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }))
+}
 
-export default async function Page() {
+export default async function Page({ params }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
+  const heading =
+    locale === 'vi' ? 'Bản đồ hành trình của tôi' : 'My Journey Map'
+  const description =
+    locale === 'vi'
+      ? 'Khám phá những kỷ niệm khắp Việt Nam. Nhấp vào tỉnh thành được tô sáng để xem những câu chuyện.'
+      : 'Explore the memories across Vietnam. Click on a highlighted province to see the stories.'
+
   await dbConnect()
 
-  const [dbTrips, session] = await Promise.all([
-    Trip.find({})
-      .populate('province_id')
-      .populate('participant_ids', '-_id')
-      .lean(),
-    getSession(),
-  ])
+  const dbTrips = await Trip.find({})
+    .populate('province_id')
+    .populate('participant_ids', '-_id')
+    .lean()
 
   const formattedTrips = dbTrips.map(mapTripDocToViewModel)
-  const isAdmin = ADMIN_USER_EMAIL.includes(session?.user?.email || '')
 
   return (
     <main className="container py-8 min-h-screen flex flex-col gap-8">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold tracking-tight text-pink-700">
-          My Journey Map
+          {heading}
         </h1>
-        <p className="text-pink-700">
-          Explore the memories across Vietnam. Click on a highlighted province
-          to see the stories.
-        </p>
+        <p className="text-pink-700">{description}</p>
       </div>
 
-      <JourneyClient trips={formattedTrips} isAdmin={isAdmin} />
+      <JourneyClient trips={formattedTrips} />
     </main>
   )
 }

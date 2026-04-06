@@ -551,7 +551,7 @@ export function EditTripForm({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {imagesList.map((img, idx) => (
                 <div
-                  key={`${img}-${idx}`}
+                  key={img}
                   className="relative aspect-video rounded-md overflow-hidden bg-muted group"
                 >
                   <Image

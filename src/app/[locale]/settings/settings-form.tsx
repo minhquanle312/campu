@@ -1,6 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+
+import { InlinePublishPrompt } from '@/components/publish-control/inline-publish-prompt'
+import { Button } from '@/components/ui/button'
 import { useRouter } from '@/i18n/navigation'
 import type {
   GeneralConfig,
@@ -76,7 +79,11 @@ export default function SettingsForm({ initialConfig }: SettingsFormProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(config),
+        body: JSON.stringify({
+          homepage: config.homepage,
+          cv: config.cv,
+          aiAssistant: config.aiAssistant,
+        }),
       })
 
       if (!response.ok) {
@@ -264,14 +271,17 @@ export default function SettingsForm({ initialConfig }: SettingsFormProps) {
         </div>
       </section>
 
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <InlinePublishPrompt
+          title="Publish Changes"
+          description="Request a manual deploy after you finish reviewing the saved settings changes."
+        />
+      </section>
+
       <div className="flex justify-end">
-        <button
-          type="submit"
-          disabled={isSaving}
-          className="rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-        >
+        <Button type="submit" disabled={isSaving} className="rounded-full px-6">
           {isSaving ? 'Saving…' : 'Save settings'}
-        </button>
+        </Button>
       </div>
     </form>
   )

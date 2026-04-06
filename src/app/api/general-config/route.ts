@@ -89,7 +89,15 @@ export async function PUT(request: Request) {
     )
   }
 
-  const validationResult = generalConfigWriteSchema.safeParse(body)
+  const sanitizedBody =
+    body && typeof body === 'object' && !Array.isArray(body)
+      ? (() => {
+          const { deploy: _deploy, ...rest } = body as Record<string, unknown>
+          return rest
+        })()
+      : body
+
+  const validationResult = generalConfigWriteSchema.safeParse(sanitizedBody)
 
   if (!validationResult.success) {
     return NextResponse.json(
