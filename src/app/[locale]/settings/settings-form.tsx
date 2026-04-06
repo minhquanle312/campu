@@ -136,10 +136,10 @@ export default function SettingsForm({ initialConfig }: SettingsFormProps) {
         <label className="mt-6 flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4">
           <div>
             <p className="text-sm font-medium text-slate-800">
-              Enable HR assistant
+              Enable AI assistant
             </p>
             <p className="text-sm text-slate-500">
-              Toggle the recruiter assistant availability on the CV page.
+              Toggle the global assistant widget availability across the site.
             </p>
           </div>
           <input

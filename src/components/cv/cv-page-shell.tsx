@@ -11,7 +11,6 @@ import {
   CVSimpleLayout,
   type CVMessages,
 } from '@/components/cv/cv-layouts'
-import { InterviewChatWidget } from '@/components/interview-chat-widget'
 import { signIn, useSession } from '@/lib/auth-client'
 import type { CVData, Locale } from '@/types/cv'
 
@@ -272,12 +271,6 @@ export function CVPageShell({ cv, isAdmin, locale, messages }: Props) {
       >
         <CVDesktopLayout cv={cv} locale={locale} messages={messages} />
       </div>
-
-      <InterviewChatWidget
-        locale={locale}
-        title={messages.hrAssistant}
-        description={messages.hrAssistantDescription}
-      />
     </main>
   )
 }

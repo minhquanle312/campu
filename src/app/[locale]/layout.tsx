@@ -12,6 +12,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { generateSiteMetadata } from '@/lib/metadata'
 import { StructuredData } from '@/components/structured-data'
 import { LayoutVisibility } from '@/components/layout-visibility'
+import { InterviewChatWidget } from '@/components/interview-chat-widget'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
 const geistSans = localFont({
@@ -55,6 +56,8 @@ export default async function RootLayout({ children, params }: Props) {
 
   setRequestLocale(locale)
   const t = await getTranslations()
+  const assistantTitle = t('CV.HRAssistant')
+  const assistantDescription = t('CV.HRAssistantDescription')
 
   return (
     <html lang={locale}>
@@ -90,6 +93,11 @@ export default async function RootLayout({ children, params }: Props) {
                 }
               >
                 {children}
+                <InterviewChatWidget
+                  locale={locale}
+                  title={assistantTitle}
+                  description={assistantDescription}
+                />
               </LayoutVisibility>
             </div>
           </NextIntlClientProvider>

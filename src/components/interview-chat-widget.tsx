@@ -22,6 +22,12 @@ import {
   UserRound,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
@@ -253,243 +259,6 @@ export function InterviewChatWidget({
 
                 <section className="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
-                    <UserRound className="size-4" />
-                    {t('QuickActions')}
-                  </div>
-
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <Field label={t('Name')} icon={UserRound}>
-                      <Input
-                        value={profile.name}
-                        onChange={event =>
-                          setProfile(current => ({
-                            ...current,
-                            name: event.target.value,
-                          }))
-                        }
-                      />
-                    </Field>
-                    <Field label={t('Company')} icon={Briefcase}>
-                      <Input
-                        value={profile.company}
-                        onChange={event =>
-                          setProfile(current => ({
-                            ...current,
-                            company: event.target.value,
-                          }))
-                        }
-                      />
-                    </Field>
-                    <Field label={t('Phone')} icon={Phone}>
-                      <Input
-                        value={profile.phone}
-                        onChange={event =>
-                          setProfile(current => ({
-                            ...current,
-                            phone: event.target.value,
-                          }))
-                        }
-                      />
-                    </Field>
-                    <Field label={t('Email')} icon={Mail}>
-                      <Input
-                        type="email"
-                        value={profile.email}
-                        onChange={event =>
-                          setProfile(current => ({
-                            ...current,
-                            email: event.target.value,
-                          }))
-                        }
-                      />
-                    </Field>
-                    <Field
-                      label={t('Address')}
-                      icon={MapPinned}
-                      className="sm:col-span-2"
-                    >
-                      <Input
-                        value={profile.companyAddress}
-                        onChange={event =>
-                          setProfile(current => ({
-                            ...current,
-                            companyAddress: event.target.value,
-                          }))
-                        }
-                      />
-                    </Field>
-                    <Field
-                      label={t('AboutMe')}
-                      icon={MessageSquareMore}
-                      className="sm:col-span-2"
-                    >
-                      <Textarea
-                        value={profile.aboutMe}
-                        onChange={event =>
-                          setProfile(current => ({
-                            ...current,
-                            aboutMe: event.target.value,
-                          }))
-                        }
-                        className="min-h-[110px]"
-                      />
-                    </Field>
-                  </div>
-
-                  <Button
-                    type="button"
-                    className="mt-4 w-full rounded-2xl bg-rose-500 py-6 text-sm font-semibold hover:bg-rose-600"
-                    onClick={saveProfile}
-                  >
-                    {t('SaveProfile')}
-                  </Button>
-                </section>
-
-                <section className="rounded-4xl border border-slate-200 bg-slate-950 p-5 text-white shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.24em] text-rose-200">
-                        {t('ScheduleTitle')}
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-slate-300">
-                        {t('ScheduleSubtitle')}
-                      </p>
-                    </div>
-                    <div className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em]">
-                      {scheduleType === 'interview'
-                        ? t('Interview')
-                        : t('QuickCall')}
-                    </div>
-                  </div>
-
-                  <div className="mt-5 rounded-3xl border border-white/10 bg-white/5 p-4">
-                    <div className="mb-4 flex items-center justify-between">
-                      <button
-                        type="button"
-                        className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
-                        onClick={() =>
-                          setCurrentMonth(
-                            new Date(
-                              currentMonth.getFullYear(),
-                              currentMonth.getMonth() - 1,
-                              1,
-                            ),
-                          )
-                        }
-                      >
-                        <ChevronLeft className="size-4" />
-                      </button>
-                      <p className="text-sm font-semibold tracking-wide">
-                        {format(currentMonth, 'MMMM yyyy', {
-                          locale: displayLocale,
-                        })}
-                      </p>
-                      <button
-                        type="button"
-                        className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
-                        onClick={() =>
-                          setCurrentMonth(
-                            new Date(
-                              currentMonth.getFullYear(),
-                              currentMonth.getMonth() + 1,
-                              1,
-                            ),
-                          )
-                        }
-                      >
-                        <ChevronRight className="size-4" />
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                      {weekdays.map(day => (
-                        <span key={day}>{day}</span>
-                      ))}
-                    </div>
-
-                    <div className="mt-3 grid grid-cols-7 gap-2">
-                      {days.map((day, index) => {
-                        if (!day) {
-                          const row = Math.floor(index / 7)
-                          const column = index % 7
-                          return (
-                            <div
-                              key={`empty-${currentMonth.getFullYear()}-${currentMonth.getMonth()}-${row}-${column}`}
-                              className="aspect-square rounded-2xl border border-transparent"
-                            />
-                          )
-                        }
-
-                        const isSelected =
-                          selectedDate &&
-                          day.toDateString() === selectedDate.toDateString()
-
-                        return (
-                          <button
-                            key={day.toISOString()}
-                            type="button"
-                            onClick={() => setSelectedDate(day)}
-                            className={cn(
-                              'aspect-square rounded-2xl border text-sm font-semibold transition-all',
-                              isSelected
-                                ? 'border-rose-400 bg-rose-500 text-white shadow-lg shadow-rose-500/30'
-                                : 'border-white/10 bg-white/5 text-slate-200 hover:border-white/20 hover:bg-white/10',
-                            )}
-                          >
-                            {format(day, 'd')}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="mt-5">
-                    <p className="mb-3 text-xs uppercase tracking-[0.24em] text-slate-400">
-                      {t('AvailableTimes')}
-                    </p>
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                      {timeSlots.map(slot => (
-                        <button
-                          key={slot}
-                          type="button"
-                          onClick={() => setSelectedTime(slot)}
-                          className={cn(
-                            'rounded-2xl border px-3 py-3 text-sm font-medium transition-all',
-                            selectedTime === slot
-                              ? 'border-rose-400 bg-rose-500 text-white shadow-lg shadow-rose-500/30'
-                              : 'border-white/10 bg-white/5 text-slate-200 hover:border-white/20 hover:bg-white/10',
-                          )}
-                        >
-                          {slot}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
-                    <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
-                      {t('SelectedSchedule')}
-                    </p>
-                    <p className="mt-2 leading-6">
-                      {selectedDate && selectedTime
-                        ? `${scheduleType === 'interview' ? t('Interview') : t('QuickCall')} • ${format(selectedDate, 'PPPP', { locale: displayLocale })} • ${selectedTime}`
-                        : t('NoDate')}
-                    </p>
-                  </div>
-
-                  <Button
-                    type="button"
-                    className="mt-5 w-full rounded-2xl bg-white text-slate-900 hover:bg-rose-50"
-                    onClick={saveSchedule}
-                  >
-                    {scheduleType === 'interview'
-                      ? t('ScheduleInterview')
-                      : t('ScheduleCall')}
-                  </Button>
-                </section>
-
-                <section className="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
                     <Bot className="size-4" />
                     {t('Assistant')}
                   </div>
@@ -556,6 +325,271 @@ export function InterviewChatWidget({
                     </Button>
                   </form>
                 </section>
+
+                <Accordion type="multiple" className="space-y-4">
+                  <AccordionItem
+                    value="profile"
+                    className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm"
+                  >
+                    <AccordionTrigger className="px-5 py-5 text-left no-underline hover:no-underline">
+                      <div className="flex items-start gap-3">
+                        <span className="mt-0.5 inline-flex rounded-full bg-rose-100 p-2 text-rose-600">
+                          <UserRound className="size-4" />
+                        </span>
+                        <div>
+                          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
+                            {t('QuickActions')}
+                          </p>
+                          <p className="mt-1 text-sm leading-6 text-slate-600">
+                            {t('ProfileSectionDescription')}
+                          </p>
+                        </div>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-5 pb-5">
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <Field label={t('Name')} icon={UserRound}>
+                          <Input
+                            value={profile.name}
+                            onChange={event =>
+                              setProfile(current => ({
+                                ...current,
+                                name: event.target.value,
+                              }))
+                            }
+                          />
+                        </Field>
+                        <Field label={t('Company')} icon={Briefcase}>
+                          <Input
+                            value={profile.company}
+                            onChange={event =>
+                              setProfile(current => ({
+                                ...current,
+                                company: event.target.value,
+                              }))
+                            }
+                          />
+                        </Field>
+                        <Field label={t('Phone')} icon={Phone}>
+                          <Input
+                            value={profile.phone}
+                            onChange={event =>
+                              setProfile(current => ({
+                                ...current,
+                                phone: event.target.value,
+                              }))
+                            }
+                          />
+                        </Field>
+                        <Field label={t('Email')} icon={Mail}>
+                          <Input
+                            type="email"
+                            value={profile.email}
+                            onChange={event =>
+                              setProfile(current => ({
+                                ...current,
+                                email: event.target.value,
+                              }))
+                            }
+                          />
+                        </Field>
+                        <Field
+                          label={t('Address')}
+                          icon={MapPinned}
+                          className="sm:col-span-2"
+                        >
+                          <Input
+                            value={profile.companyAddress}
+                            onChange={event =>
+                              setProfile(current => ({
+                                ...current,
+                                companyAddress: event.target.value,
+                              }))
+                            }
+                          />
+                        </Field>
+                        <Field
+                          label={t('AboutMe')}
+                          icon={MessageSquareMore}
+                          className="sm:col-span-2"
+                        >
+                          <Textarea
+                            value={profile.aboutMe}
+                            onChange={event =>
+                              setProfile(current => ({
+                                ...current,
+                                aboutMe: event.target.value,
+                              }))
+                            }
+                            className="min-h-[110px]"
+                          />
+                        </Field>
+                      </div>
+
+                      <Button
+                        type="button"
+                        className="mt-4 w-full rounded-2xl bg-rose-500 py-6 text-sm font-semibold hover:bg-rose-600"
+                        onClick={saveProfile}
+                      >
+                        {t('SaveProfile')}
+                      </Button>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem
+                    value="schedule"
+                    className="overflow-hidden rounded-4xl border border-slate-200 bg-slate-950 text-white shadow-sm"
+                  >
+                    <AccordionTrigger className="px-5 py-5 text-left no-underline hover:no-underline focus-visible:ring-white/30">
+                      <div className="flex w-full items-start justify-between gap-4 pr-2">
+                        <div className="flex items-start gap-3">
+                          <span className="mt-0.5 inline-flex rounded-full bg-white/10 p-2 text-rose-200">
+                            <CalendarDays className="size-4" />
+                          </span>
+                          <div>
+                            <p className="text-xs uppercase tracking-[0.24em] text-rose-200">
+                              {t('ScheduleTitle')}
+                            </p>
+                            <p className="mt-2 text-sm leading-6 text-slate-300">
+                              {t('ScheduleSubtitle')}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+                          {scheduleType === 'interview'
+                            ? t('Interview')
+                            : t('QuickCall')}
+                        </div>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-5 pb-5 text-white">
+                      <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                        <div className="mb-4 flex items-center justify-between">
+                          <button
+                            type="button"
+                            className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
+                            onClick={() =>
+                              setCurrentMonth(
+                                new Date(
+                                  currentMonth.getFullYear(),
+                                  currentMonth.getMonth() - 1,
+                                  1,
+                                ),
+                              )
+                            }
+                          >
+                            <ChevronLeft className="size-4" />
+                          </button>
+                          <p className="text-sm font-semibold tracking-wide">
+                            {format(currentMonth, 'MMMM yyyy', {
+                              locale: displayLocale,
+                            })}
+                          </p>
+                          <button
+                            type="button"
+                            className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
+                            onClick={() =>
+                              setCurrentMonth(
+                                new Date(
+                                  currentMonth.getFullYear(),
+                                  currentMonth.getMonth() + 1,
+                                  1,
+                                ),
+                              )
+                            }
+                          >
+                            <ChevronRight className="size-4" />
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                          {weekdays.map(day => (
+                            <span key={day}>{day}</span>
+                          ))}
+                        </div>
+
+                        <div className="mt-3 grid grid-cols-7 gap-2">
+                          {days.map((day, index) => {
+                            if (!day) {
+                              const row = Math.floor(index / 7)
+                              const column = index % 7
+                              return (
+                                <div
+                                  key={`empty-${currentMonth.getFullYear()}-${currentMonth.getMonth()}-${row}-${column}`}
+                                  className="aspect-square rounded-2xl border border-transparent"
+                                />
+                              )
+                            }
+
+                            const isSelected =
+                              selectedDate &&
+                              day.toDateString() === selectedDate.toDateString()
+
+                            return (
+                              <button
+                                key={day.toISOString()}
+                                type="button"
+                                onClick={() => setSelectedDate(day)}
+                                className={cn(
+                                  'aspect-square rounded-2xl border text-sm font-semibold transition-all',
+                                  isSelected
+                                    ? 'border-rose-400 bg-rose-500 text-white shadow-lg shadow-rose-500/30'
+                                    : 'border-white/10 bg-white/5 text-slate-200 hover:border-white/20 hover:bg-white/10',
+                                )}
+                              >
+                                {format(day, 'd')}
+                              </button>
+                            )
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="mt-5">
+                        <p className="mb-3 text-xs uppercase tracking-[0.24em] text-slate-400">
+                          {t('AvailableTimes')}
+                        </p>
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                          {timeSlots.map(slot => (
+                            <button
+                              key={slot}
+                              type="button"
+                              onClick={() => setSelectedTime(slot)}
+                              className={cn(
+                                'rounded-2xl border px-3 py-3 text-sm font-medium transition-all',
+                                selectedTime === slot
+                                  ? 'border-rose-400 bg-rose-500 text-white shadow-lg shadow-rose-500/30'
+                                  : 'border-white/10 bg-white/5 text-slate-200 hover:border-white/20 hover:bg-white/10',
+                              )}
+                            >
+                              {slot}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
+                        <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                          {t('SelectedSchedule')}
+                        </p>
+                        <p className="mt-2 leading-6">
+                          {selectedDate && selectedTime
+                            ? `${scheduleType === 'interview' ? t('Interview') : t('QuickCall')} • ${format(selectedDate, 'PPPP', { locale: displayLocale })} • ${selectedTime}`
+                            : t('NoDate')}
+                        </p>
+                      </div>
+
+                      <Button
+                        type="button"
+                        className="mt-5 w-full rounded-2xl bg-white text-slate-900 hover:bg-rose-50"
+                        onClick={saveSchedule}
+                      >
+                        {scheduleType === 'interview'
+                          ? t('ScheduleInterview')
+                          : t('ScheduleCall')}
+                      </Button>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
             </ScrollArea>
           </div>
