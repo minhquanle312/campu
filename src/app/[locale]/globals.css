@@ -194,6 +194,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .lucide {
+    flex-shrink: 0;
+  }
 }
 
 .masonry-gallery {
