@@ -217,9 +217,15 @@ export function InterviewChatWidget({
                       size="sm"
                       variant="ghost"
                       onClick={() => setIsFullscreen(current => !current)}
-                      className="hidden rounded-full lg:inline-flex bg-rose-100 px-3 py-1 text-xs font-semibold uppercase text-rose-700"
+                      aria-pressed={isFullscreen}
+                      className={cn(
+                        'hidden rounded-full px-3 py-1 text-xs font-semibold uppercase transition-colors lg:inline-flex',
+                        isFullscreen
+                          ? 'bg-slate-900 text-white hover:bg-slate-800'
+                          : 'bg-rose-100 text-rose-700 hover:bg-rose-200',
+                      )}
                     >
-                      {t('ViewInFullScreen')}
+                      {isFullscreen ? t('ExitFullScreen') : t('ViewInFullScreen')}
                     </Button>
                   </div>
                   <SheetTitle className="text-xl font-black tracking-tight text-slate-900">

@@ -106,6 +106,7 @@
     "HRAssistantDescription": "Your AI assistant and second brain for learning about me, chatting through next steps, and planning a meeting",
     "InterviewChatWidget": {
       "ViewInFullScreen": "View in full screen",
+      "ExitFullScreen": "Exit full screen",
       "Name": "Your name",
       "Company": "Team, company, or relationship",
       "Phone": "Phone number",

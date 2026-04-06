@@ -106,6 +106,7 @@
     "HRAssistantDescription": "Trợ lý AI kiêm second brain để tìm hiểu về mình, trao đổi bước tiếp theo và lên lịch gặp",
     "InterviewChatWidget": {
       "ViewInFullScreen": "Xem toàn màn hình",
+      "ExitFullScreen": "Thoát toàn màn hình",
       "Name": "Tên của bạn",
       "Company": "Nhóm, công ty hoặc mối quan hệ",
       "Phone": "Số điện thoại",
