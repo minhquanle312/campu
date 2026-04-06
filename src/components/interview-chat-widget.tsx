@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { enUS, vi as viLocale } from 'date-fns/locale'
 import { DefaultChatTransport } from 'ai'
@@ -13,21 +13,11 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock3,
-  Mail,
-  MapPinned,
   MessageSquareMore,
-  Phone,
   Send,
   Sparkles,
-  UserRound,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
@@ -37,7 +27,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { Textarea } from '@/components/ui/textarea'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { cn } from '@/lib/utils'
 import type { Locale } from '@/types/cv'
@@ -46,15 +36,6 @@ type InterviewChatWidgetProps = {
   locale: Locale
   title: string
   description: string
-}
-
-type InterviewProfile = {
-  name: string
-  company: string
-  phone: string
-  companyAddress: string
-  email: string
-  aboutMe: string
 }
 
 const timeSlots = [
@@ -109,20 +90,15 @@ export function InterviewChatWidget({
     t('Weekdays.Sun'),
   ]
   const [input, setInput] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [activeTab, setActiveTab] = useState<'chat' | 'schedule'>('chat')
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string>('')
   const [scheduleType, setScheduleType] = useState<'interview' | 'quickCall'>(
     'interview',
   )
-  const [profile, setProfile] = useState<InterviewProfile>({
-    name: '',
-    company: '',
-    phone: '',
-    companyAddress: '',
-    email: '',
-    aboutMe: '',
-  })
 
   const days = useMemo(() => getMonthDays(currentMonth), [currentMonth])
 
@@ -132,7 +108,6 @@ export function InterviewChatWidget({
       prepareSendMessagesRequest: ({ messages: currentMessages }) => ({
         body: {
           locale,
-          profile,
           schedule:
             selectedDate && selectedTime
               ? {
@@ -147,18 +122,7 @@ export function InterviewChatWidget({
     }),
   })
 
-  const saveProfile = () => {
-    void sendMessage({
-      text: t('SaveProfilePrompt', {
-        name: profile.name,
-        company: profile.company,
-        phone: profile.phone,
-        companyAddress: profile.companyAddress,
-        email: profile.email,
-        aboutMe: profile.aboutMe,
-      }),
-    })
-  }
+  const transcriptEndRef = useRef<HTMLDivElement | null>(null)
 
   const submitMessage = () => {
     const trimmedInput = input.trim()
@@ -193,10 +157,39 @@ export function InterviewChatWidget({
   }
 
   const displayLocale = locale === 'vi' ? viLocale : enUS
+  const latestMessage = messages.at(-1)
+  const latestMessageText = latestMessage?.parts
+    .filter(part => part.type === 'text')
+    .map(part => part.text)
+    .join('')
+  const messageCount = messages.length
+  const transcriptScrollKey = `${messageCount}:${latestMessage?.id ?? 'none'}:${latestMessageText ?? ''}`
+
+  useEffect(() => {
+    if (!isOpen || !transcriptScrollKey) {
+      return
+    }
+
+    requestAnimationFrame(() => {
+      transcriptEndRef.current?.scrollIntoView({
+        behavior: status === 'streaming' ? 'smooth' : 'auto',
+        block: 'end',
+      })
+    })
+  }, [isOpen, status, transcriptScrollKey])
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open)
+
+    if (!open) {
+      setIsFullscreen(false)
+      setActiveTab('chat')
+    }
+  }
 
   return (
     <div className="fixed bottom-4 right-4 z-50 print:hidden sm:bottom-6 sm:right-6">
-      <Sheet>
+      <Sheet open={isOpen} onOpenChange={handleOpenChange}>
         <SheetTrigger asChild>
           <Button className="h-auto rounded-full bg-slate-900 px-5 py-3 text-white shadow-2xl hover:bg-slate-800">
             <MessageSquareMore className="size-4" />
@@ -206,15 +199,28 @@ export function InterviewChatWidget({
 
         <SheetContent
           side="right"
-          className="w-full overflow-hidden border-l-0 bg-white p-0 sm:max-w-115"
+          className={cn(
+            'w-full overflow-hidden border-l-0 bg-white p-0',
+            isFullscreen ? 'sm:max-w-none lg:w-screen' : 'sm:max-w-115',
+          )}
         >
           <div className="flex h-full min-h-0 flex-col bg-linear-to-b from-rose-50 via-white to-white">
             <div className="border-b border-rose-100 px-6 py-5">
               <div className="flex items-start justify-between gap-4 pr-8">
                 <div>
-                  <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-rose-700">
-                    <Sparkles className="size-3.5" />
-                    {t('Assistant')}
+                  <div className="flex justify-between items-center">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-rose-700">
+                      <Sparkles className="size-3.5" />
+                      {t('Assistant')}
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setIsFullscreen(current => !current)}
+                      className="hidden rounded-full lg:inline-flex bg-rose-100 px-3 py-1 text-xs font-semibold uppercase text-rose-700"
+                    >
+                      {t('ViewInFullScreen')}
+                    </Button>
                   </div>
                   <SheetTitle className="text-xl font-black tracking-tight text-slate-900">
                     {title}
@@ -223,41 +229,21 @@ export function InterviewChatWidget({
                     {description}
                   </SheetDescription>
                 </div>
+
+                {/* <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setIsFullscreen(current => !current)}
+                  className="hidden rounded-full px-4 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 lg:inline-flex"
+                >
+                  {fullscreenToggleLabel}
+                </Button> */}
               </div>
             </div>
 
-            <ScrollArea className="min-h-0 flex-1 px-6 py-6">
-              <div className="space-y-6 pb-6">
-                <div className="rounded-4xl border border-rose-100 bg-white/90 p-5 shadow-sm">
-                  <p className="text-sm leading-6 text-slate-600">
-                    {t('Intro')}
-                  </p>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <QuickAction
-                    icon={Briefcase}
-                    label={t('AskMore')}
-                    onClick={() => setInput(t('AskMorePrefill'))}
-                  />
-                  <QuickAction
-                    icon={CalendarDays}
-                    label={t('ScheduleInterview')}
-                    onClick={() => setScheduleType('interview')}
-                  />
-                  <QuickAction
-                    icon={Clock3}
-                    label={t('ScheduleCall')}
-                    onClick={() => setScheduleType('quickCall')}
-                  />
-                  <QuickAction
-                    icon={Bot}
-                    label={t('SaveProfile')}
-                    onClick={() => setInput(t('SaveProfilePrefill'))}
-                  />
-                </div>
-
-                <section className="rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
+            {isFullscreen ? (
+              <div className="min-h-0 flex-1 px-6 py-6 lg:px-10 lg:py-8">
+                <section className="flex h-full min-h-0 flex-col rounded-4xl border border-slate-200 bg-white p-5 shadow-sm lg:mx-auto lg:max-w-4xl">
                   <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
                     <Bot className="size-4" />
                     {t('Assistant')}
@@ -269,37 +255,42 @@ export function InterviewChatWidget({
                     </div>
                   ) : null}
 
-                  <div className="mb-4 space-y-3">
-                    {messages.map(message => (
-                      <div
-                        key={message.id}
-                        className={cn(
-                          'rounded-3xl px-4 py-3 text-sm leading-6',
-                          message.role === 'user'
-                            ? 'bg-slate-900 text-white'
-                            : 'bg-slate-100 text-slate-700',
-                        )}
-                      >
-                        <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">
-                          {message.role === 'user' ? t('You') : t('Assistant')}
-                        </p>
-                        {message.parts.map(part =>
-                          part.type === 'text' ? (
-                            <MarkdownRenderer
-                              key={`${message.id}-${part.text}`}
-                              content={part.text}
-                              className={cn(
-                                'space-y-3 break-words [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_code]:rounded [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.95em] [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:px-3 [&_pre]:py-2 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5',
-                                message.role === 'user'
-                                  ? '[&_a]:text-white [&_code]:bg-white/15 [&_pre]:bg-white/10'
-                                  : '[&_a]:text-slate-900 [&_code]:bg-slate-200 [&_pre]:bg-white',
-                              )}
-                            />
-                          ) : null,
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                  <ScrollArea className="mb-4 min-h-0 flex-1 pr-3">
+                    <div className="space-y-3">
+                      {messages.map(message => (
+                        <div
+                          key={message.id}
+                          className={cn(
+                            'rounded-3xl px-4 py-3 text-sm leading-6',
+                            message.role === 'user'
+                              ? 'bg-slate-900 text-white'
+                              : 'bg-slate-100 text-slate-700',
+                          )}
+                        >
+                          <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">
+                            {message.role === 'user'
+                              ? t('You')
+                              : t('Assistant')}
+                          </p>
+                          {message.parts.map(part =>
+                            part.type === 'text' ? (
+                              <MarkdownRenderer
+                                key={`${message.id}-${part.text}`}
+                                content={part.text}
+                                className={cn(
+                                  'space-y-3 break-words [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_code]:rounded [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.95em] [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:px-3 [&_pre]:py-2 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5',
+                                  message.role === 'user'
+                                    ? '[&_a]:text-white [&_code]:bg-white/15 [&_pre]:bg-white/10'
+                                    : '[&_a]:text-slate-900 [&_code]:bg-slate-200 [&_pre]:bg-white',
+                                )}
+                              />
+                            ) : null,
+                          )}
+                        </div>
+                      ))}
+                      <div ref={transcriptEndRef} />
+                    </div>
+                  </ScrollArea>
 
                   <form
                     className="flex items-center gap-3"
@@ -325,273 +316,289 @@ export function InterviewChatWidget({
                     </Button>
                   </form>
                 </section>
+              </div>
+            ) : (
+              <div className="min-h-0 flex-1 overflow-hidden px-6 py-6">
+                <div className="flex h-full min-h-0 flex-col gap-6">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <QuickAction
+                      icon={Briefcase}
+                      label={t('AskMore')}
+                      onClick={() => {
+                        setActiveTab('chat')
+                        setInput(t('AskMorePrefill'))
+                      }}
+                    />
+                    <QuickAction
+                      icon={CalendarDays}
+                      label={t('ScheduleInterview')}
+                      onClick={() => {
+                        setScheduleType('interview')
+                        setActiveTab('schedule')
+                      }}
+                    />
+                    <QuickAction
+                      icon={Clock3}
+                      label={t('ScheduleCall')}
+                      onClick={() => {
+                        setScheduleType('quickCall')
+                        setActiveTab('schedule')
+                      }}
+                    />
+                  </div>
 
-                <Accordion type="multiple" className="space-y-4">
-                  <AccordionItem
-                    value="profile"
-                    className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-sm"
+                  <Tabs
+                    value={activeTab}
+                    onValueChange={value =>
+                      setActiveTab(value as 'chat' | 'schedule')
+                    }
+                    className="flex min-h-0 flex-1 flex-col gap-4"
                   >
-                    <AccordionTrigger className="px-5 py-5 text-left no-underline hover:no-underline">
-                      <div className="flex items-start gap-3">
-                        <span className="mt-0.5 inline-flex rounded-full bg-rose-100 p-2 text-rose-600">
-                          <UserRound className="size-4" />
-                        </span>
-                        <div>
-                          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
-                            {t('QuickActions')}
-                          </p>
-                          <p className="mt-1 text-sm leading-6 text-slate-600">
-                            {t('ProfileSectionDescription')}
-                          </p>
+                    <TabsList className="w-full rounded-3xl bg-rose-100/80 p-1">
+                      <TabsTrigger value="chat" className="rounded-[20px]">
+                        {t('ChatTab')}
+                      </TabsTrigger>
+                      <TabsTrigger value="schedule" className="rounded-[20px]">
+                        {t('ScheduleTab')}
+                      </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent
+                      value="chat"
+                      className="min-h-0 flex-1 overflow-hidden"
+                    >
+                      <section className="flex h-full min-h-0 flex-col rounded-4xl border border-slate-200 bg-white p-5 shadow-sm">
+                        <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
+                          <Bot className="size-4" />
+                          {t('Assistant')}
                         </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-5 pb-5">
-                      <div className="grid gap-3 sm:grid-cols-2">
-                        <Field label={t('Name')} icon={UserRound}>
-                          <Input
-                            value={profile.name}
-                            onChange={event =>
-                              setProfile(current => ({
-                                ...current,
-                                name: event.target.value,
-                              }))
-                            }
-                          />
-                        </Field>
-                        <Field label={t('Company')} icon={Briefcase}>
-                          <Input
-                            value={profile.company}
-                            onChange={event =>
-                              setProfile(current => ({
-                                ...current,
-                                company: event.target.value,
-                              }))
-                            }
-                          />
-                        </Field>
-                        <Field label={t('Phone')} icon={Phone}>
-                          <Input
-                            value={profile.phone}
-                            onChange={event =>
-                              setProfile(current => ({
-                                ...current,
-                                phone: event.target.value,
-                              }))
-                            }
-                          />
-                        </Field>
-                        <Field label={t('Email')} icon={Mail}>
-                          <Input
-                            type="email"
-                            value={profile.email}
-                            onChange={event =>
-                              setProfile(current => ({
-                                ...current,
-                                email: event.target.value,
-                              }))
-                            }
-                          />
-                        </Field>
-                        <Field
-                          label={t('Address')}
-                          icon={MapPinned}
-                          className="sm:col-span-2"
+
+                        {error ? (
+                          <div className="mb-4 rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-700">
+                            {t('ErrorSending')}
+                          </div>
+                        ) : null}
+
+                        <ScrollArea className="mb-4 min-h-0 flex-1 pr-3">
+                          <div className="space-y-3">
+                            {messages.map(message => (
+                              <div
+                                key={message.id}
+                                className={cn(
+                                  'rounded-3xl px-4 py-3 text-sm leading-6',
+                                  message.role === 'user'
+                                    ? 'bg-slate-900 text-white'
+                                    : 'bg-slate-100 text-slate-700',
+                                )}
+                              >
+                                <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">
+                                  {message.role === 'user'
+                                    ? t('You')
+                                    : t('Assistant')}
+                                </p>
+                                {message.parts.map(part =>
+                                  part.type === 'text' ? (
+                                    <MarkdownRenderer
+                                      key={`${message.id}-${part.text}`}
+                                      content={part.text}
+                                      className={cn(
+                                        'space-y-3 break-words [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-4 [&_code]:rounded [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.95em] [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-2xl [&_pre]:px-3 [&_pre]:py-2 [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5',
+                                        message.role === 'user'
+                                          ? '[&_a]:text-white [&_code]:bg-white/15 [&_pre]:bg-white/10'
+                                          : '[&_a]:text-slate-900 [&_code]:bg-slate-200 [&_pre]:bg-white',
+                                      )}
+                                    />
+                                  ) : null,
+                                )}
+                              </div>
+                            ))}
+                            <div ref={transcriptEndRef} />
+                          </div>
+                        </ScrollArea>
+
+                        <form
+                          className="flex items-center gap-3"
+                          onSubmit={event => {
+                            event.preventDefault()
+                            submitMessage()
+                          }}
                         >
                           <Input
-                            value={profile.companyAddress}
-                            onChange={event =>
-                              setProfile(current => ({
-                                ...current,
-                                companyAddress: event.target.value,
-                              }))
-                            }
+                            value={input}
+                            onChange={event => setInput(event.target.value)}
+                            placeholder={t('AskPlaceholder')}
+                            disabled={status !== 'ready'}
+                            className="h-12 flex-1 rounded-3xl border-slate-200 bg-slate-50 px-4 text-sm shadow-none placeholder:text-slate-400"
                           />
-                        </Field>
-                        <Field
-                          label={t('AboutMe')}
-                          icon={MessageSquareMore}
-                          className="sm:col-span-2"
-                        >
-                          <Textarea
-                            value={profile.aboutMe}
-                            onChange={event =>
-                              setProfile(current => ({
-                                ...current,
-                                aboutMe: event.target.value,
-                              }))
-                            }
-                            className="min-h-[110px]"
-                          />
-                        </Field>
-                      </div>
+                          <Button
+                            type="submit"
+                            className="h-12 rounded-3xl bg-slate-900 px-4 hover:bg-slate-800"
+                            disabled={status !== 'ready'}
+                          >
+                            <Send className="size-4" />
+                            {t('Send')}
+                          </Button>
+                        </form>
+                      </section>
+                    </TabsContent>
 
-                      <Button
-                        type="button"
-                        className="mt-4 w-full rounded-2xl bg-rose-500 py-6 text-sm font-semibold hover:bg-rose-600"
-                        onClick={saveProfile}
-                      >
-                        {t('SaveProfile')}
-                      </Button>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  <AccordionItem
-                    value="schedule"
-                    className="overflow-hidden rounded-4xl border border-slate-200 bg-slate-950 text-white shadow-sm"
-                  >
-                    <AccordionTrigger className="px-5 py-5 text-left no-underline hover:no-underline focus-visible:ring-white/30">
-                      <div className="flex w-full items-start justify-between gap-4 pr-2">
-                        <div className="flex items-start gap-3">
-                          <span className="mt-0.5 inline-flex rounded-full bg-white/10 p-2 text-rose-200">
-                            <CalendarDays className="size-4" />
-                          </span>
-                          <div>
-                            <p className="text-xs uppercase tracking-[0.24em] text-rose-200">
-                              {t('ScheduleTitle')}
-                            </p>
-                            <p className="mt-2 text-sm leading-6 text-slate-300">
-                              {t('ScheduleSubtitle')}
-                            </p>
+                    <TabsContent
+                      value="schedule"
+                      className="min-h-0 flex-1 overflow-hidden"
+                    >
+                      <section className="flex h-full min-h-0 flex-col overflow-y-auto rounded-4xl border border-slate-200 bg-slate-950 p-5 text-white shadow-sm">
+                        <div className="flex w-full items-start justify-between gap-4 pr-2">
+                          <div className="flex items-start gap-3">
+                            <span className="mt-0.5 inline-flex rounded-full bg-white/10 p-2 text-rose-200">
+                              <CalendarDays className="size-4" />
+                            </span>
+                            <div>
+                              <p className="text-xs uppercase tracking-[0.24em] text-rose-200">
+                                {t('ScheduleTitle')}
+                              </p>
+                              <p className="mt-2 text-sm leading-6 text-slate-300">
+                                {t('ScheduleSubtitle')}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+                            {scheduleType === 'interview'
+                              ? t('Interview')
+                              : t('QuickCall')}
                           </div>
                         </div>
-                        <div className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-                          {scheduleType === 'interview'
-                            ? t('Interview')
-                            : t('QuickCall')}
-                        </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-5 pb-5 text-white">
-                      <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
-                        <div className="mb-4 flex items-center justify-between">
-                          <button
-                            type="button"
-                            className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
-                            onClick={() =>
-                              setCurrentMonth(
-                                new Date(
-                                  currentMonth.getFullYear(),
-                                  currentMonth.getMonth() - 1,
-                                  1,
-                                ),
-                              )
-                            }
-                          >
-                            <ChevronLeft className="size-4" />
-                          </button>
-                          <p className="text-sm font-semibold tracking-wide">
-                            {format(currentMonth, 'MMMM yyyy', {
-                              locale: displayLocale,
-                            })}
-                          </p>
-                          <button
-                            type="button"
-                            className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
-                            onClick={() =>
-                              setCurrentMonth(
-                                new Date(
-                                  currentMonth.getFullYear(),
-                                  currentMonth.getMonth() + 1,
-                                  1,
-                                ),
-                              )
-                            }
-                          >
-                            <ChevronRight className="size-4" />
-                          </button>
-                        </div>
 
-                        <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-[0.2em] text-slate-400">
-                          {weekdays.map(day => (
-                            <span key={day}>{day}</span>
-                          ))}
-                        </div>
+                        <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
+                          <div className="mb-4 flex items-center justify-between">
+                            <button
+                              type="button"
+                              className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
+                              onClick={() =>
+                                setCurrentMonth(
+                                  new Date(
+                                    currentMonth.getFullYear(),
+                                    currentMonth.getMonth() - 1,
+                                    1,
+                                  ),
+                                )
+                              }
+                            >
+                              <ChevronLeft className="size-4" />
+                            </button>
+                            <p className="text-sm font-semibold tracking-wide">
+                              {format(currentMonth, 'MMMM yyyy', {
+                                locale: displayLocale,
+                              })}
+                            </p>
+                            <button
+                              type="button"
+                              className="rounded-full border border-white/10 p-2 text-white transition-colors hover:bg-white/10"
+                              onClick={() =>
+                                setCurrentMonth(
+                                  new Date(
+                                    currentMonth.getFullYear(),
+                                    currentMonth.getMonth() + 1,
+                                    1,
+                                  ),
+                                )
+                              }
+                            >
+                              <ChevronRight className="size-4" />
+                            </button>
+                          </div>
 
-                        <div className="mt-3 grid grid-cols-7 gap-2">
-                          {days.map((day, index) => {
-                            if (!day) {
-                              const row = Math.floor(index / 7)
-                              const column = index % 7
+                          <div className="grid grid-cols-7 gap-2 text-center text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                            {weekdays.map(day => (
+                              <span key={day}>{day}</span>
+                            ))}
+                          </div>
+
+                          <div className="mt-3 grid grid-cols-7 gap-2">
+                            {days.map((day, index) => {
+                              if (!day) {
+                                const row = Math.floor(index / 7)
+                                const column = index % 7
+                                return (
+                                  <div
+                                    key={`empty-${currentMonth.getFullYear()}-${currentMonth.getMonth()}-${row}-${column}`}
+                                    className="aspect-square rounded-2xl border border-transparent"
+                                  />
+                                )
+                              }
+
+                              const isSelected =
+                                selectedDate &&
+                                day.toDateString() ===
+                                  selectedDate.toDateString()
+
                               return (
-                                <div
-                                  key={`empty-${currentMonth.getFullYear()}-${currentMonth.getMonth()}-${row}-${column}`}
-                                  className="aspect-square rounded-2xl border border-transparent"
-                                />
+                                <button
+                                  key={day.toISOString()}
+                                  type="button"
+                                  onClick={() => setSelectedDate(day)}
+                                  className={cn(
+                                    'aspect-square rounded-2xl border text-sm font-semibold transition-all',
+                                    isSelected
+                                      ? 'border-rose-400 bg-rose-500 text-white shadow-lg shadow-rose-500/30'
+                                      : 'border-white/10 bg-white/5 text-slate-200 hover:border-white/20 hover:bg-white/10',
+                                  )}
+                                >
+                                  {format(day, 'd')}
+                                </button>
                               )
-                            }
+                            })}
+                          </div>
+                        </div>
 
-                            const isSelected =
-                              selectedDate &&
-                              day.toDateString() === selectedDate.toDateString()
-
-                            return (
+                        <div className="mt-5">
+                          <p className="mb-3 text-xs uppercase tracking-[0.24em] text-slate-400">
+                            {t('AvailableTimes')}
+                          </p>
+                          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                            {timeSlots.map(slot => (
                               <button
-                                key={day.toISOString()}
+                                key={slot}
                                 type="button"
-                                onClick={() => setSelectedDate(day)}
+                                onClick={() => setSelectedTime(slot)}
                                 className={cn(
-                                  'aspect-square rounded-2xl border text-sm font-semibold transition-all',
-                                  isSelected
+                                  'rounded-2xl border px-3 py-3 text-sm font-medium transition-all',
+                                  selectedTime === slot
                                     ? 'border-rose-400 bg-rose-500 text-white shadow-lg shadow-rose-500/30'
                                     : 'border-white/10 bg-white/5 text-slate-200 hover:border-white/20 hover:bg-white/10',
                                 )}
                               >
-                                {format(day, 'd')}
+                                {slot}
                               </button>
-                            )
-                          })}
+                            ))}
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="mt-5">
-                        <p className="mb-3 text-xs uppercase tracking-[0.24em] text-slate-400">
-                          {t('AvailableTimes')}
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                          {timeSlots.map(slot => (
-                            <button
-                              key={slot}
-                              type="button"
-                              onClick={() => setSelectedTime(slot)}
-                              className={cn(
-                                'rounded-2xl border px-3 py-3 text-sm font-medium transition-all',
-                                selectedTime === slot
-                                  ? 'border-rose-400 bg-rose-500 text-white shadow-lg shadow-rose-500/30'
-                                  : 'border-white/10 bg-white/5 text-slate-200 hover:border-white/20 hover:bg-white/10',
-                              )}
-                            >
-                              {slot}
-                            </button>
-                          ))}
+                        <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
+                          <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                            {t('SelectedSchedule')}
+                          </p>
+                          <p className="mt-2 leading-6">
+                            {selectedDate && selectedTime
+                              ? `${scheduleType === 'interview' ? t('Interview') : t('QuickCall')} • ${format(selectedDate, 'PPPP', { locale: displayLocale })} • ${selectedTime}`
+                              : t('NoDate')}
+                          </p>
                         </div>
-                      </div>
 
-                      <div className="mt-5 rounded-3xl border border-white/10 bg-black/20 p-4 text-sm text-slate-300">
-                        <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
-                          {t('SelectedSchedule')}
-                        </p>
-                        <p className="mt-2 leading-6">
-                          {selectedDate && selectedTime
-                            ? `${scheduleType === 'interview' ? t('Interview') : t('QuickCall')} • ${format(selectedDate, 'PPPP', { locale: displayLocale })} • ${selectedTime}`
-                            : t('NoDate')}
-                        </p>
-                      </div>
-
-                      <Button
-                        type="button"
-                        className="mt-5 w-full rounded-2xl bg-white text-slate-900 hover:bg-rose-50"
-                        onClick={saveSchedule}
-                      >
-                        {scheduleType === 'interview'
-                          ? t('ScheduleInterview')
-                          : t('ScheduleCall')}
-                      </Button>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+                        <Button
+                          type="button"
+                          className="mt-5 w-full rounded-2xl bg-white text-slate-900 hover:bg-rose-50"
+                          onClick={saveSchedule}
+                        >
+                          {scheduleType === 'interview'
+                            ? t('ScheduleInterview')
+                            : t('ScheduleCall')}
+                        </Button>
+                      </section>
+                    </TabsContent>
+                  </Tabs>
+                </div>
               </div>
-            </ScrollArea>
+            )}
           </div>
         </SheetContent>
       </Sheet>
@@ -617,27 +624,5 @@ function QuickAction({
       <Icon className="mb-3 size-4 text-rose-500" />
       <p className="text-sm font-semibold text-slate-700">{label}</p>
     </button>
-  )
-}
-
-function Field({
-  children,
-  label,
-  icon: Icon,
-  className,
-}: {
-  children: React.ReactNode
-  label: string
-  icon: typeof UserRound
-  className?: string
-}) {
-  return (
-    <div className={cn('space-y-2', className)}>
-      <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-        <Icon className="size-3.5" />
-        {label}
-      </span>
-      {children}
-    </div>
   )
 }
