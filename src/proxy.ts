@@ -31,6 +31,13 @@ export default async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL('/journey', request.url))
     }
 
+    if (
+      pathname === '/admin' &&
+      !ADMIN_USER_EMAIL.includes(user?.email || '')
+    ) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+
     // Protect /journey/[id]/edit routes
     const journeyEditMatch = pathname.match(/^\/journey\/[^/]+\/edit$/)
     if (journeyEditMatch && !ADMIN_USER_EMAIL.includes(user?.email || '')) {

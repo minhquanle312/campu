@@ -9,6 +9,7 @@ import {
   FileText,
   Heart,
   Home,
+  LayoutDashboard,
   LogIn,
   MapIcon,
   Menu,
@@ -178,6 +179,31 @@ export function HeaderNav() {
                     </Link>
                   )
                 })}
+
+                {isAdmin ? (
+                  <Link
+                    href="/admin"
+                    aria-current={pathname === '/admin' ? 'page' : undefined}
+                    className={cn(
+                      'group inline-flex min-h-12 items-center gap-3 rounded-2xl px-4 py-3 text-base font-medium transition-colors duration-200 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2',
+                      pathname === '/admin'
+                        ? 'bg-primary text-primary-foreground shadow-sm'
+                        : 'text-foreground hover:bg-accent/80 hover:text-accent-foreground',
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <LayoutDashboard
+                      className={cn(
+                        'h-5 w-5',
+                        pathname === '/admin'
+                          ? 'text-primary-foreground'
+                          : 'text-primary/80 group-hover:text-primary',
+                      )}
+                      aria-hidden="true"
+                    />
+                    <span>{t('Admin')}</span>
+                  </Link>
+                ) : null}
               </div>
             </SheetContent>
           </Sheet>
@@ -196,7 +222,10 @@ export function HeaderNav() {
                   size="sm"
                   className="hidden h-10 rounded-full border-primary/15 bg-white/90 px-4 text-foreground shadow-sm transition-colors duration-200 hover:border-primary/30 hover:bg-accent/70 hover:text-accent-foreground motion-reduce:transition-none sm:inline-flex"
                 >
-                  <Link href="/settings">{t('Settings')}</Link>
+                  <Link href="/admin">
+                    <LayoutDashboard className="h-4 w-4 text-primary" />
+                    {t('Admin')}
+                  </Link>
                 </Button>
               ) : null}
               <Avatar className="h-10 w-10 border border-primary/10">

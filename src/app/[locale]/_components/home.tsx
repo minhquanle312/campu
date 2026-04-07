@@ -45,14 +45,14 @@ const purposeCards = [
 ] as const
 
 type HomePageProps = {
-  locale: string
+  // locale: string
   initialConfig: GeneralConfig
   primaryImage: GeneralConfigAsset | null
   secondaryImage: GeneralConfigAsset | null
 }
 
 export default function HomePage({
-  locale,
+  // locale,
   initialConfig,
   primaryImage,
   secondaryImage,
@@ -142,7 +142,7 @@ export default function HomePage({
         </div>
       </section>
 
-      <HomeAdminPanelGate initialConfig={initialConfig} key={locale} />
+      <HomeAdminPanelGate initialConfig={initialConfig} />
 
       <section className="pb-18 sm:pb-24">
         <div className="container">

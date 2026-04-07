@@ -42,7 +42,7 @@ export default async function Home({ params }: Props) {
 
   return (
     <HomePage
-      locale={locale}
+      // locale={locale}
       initialConfig={generalConfig}
       primaryImage={generalConfig.homepage.primaryImage}
       secondaryImage={generalConfig.homepage.secondaryImage}
