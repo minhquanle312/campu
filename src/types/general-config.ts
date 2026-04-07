@@ -22,11 +22,15 @@ export type GeneralConfigDeployState = {
 
 export const GENERAL_CONFIG_DEPLOY_PENDING_STATUS = 'deploy_pending'
 export const GENERAL_CONFIG_DEPLOY_REQUESTED_STATUS = 'deploy_requested'
+export const GENERAL_CONFIG_DEPLOY_UPDATED_EVENT =
+  'general-config-deploy-updated'
 
 export const GENERAL_CONFIG_DEPLOY_PENDING_MESSAGE =
   'Deploy has already been requested and is still pending.'
 export const GENERAL_CONFIG_DEPLOY_REQUESTED_MESSAGE =
-  'Deploy requested successfully. It can take 5-10 minutes to complete.'
+  'Deploy requested successfully. It may take 5–10 minutes to complete.'
+export const GENERAL_CONFIG_DEPLOY_BANNER_MESSAGE =
+  'Deploy requested. Your updated content may take 5–10 minutes to finish propagating.'
 
 export type GeneralConfigDeployResponse = {
   status:

@@ -10,6 +10,7 @@ import type {
   GeneralConfigDeployErrorResponse,
   GeneralConfigDeployResponse,
 } from '@/types/general-config'
+import { GENERAL_CONFIG_DEPLOY_UPDATED_EVENT } from '@/types/general-config'
 
 type PublishFeedback = {
   tone: 'success' | 'error'
@@ -65,6 +66,7 @@ export function InlinePublishPrompt({
         title: 'Publish requested',
         message: data.message,
       })
+      window.dispatchEvent(new Event(GENERAL_CONFIG_DEPLOY_UPDATED_EVENT))
     } catch (error) {
       console.error(error)
       setFeedback({

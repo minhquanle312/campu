@@ -13,6 +13,7 @@ import { generateSiteMetadata } from '@/lib/metadata'
 import { StructuredData } from '@/components/structured-data'
 import { LayoutVisibility } from '@/components/layout-visibility'
 import { InterviewChatWidget } from '@/components/interview-chat-widget'
+import { PendingPublishBanner } from '@/components/pending-publish-banner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
 const geistSans = localFont({
@@ -72,6 +73,7 @@ export default async function RootLayout({ children, params }: Props) {
         <TooltipProvider>
           <NextIntlClientProvider>
             <div className="min-h-screen bg-linear-to-b from-rose-50 to-white print:bg-none">
+              <PendingPublishBanner />
               <LayoutVisibility
                 banner={
                   <div
