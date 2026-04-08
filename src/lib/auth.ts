@@ -15,9 +15,7 @@ export const auth = betterAuth({
       session,
       user: {
         ...user,
-        isAdmin: Boolean(
-          user.email && ADMIN_USER_EMAIL.includes(user.email),
-        ),
+        isAdmin: Boolean(user.email && ADMIN_USER_EMAIL.includes(user.email)),
       },
     })),
   ],
