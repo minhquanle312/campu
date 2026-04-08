@@ -271,7 +271,7 @@ export default function HomeInlineAdminPanel({
                 variant="outline"
                 className="rounded-full px-5"
               >
-                <Link href="/settings">
+                <Link href="/admin/general">
                   Open site settings
                   <ExternalLink className="h-4 w-4" aria-hidden="true" />
                 </Link>

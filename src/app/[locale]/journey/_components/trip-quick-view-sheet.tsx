@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -139,7 +139,7 @@ export function TripQuickViewSheet({
               <div className="grid grid-cols-2 gap-2">
                 {previewImages.map((img, idx) => (
                   <button
-                    key={`img-${trip.id}-${idx}`}
+                    key={`img-${trip.id}-${img}`}
                     type="button"
                     className="relative aspect-video rounded-md overflow-hidden bg-muted group cursor-pointer"
                     onClick={() =>
@@ -176,7 +176,7 @@ export function TripQuickViewSheet({
                 </Button>
               </Link>
               {isAdmin && (
-                <Link href={`/journey/${trip.id}/edit`}>
+                <Link href={`/admin/trips/${trip.id}/edit`}>
                   <Button type="button" variant="outline">
                     <Pencil className="h-4 w-4" />
                     Edit

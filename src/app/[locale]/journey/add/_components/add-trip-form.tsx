@@ -53,6 +53,31 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
+type TripDetailsPayload = {
+  vehicle?: string
+  article?: string
+  difficulty?: string
+  vibe?: string
+  preparation?: string
+  scenery_quality?: number
+  cuisine_experience?: number
+  disadvantages?: string
+  duration_days?: number
+  best_season?: string
+}
+
+type CreateTripPayload = {
+  title: string
+  date: string
+  summary: string
+  province_id: string
+  participant_ids: string[]
+  images: string[]
+  videos: string[]
+  cover_image?: string
+  details?: TripDetailsPayload
+}
+
 export function AddTripForm() {
   const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
@@ -86,7 +111,7 @@ export function AddTripForm() {
     setSubmitting(true)
     setCreatedTrip(null)
     try {
-      const details: Record<string, any> = {}
+      const details: TripDetailsPayload = {}
       if (values.vehicle) details.vehicle = values.vehicle
       if (values.article) details.article = values.article
       if (values.difficulty) details.difficulty = values.difficulty
@@ -101,7 +126,7 @@ export function AddTripForm() {
         details.duration_days = Number(values.durationDays)
       if (values.bestSeason) details.best_season = values.bestSeason
 
-      const body: Record<string, any> = {
+      const body: CreateTripPayload = {
         title: values.title,
         date: values.date,
         summary: values.summary,
@@ -134,8 +159,8 @@ export function AddTripForm() {
       const trip = (await res.json()) as Trip
       setCreatedTrip(trip)
       toast.success('Trip created successfully!')
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to create trip')
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Failed to create trip')
     } finally {
       setSubmitting(false)
     }
@@ -495,7 +520,9 @@ export function AddTripForm() {
               <Button
                 type="button"
                 className="sm:flex-1"
-                onClick={() => router.push(`/journey/${createdTrip.id}/edit`)}
+                onClick={() =>
+                  router.push(`/admin/trips/${createdTrip.id}/edit`)
+                }
               >
                 Continue editing trip
               </Button>

@@ -29,7 +29,7 @@ export function AdminActionCard({
   eyebrow,
 }: AdminActionCardProps) {
   return (
-    <Card className="h-full border-slate-200/80 bg-white/90 shadow-sm">
+    <Card className="flex h-full flex-col border-slate-200/80 bg-white/90 shadow-sm">
       <CardHeader className="space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-2">
@@ -52,15 +52,15 @@ export function AdminActionCard({
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="flex-1">
         <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 text-sm leading-6 text-slate-600">
-          Keep this area as the single place to reach admin-only data controls
-          as more editing workflows are added.
+          Module details live in the workspace view, so this overview stays a
+          concise snapshot instead of a second navigation surface.
         </div>
       </CardContent>
 
       <CardFooter>
-        <Button asChild className="rounded-full px-5">
+        <Button asChild variant="outline" className="rounded-full px-5">
           <Link href={href}>{ctaLabel}</Link>
         </Button>
       </CardFooter>

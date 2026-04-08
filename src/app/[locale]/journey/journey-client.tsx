@@ -264,7 +264,7 @@ export default function JourneyClient({ trips }: Props) {
                   <div className="flex items-center gap-2">
                     {isAdmin && (
                       <Link
-                        href={`/journey/${trip.id}/edit`}
+                        href={`/admin/trips/${trip.id}/edit`}
                         onClick={e => e.stopPropagation()}
                       >
                         <Button

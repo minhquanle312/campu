@@ -58,6 +58,30 @@ type ImageKitUploadResponse = {
   message?: string
 }
 
+type TripDetailsPayload = {
+  vehicle?: string
+  article?: string
+  difficulty?: string
+  vibe?: string
+  preparation?: string
+  scenery_quality?: number
+  cuisine_experience?: number
+  disadvantages?: string
+  duration_days?: number
+  best_season?: string
+}
+
+type UpdateTripPayload = {
+  title: string
+  date: string
+  summary: string
+  province_id: string
+  images: string[]
+  videos: string[]
+  cover_image: string | null
+  details?: TripDetailsPayload
+}
+
 async function uploadFileToImageKit(file: File): Promise<string> {
   const authResponse = await fetch('/api/imagekit/upload-auth')
   if (!authResponse.ok) {
@@ -153,8 +177,8 @@ export function EditTripForm({
       const url = await uploadFileToImageKit(file)
       setCoverImage(url)
       toast.success('Cover image uploaded')
-    } catch (err: any) {
-      toast.error(err.message || 'Upload failed')
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Upload failed')
     } finally {
       setUploading(null)
     }
@@ -171,8 +195,8 @@ export function EditTripForm({
       )
       setImagesList(prev => [...prev, ...urls])
       toast.success(`${urls.length} image(s) uploaded`)
-    } catch (err: any) {
-      toast.error(err.message || 'Upload failed')
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Upload failed')
     } finally {
       setUploading(null)
       if (imagesInputRef.current) imagesInputRef.current.value = ''
@@ -186,7 +210,7 @@ export function EditTripForm({
   const handleSave = async () => {
     setSaving(true)
     try {
-      const details: Record<string, any> = {}
+      const details: TripDetailsPayload = {}
       if (vehicle) details.vehicle = vehicle
       if (article) details.article = article
       if (difficulty) details.difficulty = difficulty
@@ -199,7 +223,7 @@ export function EditTripForm({
       if (durationDays) details.duration_days = Number(durationDays)
       if (bestSeason) details.best_season = bestSeason
 
-      const body: Record<string, any> = {
+      const body: UpdateTripPayload = {
         title,
         date,
         summary,
@@ -209,10 +233,9 @@ export function EditTripForm({
           .split('\n')
           .map(s => s.trim())
           .filter(Boolean),
+        cover_image: coverImage || null,
       }
 
-      if (coverImage) body.cover_image = coverImage
-      else body.cover_image = null
       if (Object.keys(details).length > 0) body.details = details
 
       const res = await fetch(`/api/trips/${trip.id}`, {
@@ -228,8 +251,8 @@ export function EditTripForm({
 
       toast.success('Trip updated successfully')
       router.refresh()
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to save trip')
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Failed to save trip')
     } finally {
       setSaving(false)
     }

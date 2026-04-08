@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Trip, TripCost } from '@/models/trips.model'
 import { MarkdownRenderer } from '@/components/markdown-renderer'
 import {
@@ -39,11 +39,11 @@ function StarRating({ value, label }: { value: number; label: string }) {
     <div className="flex items-center gap-2">
       <span className="text-sm text-muted-foreground">{label}</span>
       <div className="flex gap-0.5">
-        {Array.from({ length: 5 }).map((_, i) => (
+        {[1, 2, 3, 4, 5].map(star => (
           <Star
-            key={i}
+            key={`${label}-${star}`}
             className={`h-4 w-4 ${
-              i < value
+              star <= value
                 ? 'fill-yellow-400 text-yellow-400'
                 : 'text-muted-foreground/30'
             }`}
@@ -82,7 +82,7 @@ export function TripDetailClient({
           </Button>
         </Link>
         {isAdmin && (
-          <Link href={`/journey/${trip.id}/edit`}>
+          <Link href={`/admin/trips/${trip.id}/edit`}>
             <Button type="button" variant="outline" size="sm">
               <Pencil className="h-4 w-4" />
               Edit
@@ -240,7 +240,7 @@ export function TripDetailClient({
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {trip.images.map((img, idx) => (
               <button
-                key={`gallery-${trip.id}-${idx}`}
+                key={`gallery-${trip.id}-${img}`}
                 type="button"
                 className="relative aspect-video rounded-md overflow-hidden bg-muted cursor-pointer"
                 onClick={() =>
@@ -270,9 +270,9 @@ export function TripDetailClient({
           <Separator />
           <h2 className="text-2xl font-bold">Videos</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {trip.videos.map((video, idx) => (
+            {trip.videos.map(video => (
               <div
-                key={`video-${trip.id}-${idx}`}
+                key={`video-${trip.id}-${video}`}
                 className="relative aspect-video rounded-md overflow-hidden bg-muted"
               >
                 <video

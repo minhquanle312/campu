@@ -7,6 +7,7 @@ type LayoutVisibilityProps = {
   banner?: ReactNode
   header?: ReactNode
   footer?: ReactNode
+  floating?: ReactNode
   children: ReactNode
 }
 
@@ -14,17 +15,20 @@ export function LayoutVisibility({
   banner,
   header,
   footer,
+  floating,
   children,
 }: LayoutVisibilityProps) {
   const segments = useSelectedLayoutSegments()
-  const isCVRoute = segments.includes('cv')
+  const isAdminRoute = segments.includes('admin')
+  const shouldHideSharedShell = isAdminRoute
 
   return (
     <>
-      {isCVRoute ? null : banner}
-      {isCVRoute ? null : header}
+      {shouldHideSharedShell ? null : banner}
+      {shouldHideSharedShell ? null : header}
       {children}
-      {isCVRoute ? null : footer}
+      {shouldHideSharedShell ? null : floating}
+      {shouldHideSharedShell ? null : footer}
     </>
   )
 }

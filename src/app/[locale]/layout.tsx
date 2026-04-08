@@ -93,13 +93,15 @@ export default async function RootLayout({ children, params }: Props) {
                     <Footer />
                   </div>
                 }
+                floating={
+                  <InterviewChatWidget
+                    locale={locale}
+                    title={assistantTitle}
+                    description={assistantDescription}
+                  />
+                }
               >
                 {children}
-                <InterviewChatWidget
-                  locale={locale}
-                  title={assistantTitle}
-                  description={assistantDescription}
-                />
               </LayoutVisibility>
             </div>
           </NextIntlClientProvider>
