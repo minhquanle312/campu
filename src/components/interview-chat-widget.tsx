@@ -225,7 +225,9 @@ export function InterviewChatWidget({
                           : 'bg-rose-100 text-rose-700 hover:bg-rose-200',
                       )}
                     >
-                      {isFullscreen ? t('ExitFullScreen') : t('ViewInFullScreen')}
+                      {isFullscreen
+                        ? t('ExitFullScreen')
+                        : t('ViewInFullScreen')}
                     </Button>
                   </div>
                   <SheetTitle className="text-xl font-black tracking-tight text-slate-900">
