@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -194,7 +194,7 @@ export function ProvinceDetailSheet({
                     </Button>
                   </Link>
                   {isAdmin && (
-                    <Link href={`/journey/${trip.id}/edit`}>
+                    <Link href={`/admin/trips/${trip.id}/edit`}>
                       <Button type="button" variant="ghost" size="sm">
                         <Pencil className="h-3.5 w-3.5" />
                         Edit

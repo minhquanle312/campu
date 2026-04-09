@@ -189,7 +189,7 @@ export function CVPageShell({ cv, locale, messages }: Props) {
           ) : null}
           {isAdmin ? (
             <Link
-              href="/cv/edit"
+              href="/admin/cv"
               aria-label="Edit CV"
               title="Edit CV"
               className={secondaryControlClassName}
@@ -249,7 +249,7 @@ export function CVPageShell({ cv, locale, messages }: Props) {
             ) : null}
             {isAdmin ? (
               <Link
-                href="/cv/edit"
+                href="/admin/cv"
                 aria-label="Edit CV"
                 title="Edit CV"
                 className={secondaryControlClassName}

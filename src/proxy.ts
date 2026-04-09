@@ -32,7 +32,7 @@ export default async function proxy(request: NextRequest) {
     }
 
     if (
-      pathname === '/admin' &&
+      (pathname === '/admin' || pathname.startsWith('/admin/')) &&
       !ADMIN_USER_EMAIL.includes(user?.email || '')
     ) {
       return NextResponse.redirect(new URL('/', request.url))
