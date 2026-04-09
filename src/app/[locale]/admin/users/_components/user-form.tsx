@@ -2,37 +2,14 @@
 
 import { useState } from 'react'
 import { useRouter } from '@/i18n/navigation'
-import { z } from 'zod'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { userPayloadSchema, type UserPayload } from '@/lib/validations/user'
 
-const userFormSchema = z.object({
-  name: z.string().trim().min(1, 'Name is required'),
-  email: z
-    .string()
-    .trim()
-    .refine(
-      value => value === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-      'Invalid email',
-    ),
-  avatar_url: z
-    .string()
-    .trim()
-    .refine(value => {
-      if (value === '') return true
-      try {
-        new URL(value)
-        return true
-      } catch {
-        return false
-      }
-    }, 'Invalid avatar URL'),
-})
-
-type UserFormValues = z.infer<typeof userFormSchema>
+type UserFormValues = UserPayload
 
 type UserFormProps = {
   mode: 'create' | 'edit'
@@ -61,7 +38,7 @@ export function UserForm({ mode, userId, initialValues }: UserFormProps) {
     event.preventDefault()
     setErrors({})
 
-    const validationResult = userFormSchema.safeParse(values)
+    const validationResult = userPayloadSchema.safeParse(values)
 
     if (!validationResult.success) {
       const fieldErrors = validationResult.error.issues.reduce(
